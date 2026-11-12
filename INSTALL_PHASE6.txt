@@ -1,0 +1,15 @@
+Manufacturing Copilot Phase 6 Overlay (no model weights)
+
+1. Extract these ZIP CONTENTS into your EXISTING PyCharm manufacturing-copilot folder.
+   The folder containing phase6/, src/, phase5/, tests/ should be the project root.
+2. Back up README.md, MODEL_CARD.md and phase5/web_app.py if you customized them.
+   This overlay updates those files for security and paper/release documentation.
+3. Keep .venv/, models/, results/, private documents and old source code.
+4. Run in PyCharm PowerShell:
+   .\.venv\Scripts\python.exe -m phase6.reproduce
+   .\.venv\Scripts\python.exe -m pip install -r requirements-phase6.txt
+   .\.venv\Scripts\python.exe -m phase6.plot_results
+5. Charts in paper_figures/. V2 learning curve only appears if actual local trainer_state.json exists.
+6. To publish, connect GitHub and create an empty repository first; see PHASE6_README.md.
+
+No adapters, weights or locally generated results are included.

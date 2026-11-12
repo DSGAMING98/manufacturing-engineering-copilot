@@ -1,0 +1,17 @@
+name: CPU provenance and numerical regressions
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run CPU-only verification
+        run: python -m phase6.reproduce
+      - name: Compile all sources
+        run: python -m compileall -q src phase3 phase4 phase5 phase6
+# CI intentionally skips GPU training, proprietary docs, model weights and industrial validation.

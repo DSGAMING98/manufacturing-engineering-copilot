@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "source_kind": "user_reported_console_comparison",
+  "received_date": "2026-11-13",
+  "dataset_kind": "synthetic_rule_generated_phase3",
+  "split": "validation",
+  "n": 90,
+  "data_sha256": "593151a2bff088f15507f3aa839bc276fa13cb8b53c92e05df3852952933c7ea",
+  "warning": "This is operator-reported synthetic validation, not independently audited model performance or industrial safety.",
+  "models": [
+    {
+      "tag": "base",
+      "correct": 40,
+      "total": 90,
+      "false_acceptances": 8,
+      "false_rejections": 11
+    },
+    {
+      "tag": "v1",
+      "correct": 38,
+      "total": 90,
+      "false_acceptances": 6,
+      "false_rejections": 3
+    },
+    {
+      "tag": "v2",
+      "correct": 59,
+      "total": 90,
+      "false_acceptances": 1,
+      "false_rejections": 24
+    }
+  ],
+  "additional_evidence": {
+    "phase1_validation": {
+      "dataset": "separate phase1 synthetic validation",
+      "n": 18,
+      "base_correct": 15,
+      "v1_correct": 16
+    },
+    "phase1_v1_test": {
+      "dataset": "separate phase1 synthetic test",
+      "n": 24,
+      "v1_correct": 22
+    },
+    "phase5_tool_regression": {
+      "passed": 30,
+      "total": 30,
+      "type": "hand-authored software regression, not trained-model accuracy"
+    }
+  }
+}

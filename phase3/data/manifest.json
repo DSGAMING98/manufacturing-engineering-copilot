@@ -1,0 +1,27 @@
+{
+  "counts": {
+    "test": {
+      "FAIL": 40,
+      "INSUFFICIENT_DATA": 40,
+      "PASS": 40
+    },
+    "train": {
+      "FAIL": 160,
+      "INSUFFICIENT_DATA": 160,
+      "PASS": 160
+    },
+    "validation": {
+      "FAIL": 30,
+      "INSUFFICIENT_DATA": 30,
+      "PASS": 30
+    }
+  },
+  "files_sha256": {
+    "test": "f387effe6a3dcc6a52aa2cf3dda71f3b55e1b2efe1c285d42d4b87a8df51071c",
+    "train": "8e8aadd82937f577652734e5cb706d9f7a864521b6125826c93918e3ff914384",
+    "validation": "593151a2bff088f15507f3aa839bc276fa13cb8b53c92e05df3852952933c7ea"
+  },
+  "purpose": "SYNTHETIC QA research only; not real manufacturing evidence",
+  "seed": 20261112,
+  "split_separation": "Distinct numeric ranges and prompt templates"
+}

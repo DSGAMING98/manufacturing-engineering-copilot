@@ -1,0 +1,36 @@
+MANUFACTURING COPILOT — ONE-FOLDER TRAINING PROJECT
+===================================================
+
+1. Extract the ZIP somewhere NEW, e.g. D:\AI_Projects\ .
+   The ZIP already contains its own manufacturing-copilot folder.
+   DON'T extract over your old project unless you intentionally want to replace it.
+
+2. PyCharm > File > Open > select the extracted manufacturing-copilot folder.
+
+3. Install Miniconda (if needed). Open "Anaconda PowerShell Prompt":
+     conda create -n mfgcopilot python=3.12 -y
+     conda activate mfgcopilot
+   If the environment already exists, skip the create command.
+
+4. From the extracted project folder, run:
+     .\SETUP_WINDOWS.bat
+   This installs GPU PyTorch and Unsloth. Internet is required.
+
+5. In PyCharm, set the project interpreter to conda env mfgcopilot.
+   Open the PyCharm terminal at the project ROOT. Check `python --version`.
+
+6. Run in order (within that activated environment):
+     .\RUN_01_CHECKS.bat
+     .\RUN_02_BASELINE.bat
+     .\RUN_03_TRAIN_SMOKE.bat
+     .\RUN_04_TRAIN.bat
+     .\RUN_05_VALIDATE.bat
+     .\RUN_06_COMPARE.bat
+     .\RUN_07_CHAT.bat
+
+   The smoke and full training each overwrite adapter outputs in models/qa_qlora/.
+   First baseline can download several GB of model weights.
+
+NO REAL TRAINING HAS BEEN DONE IN THIS ZIP.
+The built-in 114 examples are SYNTHETIC, for software testing only.
+Read README.md before using any result in an IEEE paper.

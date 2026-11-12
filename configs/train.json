@@ -1,0 +1,16 @@
+{
+  "model_name": "unsloth/Qwen3-1.7B-unsloth-bnb-4bit",
+  "max_seq_length": 512,
+  "seed": 3407,
+  "lora_rank": 8,
+  "lora_alpha": 16,
+  "max_steps": 24,
+  "learning_rate": 0.0002,
+  "batch_size": 1,
+  "gradient_accumulation_steps": 4,
+  "eval_steps": 8,
+  "save_steps": 8,
+  "logging_steps": 1,
+  "output_dir": "models/qa_qlora",
+  "max_new_tokens": 144
+}

@@ -1,0 +1,14 @@
+PHASE 3: NEW DATASET + V2 TRAINING + FAIR COMPARISON
+
+1. Extract ZIP contents into EXISTING manufacturing-copilot root.
+2. DO NOT DELETE .venv, src, data, models, or the old adapter.
+3. In PyCharm terminal (PowerShell):
+   .\.venv\Scripts\python.exe -m phase3.validate_data
+   .\.venv\Scripts\python.exe -m unittest discover -s tests -v
+   .\.venv\Scripts\python.exe -m phase3.benchmark
+4. Then evaluate base and V1 before training V2.
+5. Run smoke: .\.venv\Scripts\python.exe -m phase3.train_v2 --smoke
+6. Run full: .\.venv\Scripts\python.exe -m phase3.train_v2
+7. For every command and research limitation, read PHASE3_README.md.
+
+ALL DATA IN THE ZIP IS SYNTHETIC OR AUTHOR-WRITTEN; no industrial generalization claim.

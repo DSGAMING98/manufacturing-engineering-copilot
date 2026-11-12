@@ -1,0 +1,22 @@
+{
+  "model_metric_source": {
+    "source_kind": "local_model_evaluation_json",
+    "dataset_kind": "synthetic_rule_generated_phase3",
+    "split": "validation",
+    "n": 90,
+    "data_sha256": "593151a2bff088f15507f3aa839bc276fa13cb8b53c92e05df3852952933c7ea",
+    "source_files": [
+      "C:/Users/Prajwal/Desktop/python/manufacturing-copilot/results/phase3/base_validation.json",
+      "C:/Users/Prajwal/Desktop/python/manufacturing-copilot/results/phase3/v1_validation.json",
+      "C:/Users/Prajwal/Desktop/python/manufacturing-copilot/results/phase3/v2_validation.json"
+    ]
+  },
+  "included_figures": [
+    "Fig01_model_validation_accuracy",
+    "Fig02_false_acceptance_and_rejection",
+    "Fig03_v1_training_loss",
+    "Fig04_v2_training_loss"
+  ],
+  "warning": "Synthetic validation and regression checks, not independent industrial evidence",
+  "figure_data_note": "V1 loss uses operator terminal log; V2 loss is plotted only if its local trainer_state.json exists."
+}

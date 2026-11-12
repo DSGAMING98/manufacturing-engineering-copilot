@@ -1,0 +1,30 @@
+MANUFACTURING COPILOT - PHASE 5
+===============================
+
+EXTRACT INTO YOUR EXISTING PROJECT:
+C:\Users\Prajwal\Desktop\python\manufacturing-copilot\
+
+Do NOT extract into a nested phase5 folder. Copy these NEW FILES into
+THE PROJECT ROOT and let Windows merge the tests/ folder. There are no
+replacements of your src/ or phase4/ files. Keep .venv/, models/ and results/.
+
+Inside the PyCharm terminal, run:
+
+1) .\.venv\Scripts\python.exe -m unittest discover -s tests -v
+2) .\.venv\Scripts\python.exe -m phase5.benchmark
+3) .\.venv\Scripts\python.exe -m phase5.web_app
+
+Now open: http://127.0.0.1:8765/
+
+For fictional demo document evidence, run instead:
+.\.venv\Scripts\python.exe -m phase5.web_app --include-demo
+
+Or use CLI (CPU):
+.\.venv\Scripts\python.exe -m phase5.cli
+
+Optional GPU-backed citation EXCERPT SELECTION ONLY:
+.\.venv\Scripts\python.exe -m phase5.cli --include-demo --adapter models/qa_qlora_v2/adapter
+
+Every domain has an example input built into the web UI. NO retraining.
+No new Python dependencies. No autonomous product release or machine control.
+Read PHASE5_README.md for exact domain scope and limitations.

@@ -1,0 +1,3 @@
+# Install GPU-compatible PyTorch first with SETUP_WINDOWS.bat.
+# Unsloth installs compatible Transformer/PEFT/TRL/accelerate dependencies.
+unsloth

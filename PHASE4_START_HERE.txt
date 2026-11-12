@@ -1,0 +1,25 @@
+MANUFACTURING COPILOT PHASE 4: LOCAL RAG + DOCUMENT CITATIONS
+
+This ZIP is a DROP-IN OVERLAY for your working manufacturing-copilot folder.
+Do NOT replace or delete .venv, models, results, src, phase3, or the V2 adapter.
+This ZIP intentionally contains NEW files only: phase4/, tests/test_phase4.py,
+PHASE4_README.md, PHASE4_START_HERE.txt, and RUN_20/21/22/23 scripts.
+
+FROM THE PROJECT ROOT IN PYCHARM POWERSHELL:
+
+1.  .\.venv\Scripts\python.exe -m unittest discover -s tests -v
+2.  .\.venv\Scripts\python.exe -m phase4.benchmark
+3.  .\.venv\Scripts\python.exe -m phase4.rag_chat --include-demo
+4.  .\.venv\Scripts\python.exe -m phase4.rag_chat --include-demo --adapter models/qa_qlora_v2/adapter
+
+Try these questions:
+  How do I handle a dimensional discrepancy and preserve the record?
+  What should be included in an inspection record for traceability?
+  nominal=20.00 measured=20.03 tolerance=0.05 unit=mm
+  What does ISO 9001:2015 clause 8.6 require?  [must REFUSE]
+
+WITHOUT --include-demo: the package has no approved sources. This is a correct
+refusal until you add authorized, human-reviewed real documents.
+See PHASE4_README.md for adding and registering your own sources.
+
+No automatic product release or standards-compliance claim is permitted.

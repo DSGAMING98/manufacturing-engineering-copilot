@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "DEMO-DIM-001",
+      "path": "docs/demo_dimensional_inspection.md",
+      "title": "Fictional dimensional inspection demonstration",
+      "revision": "DEMO-1",
+      "status": "demo",
+      "reviewer": null,
+      "approved_date": null,
+      "sha256": "70a23cbc1eb2c6b11d5bf0f2eb59e43ed2b296b0b34cdace71495ddfda34fc14"
+    },
+    {
+      "id": "DEMO-NCR-001",
+      "path": "docs/demo_nonconformance.md",
+      "title": "Fictional discrepancy-handling demonstration",
+      "revision": "DEMO-1",
+      "status": "demo",
+      "reviewer": null,
+      "approved_date": null,
+      "sha256": "6787e53bc51d6027f8335c3dc9eb1bd7fdead565021f63207ff8679a2829e5b5"
+    },
+    {
+      "id": "DEMO-TRACE-001",
+      "path": "docs/demo_traceability.md",
+      "title": "Fictional traceability demonstration",
+      "revision": "DEMO-1",
+      "status": "demo",
+      "reviewer": null,
+      "approved_date": null,
+      "sha256": "c44c9db4cb132696ea5f670d9fb692c41bafe88a801d8ebc1f08deb68dbf0fe1"
+    }
+  ]
+}

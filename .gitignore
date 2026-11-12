@@ -1,0 +1,40 @@
+# Python / PyCharm / user environment
+.venv/
+venv/
+.idea/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+.cache/
+unsloth_compiled_cache/
+.env
+.env.*
+!.env.example
+*.log
+
+# Model and evaluation outputs must stay on the user's machine.
+models/*
+!models/.gitkeep
+results/*
+!results/.gitkeep
+
+# Local source documents are NOT public by default.
+phase4/docs/local/*
+!phase4/docs/local/README.md
+data/raw/*
+!data/raw/README.md
+
+# Large model or sensitive artifacts
+*.gguf
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.pkl
+*.joblib
+
+# Operating system
+.DS_Store
+Thumbs.db

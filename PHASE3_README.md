@@ -1,0 +1,133 @@
+# Manufacturing Copilot · Phase 3 (PyCharm / Windows / RTX 4060 8GB)
+
+**Install this overlay into your EXISTING `manufacturing-copilot` project root.**
+This is not a standalone replacement project. Extract the ZIP so that you see
+`phase3/`, `configs/phase3_v2.json`, `tests/test_phase3.py`, and the `RUN_12_*.bat`
+files directly under the project root.
+
+**Do not remove, replace, or move** your `.venv/`, `src/`, original `data/`, `models/qa_qlora/adapter`, `configs/train.json`, or old research `results/`.
+The new model saves to `models/qa_qlora_v2/adapter` and the two-step smoke adapter
+is separate at `models/qa_qlora_v2_smoke/adapter`.
+
+## Exactly what Phase 3 includes
+
+- Reproducible **SYNTHETIC**, programmatically verified quality-assurance examples:
+  480 train, 90 validation, 120 held-out synthetic test. Balanced 3-way labels.
+- Separate **36 hand-authored** numerical boundary and refusal regression cases:
+  12 PASS, 12 FAIL, 12 INSUFFICIENT_DATA. These are NOT independently engineer-reviewed.
+- Dataset schema, integrity, SHA256, label, duplicate, and split-isolation checks.
+- CPU-only Phase 2 hybrid challenge evaluation with per-class accuracy, false accepts,
+  false rejects, missing-evidence handling and abstention rate.
+- Qwen3-1.7B 4-bit QLoRA **V2 training** script compatible with the working Phase 1
+  Unsloth/TRL stack. Loads the same **BASE** checkpoint, does NOT continue from V1.
+- Separate base, V1 and V2 **model-only** evaluation on the SAME Phase 3 split.
+  Metrics are saved under `results/phase3/` with dataset hash verification.
+
+### Research honesty
+
+The datasets in this ZIP are synthetic (690 rule-generated rows) and author-written
+(36 challenge rows). Neither is real production data, engineer-reviewed standards
+material, or evidence of industrial model generalization. The Phase 2 decision
+engine has not been expanded to cover GD&T, gauge uncertainty, process capability,
+calibration, sampling, or unattended QA. No autonomous product acceptance.
+
+## Run in your EXISTING PyCharm PowerShell terminal
+
+Make sure you're inside `C:\Users\Prajwal\Desktop\python\manufacturing-copilot`.
+Keep using the existing `.venv` that already runs your RTX 4060.
+
+### 1. Offline data and integration checks
+
+```powershell
+.\.venv\Scripts\python.exe -m phase3.validate_data
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe -m phase3.benchmark
+```
+
+Expected: dataset schemas pass; current Phase 2 hybrid passes the 36 human-authored
+regression scenarios. It is a limited local regression suite, NOT a 100% manufacturing
+accuracy claim. There is no GPU load for these three commands.
+
+### 2. Evaluate BASE model on Phase 3 validation (GPU)
+
+```powershell
+.\.venv\Scripts\python.exe -m phase3.evaluate_model --split validation --tag base
+```
+
+### 3. Evaluate your *existing* V1 adapter on the same validation split (GPU)
+
+```powershell
+.\.venv\Scripts\python.exe -m phase3.evaluate_model --split validation --adapter models/qa_qlora/adapter --tag v1
+```
+
+### 4. Check the V2 GPU training path with two optimizer steps
+
+```powershell
+.\.venv\Scripts\python.exe -m phase3.train_v2 --smoke
+```
+
+This saves to **models/qa_qlora_v2_smoke/adapter** only. If you already ran this
+once, it refuses to overwrite that adapter.
+
+### 5. Train V2 from the base foundation model (GPU)
+
+```powershell
+.\.venv\Scripts\python.exe -m phase3.train_v2
+```
+
+The configured starting run has 120 optimizer steps and saves to
+**models/qa_qlora_v2/adapter**. This is intended as a first training experiment,
+not a final model. It does NOT modify the Phase 1 V1 adapter. If V2 already exists,
+training refuses to overwrite it to protect experiment records.
+
+### 6. Evaluate and compare on validation (GPU)
+
+```powershell
+.\.venv\Scripts\python.exe -m phase3.evaluate_model --split validation --adapter models/qa_qlora_v2/adapter --tag v2
+.\.venv\Scripts\python.exe -m phase3.compare --split validation
+```
+
+Only compare results that have the same SHA256 dataset fingerprint. Look at PASS
+recall and false rejection counts, not just overall accuracy. If V2 is worse,
+keep V1 and inspect predictions before tuning. Never claim that more steps always help.
+
+### 7. One-time final test evaluation (GPU, once V2 is selected)
+
+```powershell
+.\.venv\Scripts\python.exe -m phase3.evaluate_model --split test --adapter models/qa_qlora_v2/adapter --tag v2 --confirm-final-test
+```
+
+Optional base and V1 test evaluations for a like-for-like comparison:
+
+```powershell
+.\.venv\Scripts\python.exe -m phase3.evaluate_model --split test --tag base --confirm-final-test
+.\.venv\Scripts\python.exe -m phase3.evaluate_model --split test --adapter models/qa_qlora/adapter --tag v1 --confirm-final-test
+.\.venv\Scripts\python.exe -m phase3.compare --split test
+```
+
+**Avoid using the final test results to select hyperparameters.** If you want to
+improve performance after seeing test errors, collect a fresh untouched test set.
+
+### Regenerate the exact synthetic dataset (only if necessary)
+
+The dataset is already included; you do NOT need to regenerate it. Rebuild the
+same source records and SHA256 fingerprints with:
+
+```powershell
+.\.venv\Scripts\python.exe -m phase3.generate_data --force
+.\.venv\Scripts\python.exe -m phase3.validate_data
+```
+
+Regeneration is deterministic given code and config, but modifying code or
+configuration may change data hashes and invalidate comparisons.
+
+## Roadmap after this package
+
+- Gather authorized, provenance-tracked real QA inspection cases (not simulated).
+- Have subject-matter experts verify drawings, tolerances, outcomes and references.
+- Create an independently held-out evaluation set split by manufacturing source,
+  product and time, not merely by random rows.
+- Build approved-document RAG with page-level citations and refusal for unsupported standards.
+- Extend beyond single-dimension QA only after trustworthy evaluation.
+
+For the curation process, see `phase3/REAL_DATA_GUIDE.md`.
