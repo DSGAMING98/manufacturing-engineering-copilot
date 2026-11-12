@@ -30,9 +30,26 @@ Operator -> local browser or CLI
                        [not permitted to alter calculations or invent standards]
 ```
 
-The project contains **one trained QA SLM experiment**, not six independently
-trained domain-specific models. Phase 4's `demo` documents are intentionally
-fictional; real approved materials are not shipped.
+The project contains one narrow SLM task with two QLoRA experiments (V1 and
+V2), not six domain-specific models. The six workflows are mostly deterministic
+software tools. Phase 4's `demo` documents are intentionally fictional; real
+approved materials are not shipped.
+
+## Current status
+
+| Part | Status | Practical meaning |
+|---|---|---|
+| Deterministic calculators | Tested research prototype | Arithmetic and refusal paths pass the included regression suite |
+| Local browser and CLI | Working single-user prototype | Suitable for local demonstrations, not deployment |
+| Document retrieval | Working on the fictional test corpus | Real retrieval quality has not been measured |
+| QLoRA V1/V2 adapters | Experimental | V2 is better than the base model on one synthetic validation split, but is not reliable enough to make decisions |
+| Independent model validation | Not complete | No held-out Phase 3 test result, real plant dataset or independent engineering review yet |
+| Database and audit trail | Not implemented | Inputs and generated records are not persisted by the application |
+
+`Qwen3-1.7B` is an LLM architecture, but this project calls the adapted model an
+**SLM** because it is small relative to current general-purpose LLMs and is used
+for one narrow experimental task. The label does not change its validation
+requirements.
 
 ## Quick start
 
@@ -79,11 +96,83 @@ Phase 4 retrieves exact approved-labelled `.md` and `.txt` paragraphs,
 with SHA-256 integrity checks and line citations. Human approval metadata
 is provided by the operator, not cryptographically authenticated.
 
+## Algorithms and implementation
+
+### Dimensional tolerance decision
+
+`src/tolerance_engine.py` converts decimal strings directly to Python
+`Decimal`, avoiding binary floating-point rounding in limit decisions. For a
+symmetric tolerance `t`:
+
+```text
+lower limit = nominal - t
+upper limit = nominal + t
+PASS if lower limit <= measured <= upper limit; otherwise FAIL
+```
+
+Asymmetric signed lower and upper deviations are also supported. Boundaries are
+inclusive. Missing values, non-finite numbers, negative symmetric tolerances,
+mixed tolerance forms and unsupported units return `INSUFFICIENT_DATA`. This is
+one scalar interval check; it does not include uncertainty, calibration, GD&T,
+sampling plans or whole-part acceptance.
+
+### Strict hybrid parsing
+
+`src/hybrid_qa.py` accepts either a restricted `key=value` grammar or an
+explicit natural-language pattern containing exactly one nominal value, one
+measurement and one tolerance definition. Duplicate fields, extra measurements,
+mixed units and unrecognized text are rejected. If the SLM is enabled here, its
+only permitted output is one allowlisted presentation style. It never supplies
+numbers, limits, decisions or actions.
+
+### Engineering calculators
+
+The Phase 5 calculators use validated `Decimal` operands and fixed equations:
+
+| Workflow | Algorithm |
+|---|---|
+| Hole/shaft fit | `min clearance = hole_min - shaft_max`; `max clearance = hole_max - shaft_min`. Positive minimum is clearance, negative maximum is interference, otherwise transition. |
+| Turning estimate | `RPM = 1000 × cutting_speed / (π × diameter)`; feed rate is `RPM × feed_per_rev`; ideal cutting time is `length / feed_rate`. |
+| OEE | Availability is `run/planned`; performance is `ideal_cycle × total/run`; quality is `good/total`; OEE is their product. Contradictory inputs and performance above 100% are rejected. |
+| Maintenance | Observed `MTBF = operating_hours/failures`, `MTTR = repair_hours/failures`, availability is `operating/(operating+repair)`. With no failures, MTBF and MTTR are reported as undefined. |
+| Inspection record | Validates identifiers and a timezone-aware timestamp, reuses the tolerance engine, and emits a `DRAFT_NOT_APPROVED` record. It does not save or sign the record. |
+
+The turning and maintenance outputs are retrospective or idealized estimates.
+They are not machine settings, predictions or safe-to-operate decisions.
+
+### Grounded document retrieval
+
+Phase 4 implements a small, transparent lexical retrieval pipeline:
+
+1. Read only manifest-registered UTF-8 `.md` and `.txt` files below
+   `phase4/docs`.
+2. Validate document status, relative path, size, revision metadata and SHA-256
+   before indexing any content.
+3. Split text into paragraph chunks while retaining exact line ranges.
+4. Lowercase and tokenize alphanumeric terms, remove a fixed stopword list and
+   apply two small plural-normalization rules.
+5. Rank paragraphs with BM25 (`k1=1.2`, `b=0.75`). A candidate must share at
+   least two query terms, cover at least 30% of query terms and score at least
+   `0.75`.
+6. Return exact excerpts with source ID, revision, line citation and checksum,
+   or abstain when nothing passes the thresholds.
+
+Questions naming a standard require the exact standard identifier to occur in
+the retrieved text. An optional Qwen/LoRA selector may reorder existing hits by
+returning only `SELECT: n`; invalid model output falls back to the top lexical
+hit. Retrieved text is treated as untrusted data and is never executed.
+
 ## Model-training methodology
 
 - **Foundation:** `unsloth/Qwen3-1.7B-unsloth-bnb-4bit`.
 - **Hardware used by operator:** NVIDIA RTX 4060 Laptop GPU, 8 GB VRAM.
 - **Fine-tuning:** 4-bit QLoRA, rank 8, alpha 16, supervised fine-tuning.
+- **Adapted modules:** attention `q/k/v/o` projections and MLP
+  `gate/up/down` projections; dropout 0 and no bias adaptation.
+- **Training objective:** completion-only causal language-model loss on the
+  four-line assistant response; prompt tokens are masked.
+- **Optimizer and schedule:** 8-bit AdamW, linear schedule, 3% warm-up,
+  weight decay 0.01 and gradient checkpointing.
 - **Phase 1 dataset:** 72 train / 18 validation / 24 test synthetic cases.
 - **Phase 3 V2 dataset:** 480 train / 90 validation / 120 held-out synthetic cases.
 - **Phase 3 V2 configuration:** 120 steps, batch 1, gradient accumulation 4,
@@ -106,17 +195,49 @@ outside the source release.
 
 Same Phase 3 synthetic validation split, `n = 90`:
 
-| Model | Correct | Accuracy | False PASS | False FAIL |
-|---|---:|---:|---:|---:|
-| Base Qwen3 | 40/90 | 44.44% | 8 | 11 |
-| QLoRA V1 | 38/90 | 42.22% | 6 | 3 |
-| QLoRA V2 | 59/90 | **65.56%** | **1** | 24 |
+| Model | Correct | Accuracy | PASS recall | FAIL recall | Missing-data recall | False PASS | False FAIL |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Base Qwen3 | 40/90 | 44.44% | 43.33% | 56.67% | 33.33% | 8 | 11 |
+| QLoRA V1 | 38/90 | 42.22% | 40.00% | 23.33% | 63.33% | 6 | 3 |
+| QLoRA V2 | 59/90 | **65.56%** | **16.67%** | 96.67% | 83.33% | **1** | 24 |
 
 *Source: console comparison supplied by the operator (2026-11-13); local
 model-result JSON is not included in GitHub. These are synthetic validation
 results, not industrial accuracy.* V2 improves accuracy on this sample but
 exhibits 24 false rejections. We therefore **do not** delegate numerical
 inspection decisions to the standalone SLM.
+
+### Validation assessment
+
+The evaluation code has several good controls: it checks dataset fingerprints,
+prevents cross-split duplicate IDs and identical inputs, recomputes every gold
+label with the deterministic engine, uses greedy decoding, records raw
+predictions, reports per-class accuracy and error modes, and prevents accidental
+test-set evaluation without an explicit flag.
+
+That is a sound **synthetic experiment pipeline**, but it is not complete model
+validation:
+
+- The reported comparison is validation-only. The 120-case Phase 3 test split
+  has not been used for the final, once-only model assessment.
+- All examples are generated from the same rules that later verify their labels.
+  Numeric ranges and wording differ by split, but the data still has narrow,
+  repeated templates and no real measurement noise or industrial context.
+- No examples have independent engineer-reviewed ground truth. There is no
+  external dataset, blind review, inter-rater agreement or plant trial.
+- V2 is heavily biased toward `FAIL`: it correctly identifies 29/30 FAIL cases
+  but only 5/30 PASS cases. Its higher overall accuracy therefore hides poor
+  acceptance-class performance.
+- Only one training seed and one main hyperparameter run are reported. There is
+  no multi-seed variance, ablation study, calibration analysis or paired
+  significance result intended for a final paper claim.
+- The current metric treats all three labels equally. A manufacturing study
+  should predefine the relative cost of false acceptance, false rejection and
+  unjustified decisions before selecting a model.
+
+Accordingly, model validation is **not done**. The correct present architecture
+is the one already used here: deterministic tools own numerical outcomes, while
+the model remains optional and tightly constrained.
 
 Generated figures:
 
@@ -153,6 +274,59 @@ Phase 4 fictional retrieval regressions, Phase 5 arithmetic checks and an
 expanded **529-case** tolerance-boundary grid. GitHub Actions runs CPU checks
 without downloading model weights or installing GPU packages. These tests
 establish **software behavior under included cases**, not shop-floor fitness.
+
+## Data, storage and runtime
+
+There is currently **no database**. The prototype is deliberately local and
+mostly stateless:
+
+| Data | Format and location | Published? |
+|---|---|---|
+| Synthetic training/validation/test cases | JSONL under `data/` and `phase3/data/` | Yes |
+| Dataset counts and fingerprints | JSON manifests with SHA-256 | Yes |
+| Retrieval source registry | `phase4/knowledge_manifest.json` | Yes |
+| Fictional retrieval documents | Markdown under `phase4/docs/` | Yes |
+| Real local documents | `phase4/docs/local/` | No, ignored by Git |
+| QLoRA adapters and checkpoints | Hugging Face/PEFT files under `models/` | No, ignored by Git |
+| Evaluation predictions and reports | JSON/JSONL under `results/` | No, ignored by Git |
+| Paper figure inputs and provenance | JSON/CSV under `phase6/evidence/` and `paper_figures/` | Selected summaries only |
+
+The web UI uses Python's standard-library `HTTPServer`, binds to
+`127.0.0.1`, accepts bounded JSON requests and returns calculated JSON. It has
+no accounts, sessions, uploads, telemetry, background jobs or external API.
+Generated inspection records disappear after the response unless the operator
+saves them manually. A production design would need a real database schema,
+migrations, immutable audit events, role-based access, authenticated approvals,
+record versioning, retention rules, backup/restore and encryption policy.
+
+## What should be improved next
+
+Priority order for the next development session:
+
+1. Freeze the present model and evaluation protocol, then run the 120-case test
+   split once. Do not tune again on that result.
+2. Build a permission-cleared, independently engineer-reviewed evaluation set
+   that represents real wording, units, boundary cases, missing evidence and
+   measurement uncertainty. Keep it outside training.
+3. Diagnose V2's rejection bias from the saved predictions. Add confusion
+   matrices, macro-F1, balanced accuracy, class precision/recall and explicit
+   cost-weighted safety metrics.
+4. Run multiple seeds and controlled ablations before choosing new data,
+   training duration, rank or learning rate. Preserve every config and dataset
+   hash.
+5. Separate model-selection validation from the final test set and introduce a
+   second external challenge set. Avoid repeated manual inspection of final-test
+   errors during development.
+6. Evaluate retrieval on a labelled query/relevance set using recall@k, MRR,
+   abstention precision and citation correctness. The current 16-case demo
+   regression checks behavior, not retrieval quality.
+7. Decide whether persistence is actually required. If it is, design the audit
+   and approval model before adding a database; storing draft records without
+   provenance and access control would create misleading traceability.
+8. Pin dependency versions and add a repeatable GPU environment/container plus
+   automated adapter/evaluation metadata capture.
+9. Only after the above, consider expanding beyond scalar dimensional QA into
+   GD&T, uncertainty, calibration state or other manufacturing domains.
 
 ## Project map
 
