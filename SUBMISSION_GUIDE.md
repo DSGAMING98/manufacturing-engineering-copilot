@@ -123,6 +123,16 @@ The challenge exposed only 40% recall for knowledge-search routing, so that area
 remains a documented improvement target. Present all three results together;
 do not describe the 100% synthetic score as industrial accuracy.
 
+The clean-data follow-up removed duplicate prompts and verifies 1,484/1,484
+records structurally, including hashes and cross-split isolation. V5 scored
+140/140 on its unique synthetic validation split, 208/210 on its once-only
+synthetic test, and 32/35 on the manual challenge already used during
+development. A broader candidate scored 44/49 on a second manually written set
+frozen before evaluation. For the presentation, call 100% the **data integrity
+check and bounded synthetic validation result**, never 100% real-world model
+accuracy. The manually written result is the more important generalization
+warning.
+
 ## 6. Validation strategy
 
 The repository contains unit, regression, HTTP, retrieval, routing, and release

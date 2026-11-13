@@ -33,6 +33,28 @@ templates. It is not industrial accuracy. The manual challenge is the more
 realistic warning that generalization remains incomplete. Full evidence and
 dataset fingerprints are in `phase6/evidence/router_v2_evaluation.json`.
 
+### Clean unique-data routing run (V5 candidate)
+
+The follow-up run expanded training to 1,050 balanced requests and regenerated
+140 validation and 210 test requests with zero duplicate user prompts across
+all router files. A fail-closed validator checks 1,484/1,484 records for schema,
+labels, completion agreement, balance, identities, prompt uniqueness, manifest
+counts, hashes, and review metadata. This is **100% structural/provenance data
+validation**, not proof that every synthetic statement is factually correct.
+
+V5 used 4-bit QLoRA (r=8, alpha=16) for 140 optimizer steps. It scored 140/140
+on the unique synthetic validation split and 208/210 (99.05%) on the once-only
+synthetic test. Its harder 35-request development challenge score was 32/35
+(91.43%) with the explicit production routing prompt. Because that challenge
+influenced development, it is not a blind final test. A broader candidate was
+evaluated once against a second, frozen 49-request manually written set and
+scored 44/49 (89.80%); knowledge and quality wording remained the weak areas.
+
+Adding challenge answers to training could manufacture 35/35, but would measure
+memorization rather than generalization. The complete protocol and hashes are
+in `phase6/evidence/router_v5_evaluation.json`. Weights remain local and
+gitignored.
+
 ## Observed model-only validation: Phase 3 (same 90 synthetic examples)
 
 | Model | Correct | Accuracy | False PASS | False FAIL |

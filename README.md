@@ -62,10 +62,10 @@ approved materials are not shipped.
 |---|---|---|
 | Deterministic calculators | Tested research prototype | Arithmetic and refusal paths pass the included regression suite |
 | Natural-language assistant | Working hosted prototype | Routes explicit requests, extracts labelled values, and asks for missing inputs |
-| QLoRA tool router | Improved local experiment | 93.57% validation; 100% locked synthetic test; 85.71% manual challenge |
+| QLoRA tool router | Improved local experiment | Clean V5: 100% synthetic validation, 99.05% once-only synthetic test, 91.43% tuned manual development challenge |
 | Browser and CLI workbench | Working research prototype | Public CPU demo on Vercel; local mode remains available |
 | Document retrieval | Working on the fictional test corpus | Real retrieval quality has not been measured |
-| QLoRA V1/V2 adapters | Experimental | V2 is better than the base model on one synthetic validation split, but is not reliable enough to make decisions |
+| QLoRA adapters | Experimental | Best once-only frozen manual evaluation: 44/49 (89.80%); adapters are not reliable enough to make engineering decisions |
 | Held-out synthetic model test | Complete for V2 | 79/120 correct, but severe PASS-class failure prevents autonomous use |
 | Independent industrial validation | Not complete | No real plant dataset or independent engineering review yet |
 | Database and audit trail | Not implemented | Inputs and generated records are not persisted by the application |
@@ -201,10 +201,10 @@ hit. Retrieved text is treated as untrusted data and is never executed.
 - **Phase 3 V2 dataset:** 480 train / 90 validation / 120 held-out synthetic cases.
 - **Phase 3 V2 configuration:** 120 steps, batch 1, gradient accumulation 4,
   learning rate 1.2e-4. V2 trains independently from the foundation model.
-- **Tool-router dataset:** 700 train / 140 validation / 210 locked synthetic
-  test requests, balanced across seven tools, plus a 35-request manually
-  authored post-training challenge.
-- **Tool-router configuration:** QLoRA rank 8, alpha 16, 100 steps, batch 2,
+- **Clean tool-router dataset:** 1,050 train / 140 validation / 210 locked
+  synthetic test requests, balanced across seven tools, plus 35-request
+  development and 49-request second manually authored challenges.
+- **Tool-router configuration:** QLoRA rank 8, alpha 16, 140 steps, batch 2,
   gradient accumulation 4, learning rate 1e-4 and completion-only loss.
 - **Checkpoints:** created on the operator's laptop, not bundled or committed.
 
@@ -215,15 +215,16 @@ Run model training locally if necessary (`.venv` must have GPU PyTorch + Unsloth
 .\.venv\Scripts\python.exe -m phase3.train_v2 --smoke
 .\.venv\Scripts\python.exe -m phase3.train_v2
 .\.venv\Scripts\python.exe -m phase3.generate_router_data
-.\.venv\Scripts\python.exe -m phase3.train_router --max-steps 100 --output-dir models/router_qlora_v2
-.\.venv\Scripts\python.exe -m phase3.evaluate_router --adapter models/router_qlora_v2/adapter --split validation --tag router_v2
+.\.venv\Scripts\python.exe -m phase3.validate_router_data
+.\.venv\Scripts\python.exe -m phase3.train_router --max-steps 140 --output-dir models/router_qlora_v5_unique
+.\.venv\Scripts\python.exe -m phase3.evaluate_router --adapter models/router_qlora_v5_unique/adapter --split validation --tag router_v5_unique
 ```
 
 The V2 training script refuses to overwrite an existing adapter. If you have
 already trained V2, **do not run it again**. Your existing local model remains
 outside the source release.
 
-### Promoted tool-routing result
+### Tool-routing results
 
 | Evaluation | Correct | Accuracy | Parse rate | Lowest class recall |
 |---|---:|---:|---:|---:|
@@ -237,6 +238,22 @@ learned; it is not industrial accuracy. The manually authored challenge is a
 more difficult warning: evidence-search routing generalized poorly. All three
 results and hashes are published in
 [`phase6/evidence/router_v2_evaluation.json`](phase6/evidence/router_v2_evaluation.json).
+
+The clean V5 candidate removed duplicate prompts, expanded training and added
+an explicit router-data validator. It achieved 140/140 on unique synthetic
+validation and 208/210 (99.05%) on the once-only synthetic test. It scored
+32/35 (91.43%) on the original manual challenge using the current descriptive
+router prompt. That challenge had already influenced development, so it is a
+development benchmark—not an untouched test. A broader-language V3 candidate
+scored 44/49 (89.80%) on a second manually written set frozen before its first
+evaluation. See
+[`phase6/evidence/router_v5_evaluation.json`](phase6/evidence/router_v5_evaluation.json).
+
+The dataset validator reports 1,484/1,484 structurally valid records, balanced
+labels, matching manifest hashes and zero normalized user-prompt duplicates
+across all five files. This is a 100% data-integrity result, not a claim that
+the records are independently engineer-approved or that the model is 100%
+accurate on new manufacturing language.
 
 ## Observed synthetic-validation outcomes
 

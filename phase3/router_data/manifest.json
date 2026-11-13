@@ -5,8 +5,8 @@
       "total": 210
     },
     "train": {
-      "per_label": 100,
-      "total": 700
+      "per_label": 150,
+      "total": 1050
     },
     "validation": {
       "per_label": 20,
@@ -25,9 +25,9 @@
   "purpose": "Synthetic seven-way tool-routing research data; not industrial validation",
   "seed": 20261113,
   "sha256": {
-    "test": "2954de06a9b0e5d6493b01f3bfcf8a9dd023db01121c1a5bebb68eb7bbfabdc1",
-    "train": "6b1be340e77cd010e92a1e1290a3790a72cd4bb7a28801518e644c57676b251d",
-    "validation": "eba3ab8880b30dce8874d3203ac36f4fbe24337377995cedf37f9f94c034cf5a"
+    "test": "b1b0606fe90d4a6d2b137ff4976678385fa838a6f78116fa598fbb126f962c7d",
+    "train": "82e5006c994c352e4c4242c477be0ef281c05cd05eaa89658f6ae223948abc67",
+    "validation": "0bbb4dbc1088afef7523a0438831984bd281c1b48b91dba28fb62d7468658f91"
   },
   "split_policy": "Disjoint instruction templates; balanced labels; deterministic generation"
 }

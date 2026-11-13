@@ -153,3 +153,22 @@ on the post-training manual challenge. The perfect template test is not an
 industrial claim; challenge knowledge-search recall was only 40%. See
 `phase6/evidence/router_v2_evaluation.json` for fingerprints and per-class
 metrics. Adapter weights remain local and gitignored.
+
+### Clean-data follow-up (V5 candidate)
+
+The follow-up dataset contains 1,050 train, 140 validation, 210 test, 35 manual
+development-challenge, and 49 second-challenge records. Run the fail-closed
+validator before training:
+
+```powershell
+.\.venv\Scripts\python.exe -m phase3.validate_router_data
+.\.venv\Scripts\python.exe -m phase3.train_router --max-steps 140 --output-dir models/router_qlora_v5_unique
+.\.venv\Scripts\python.exe -m phase3.evaluate_router --adapter models/router_qlora_v5_unique/adapter --split validation --tag router_v5_unique
+```
+
+Observed V5 results were 140/140 synthetic validation, 208/210 once-only
+synthetic test, and 32/35 on the already tuning-exposed manual development
+challenge. The second manually written challenge was frozen before evaluation;
+a broader-language V3 candidate scored 44/49 (89.80%). Do not tune on that score
+and continue calling the set untouched. Full evidence is in
+`phase6/evidence/router_v5_evaluation.json`.

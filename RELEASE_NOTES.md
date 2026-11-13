@@ -2,6 +2,17 @@
 
 ## Domain-assistant and tool-routing update
 
+- Added a fail-closed router-data validator and removed duplicate prompts from
+  the expanded dataset. All 1,484 records now pass structural/provenance checks,
+  with zero normalized prompt overlap across train, validation, test, and both
+  manual challenge files.
+- Trained the clean V5 candidate on 1,050 balanced examples. It scored 140/140
+  on unique synthetic validation and 208/210 on the once-only synthetic test.
+- Preserved honest manual-challenge reporting: V5 scored 32/35 on the
+  tuning-exposed development challenge; a broader candidate scored 44/49 on a
+  second challenge frozen before its first evaluation. Neither result is
+  presented as industrial accuracy.
+
 - Added a natural-language Copilot Assistant that routes requests across design,
   process, production, quality, maintenance, documentation, and evidence search.
 - Added conservative labelled-value extraction and specific follow-up requests
@@ -37,7 +48,7 @@
 
 - Operator-reported Phase 3 same-split standalone model validation: base 40/90; V1 38/90; V2 59/90.
 - V2 false PASS: 1; false FAIL: 24. The research prototype therefore uses deterministic calculations for engineering decisions.
-- 111/111 CPU unit tests, 16/16 toy demo retrieval cases, 30/30 hand-authored six-domain cases, and 529/529 generated tolerance boundary cases passed in the packaging environment.
+- 124/124 CPU unit tests, 16/16 toy demo retrieval cases, 30/30 hand-authored six-domain cases, and 529/529 generated tolerance boundary cases passed in the packaging environment.
 - No GPU model benchmark was executed in the packaging environment. The original adapters and private generated prediction outputs remain on the user's laptop.
 
 ## Graphs
