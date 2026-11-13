@@ -1,0 +1,14 @@
+{
+  "status": "REAL_DATA_REQUIRED",
+  "ready_for_real_data_paper_claim": false,
+  "real_records": 0,
+  "blocking_requirements": [
+    "authorized real manufacturing records",
+    "documented ethics or human-subjects determination",
+    "de-identification and provenance manifest",
+    "two independent domain-reviewer annotations",
+    "three or more independent split groups",
+    "frozen external or prospective test set"
+  ],
+  "interpretation": "The software pipeline is implemented, but no industrial records have been supplied. Current model results remain synthetic until this report is regenerated from authorized real data."
+}

@@ -2,6 +2,14 @@
 
 ## Domain-assistant and tool-routing update
 
+- Added Phase 7 for authorized real manufacturing data: fail-closed provenance
+  and ethics checks, de-identification gates, dual-review annotation agreement,
+  group-isolated dataset splitting, private SQLite ingestion, routing metrics,
+  confidence intervals, and a machine-readable readiness report.
+- Added a real-data collection protocol, annotation template, manifest template,
+  IEEE readiness checklist, data-availability language, and ten regression
+  tests for the new research pipeline.
+
 - Redesigned the responsive workbench around the MFG Copilot logo and blue/teal
   identity, with clearer navigation, system status, example prompts, input
   hierarchy, traceability output, mobile navigation, and accessible focus states.
@@ -52,7 +60,7 @@
 
 - Recorded Phase 3 same-split standalone model validation: base 40/90; V1 38/90; V2 59/90.
 - V2 false PASS: 1; false FAIL: 24. The research prototype therefore uses deterministic calculations for engineering decisions.
-- 126/126 CPU unit tests, 16/16 toy demo retrieval cases, 30/30 hand-authored six-domain cases, and 529/529 generated tolerance boundary cases passed in the release verification run.
+- 136/136 CPU unit tests, 16/16 toy demo retrieval cases, 30/30 hand-authored six-domain cases, and 529/529 generated tolerance boundary cases passed in the release verification run.
 - No GPU model benchmark was executed during source packaging. Adapter weights and generated prediction outputs remain local and are excluded from the repository.
 
 ## Graphs

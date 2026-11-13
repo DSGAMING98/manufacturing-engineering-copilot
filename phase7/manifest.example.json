@@ -1,0 +1,14 @@
+{
+  "dataset_id": "REPLACE_WITH_APPROVED_DATASET_ID",
+  "version": "1.0.0",
+  "dataset_kind": "real_authorized",
+  "owner_role": "REPLACE_WITH_DATA_OWNER_ROLE",
+  "permission_reference": "REPLACE_WITH_WRITTEN_PERMISSION_REFERENCE",
+  "allowed_purpose": "Research evaluation of manufacturing request routing",
+  "access_level": "restricted",
+  "ethics_review_status": "pending",
+  "deidentification_method": "REPLACE_WITH_APPROVED_DEIDENTIFICATION_METHOD",
+  "created_at": "2026-11-13T00:00:00+05:30",
+  "data_sha256": "REPLACE_AFTER_EXPORT",
+  "record_count": 0
+}

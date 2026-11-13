@@ -235,11 +235,39 @@ Result: **1,484/1,484 records passed**, with zero normalized duplicate prompts
 across the five router files. This is a structural and provenance result. The
 synthetic records are not a replacement for independently reviewed plant data.
 
+### 7.1 Authorized real-data pipeline
+
+Phase 7 implements the transition path to real manufacturing records. It accepts
+only allowlisted real source types such as engineering requests, drawing reviews,
+MES exports, inspection/CMM records, NCR records, CMMS work orders, maintenance
+events, and approved-document questions. Validation fails when any of the
+following is missing or inconsistent:
+
+- written permission reference and matching dataset manifest;
+- completed ethics or human-subjects determination;
+- timezone-aware source timestamps and SHA-256 provenance;
+- positive de-identification declaration and absence of direct-identifier fields;
+- two different hashed reviewer identities and allowlisted labels;
+- adjudication metadata for annotation disagreements;
+- unique record identifiers and normalized request text;
+- an exact manifest file hash and record count.
+
+The splitter assigns complete `split_group` units to train, validation, or test,
+preventing the same product, site, machine, or time group from crossing dataset
+boundaries. A private SQLite staging database stores dataset versions, real
+records, and independent annotations. The evaluation component reports accuracy,
+Wilson 95% interval, macro-F1, per-class precision/recall/F1, abstentions, and a
+full confusion matrix.
+
+The committed readiness report currently states `REAL_DATA_REQUIRED`. This is an
+intentional evidence boundary: the pipeline is ready, but no authorized plant
+records have been supplied and no industrial-performance claim is made.
+
 ## 8. Software verification results
 
 | Verification suite | Result |
 |---|---:|
-| Automated unit and integration tests | 126/126 passed |
+| Automated unit and integration tests | 136/136 passed |
 | Six-domain hand-authored workflow regressions | 30/30 passed |
 | Fictional retrieval regression cases | 16/16 passed |
 | Generated tolerance boundary stress cases | 529/529 passed |
@@ -272,11 +300,14 @@ Source repository:
 
 ## 10. Storage and database status
 
-The prototype processes requests in memory. It does not persist user inputs,
-inspection records, accounts, or audit history. Registered document metadata is
-stored in repository manifests, and integrity is checked with SHA-256.
+The hosted prototype processes requests in memory and does not persist user
+inputs. Phase 7 implements a private local SQLite research store for datasets,
+records, and independent annotations. Ingestion occurs only after the dataset
+passes permission, ethics-status, de-identification, provenance, duplicate,
+reviewer, and hash validation. Private records, grouped splits, and databases
+are excluded from Git.
 
-A production implementation would require an authenticated database with
+A production implementation would still require an authenticated database with
 role-based access, immutable audit events, document revision history, retention
 rules, record ownership, backup, recovery, and organization-specific data
 governance.

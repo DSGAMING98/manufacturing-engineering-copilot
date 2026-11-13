@@ -78,8 +78,9 @@ approved materials are not shipped.
 | Document retrieval | Working on the fictional test corpus | Real retrieval quality has not been measured |
 | QLoRA adapters | Experimental | Best once-only frozen manual evaluation: 44/49 (89.80%); adapters are not reliable enough to make engineering decisions |
 | Held-out synthetic model test | Complete for V2 | 79/120 correct, but severe PASS-class failure prevents autonomous use |
-| Independent industrial validation | Not complete | No real plant dataset or independent engineering review yet |
-| Database and audit trail | Not implemented | Inputs and generated records are not persisted by the application |
+| Real-data research pipeline | Implemented, awaiting records | Enforces permission, ethics status, de-identification, dual review, provenance, group splits, and metrics |
+| Independent industrial validation | Not complete | No authorized plant dataset has been supplied; readiness fails closed |
+| Database and audit trail | Research staging implemented | Phase 7 can ingest validated private records into local SQLite; the hosted app remains stateless |
 
 `Qwen3-1.7B` is an LLM architecture, but this project calls the adapted model an
 **SLM** because it is small relative to current general-purpose LLMs and is used
@@ -358,7 +359,7 @@ side-by-side chart because the data distributions differ.
 .\.venv\Scripts\python.exe -m phase6.release_checks
 ```
 
-The CPU suite includes 114 unit tests, Phase 3 data provenance and split hashes,
+The CPU suite includes 136 unit tests, Phase 3 data provenance and split hashes,
 Phase 4 fictional retrieval regressions, Phase 5 arithmetic checks and an
 expanded **529-case** tolerance-boundary grid. GitHub Actions runs CPU checks
 without downloading model weights or installing GPU packages. These tests
@@ -366,8 +367,9 @@ establish **software behavior under included cases**, not shop-floor fitness.
 
 ## Data, storage and runtime
 
-There is currently **no database**. The prototype is deliberately local and
-mostly stateless:
+The hosted prototype is stateless. Phase 7 provides a local SQLite research
+store only after real records pass authorization, provenance, de-identification,
+annotation, and integrity validation:
 
 | Data | Format and location | Published? |
 |---|---|---|
@@ -376,6 +378,9 @@ mostly stateless:
 | Retrieval source registry | `phase4/knowledge_manifest.json` | Yes |
 | Fictional retrieval documents | Markdown under `phase4/docs/` | Yes |
 | Real local documents | `phase4/docs/local/` | No, ignored by Git |
+| Authorized industrial research records | `phase7/private_data/` | No, ignored by Git |
+| Grouped splits and SQLite research store | `phase7/output/` | No, ignored by Git |
+| Real-data schema, validator and aggregate readiness report | `phase7/` | Yes |
 | QLoRA adapters and checkpoints | Hugging Face/PEFT files under `models/` | No, ignored by Git |
 | Evaluation predictions and reports | JSON/JSONL under `results/` | No, ignored by Git |
 | Paper figure inputs and provenance | JSON/CSV under `phase6/evidence/` and `paper_figures/` | Selected summaries only |
@@ -429,6 +434,7 @@ phase3/          Expanded synthetic QA dataset, V2 training, model comparison
 phase4/          Hash-verified, line-cited extractive RAG
 phase5/          Six-domain calculators, local CLI and browser dashboard
 phase6/          Reproducibility checks, audit, metric import and paper figures
+phase7/          Authorized real-data validation, grouped splits, SQLite staging and evaluation
 tests/           CPU-only regression suites
 paper_figures/   Observed synthetic metrics and loss charts (PNG/SVG + source CSV)
 configs/         Training configurations
@@ -459,6 +465,8 @@ results/         Operator-local benchmarks and predictions (gitignored)
 - [Phase 4: local grounded retrieval](PHASE4_README.md)
 - [Phase 5: six-domain workbench](PHASE5_README.md)
 - [Phase 6: reproducibility and figures](PHASE6_README.md)
+- [Phase 7: real manufacturing data protocol](phase7/REAL_DATA_PROTOCOL.md)
+- [IEEE submission readiness](IEEE_READINESS.md)
 - [Model card](MODEL_CARD.md)
 - [Submission and demonstration guide](SUBMISSION_GUIDE.md)
 - [Release notes](RELEASE_NOTES.md)

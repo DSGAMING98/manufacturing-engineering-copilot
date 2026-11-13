@@ -146,6 +146,21 @@ tests. Validation checks include:
 - document integrity and citation provenance;
 - live deployment page, assets, health endpoint, and calculation endpoint.
 
+### Real manufacturing data path
+
+Phase 7 implements the real-data transition without committing industrial
+records. It validates written permission references, completed ethics status,
+de-identification, source and dataset hashes, two independent reviewer labels,
+adjudication, duplicate requests, and product/site/machine/time grouping. It
+then creates group-isolated splits, a private SQLite research store, and routing
+metrics with confidence intervals and confusion matrices.
+
+The committed readiness status is `REAL_DATA_REQUIRED` because no authorized
+plant records have been supplied. Until the readiness report is regenerated
+from such records, present the current numerical model results as synthetic
+research results, not industrial validation. See
+`phase7/REAL_DATA_PROTOCOL.md` and `IEEE_READINESS.md`.
+
 ## 7. Recommended live demonstration
 
 Open the [live workbench](https://manufacturing-engineering-copilot.vercel.app/).
