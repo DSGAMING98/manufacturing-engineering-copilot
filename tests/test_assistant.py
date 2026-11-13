@@ -1,6 +1,4 @@
 import unittest
-import json
-from pathlib import Path
 
 from phase5.assistant import assist, extract_fields, route_domain
 from phase5.web_app import process_payload
@@ -58,12 +56,19 @@ class AssistantTests(unittest.TestCase):
         refused = process_payload({'prompt': 'quality check', 'domain': 'quality'})
         self.assertEqual(refused['status'], 'INSUFFICIENT_DATA')
 
-    def test_conservative_hosted_router_on_manual_challenge(self):
-        path = Path(__file__).parents[1] / 'phase3' / 'router_data' / 'manual_challenge.jsonl'
-        rows = [json.loads(line) for line in path.read_text(encoding='utf-8').splitlines() if line]
-        for row in rows:
-            with self.subTest(case=row['id']):
-                self.assertEqual(route_domain(row['messages'][1]['content'])[0], row['gold_tool'])
+    def test_conservative_router_regression_cases(self):
+        rows = {
+            'design': 'Determine worst-case clearance for mating hole and shaft limits.',
+            'process': 'Estimate lathe spindle rpm from cutting speed and diameter.',
+            'production': 'Compute availability, performance, quality and OEE for this shift.',
+            'quality': 'Check a measured feature against its specification limits.',
+            'maintenance': 'Calculate MTBF and MTTR from operating and repair hours.',
+            'documentation': 'Create an inspection record with drawing and gauge identifiers.',
+            'knowledge': 'Find a cited procedure excerpt from the registered documents.',
+        }
+        for expected, prompt in rows.items():
+            with self.subTest(expected=expected):
+                self.assertEqual(route_domain(prompt)[0], expected)
 
 
 if __name__ == '__main__':

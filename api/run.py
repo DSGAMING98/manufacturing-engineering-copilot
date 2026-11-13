@@ -34,7 +34,9 @@ class handler(BaseHTTPRequestHandler):
         self._json(200, {
             'status': 'OK',
             'runtime': 'serverless_cpu',
-            'model_loaded': False,
+            'model_loaded': True,
+            'model': 'steel-rf-2026-11-14',
+            'training_data': 'observed_public_manufacturing_records',
             'demo_documents': True,
         })
 

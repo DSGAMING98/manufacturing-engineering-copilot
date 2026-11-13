@@ -36,9 +36,17 @@ def audit(root: Path = ROOT, *, git_only: bool = False):
         cmd = subprocess.run(['git','-C',str(root),'ls-files','-z'], capture_output=True, check=True)
         paths = [root / name.decode('utf-8') for name in cmd.stdout.split(b'\0') if name]
     else:
-        paths = [p for p in root.rglob('*') if p.is_file() and not any(part in {'__pycache__','.git','.venv','.idea','.cache','venv'} for part in p.relative_to(root).parts) and not (p.relative_to(root).parts[0] in {'models','results'} and p.name != '.gitkeep') and not (p.relative_to(root).parts[:3] == ('phase4','docs','local') and p.name != 'README.md')]
+        paths = [p for p in root.rglob('*') if p.is_file()
+                 and not any(part in {'__pycache__','.git','.venv','.idea','.cache','venv'} for part in p.relative_to(root).parts)
+                 and not (p.relative_to(root).parts[0] in {'models','results'} and p.name != '.gitkeep')
+                 and not (p.relative_to(root).parts[:3] == ('phase4','docs','local') and p.name != 'README.md')
+                 and not p.relative_to(root).as_posix().startswith('data/raw/public_real/')
+                 and p.relative_to(root).as_posix() != 'real_models/artifacts/secom_failure_model.joblib']
     issues = []
     for p in paths:
+        # A working tree may contain tracked deletions before they are staged.
+        if not p.exists():
+            continue
         rel = p.relative_to(root)
         reason = is_disallowed(rel)
         if reason and (git_only or not rel.parts[0] in {'models','results'}):

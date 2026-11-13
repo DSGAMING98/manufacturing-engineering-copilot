@@ -100,9 +100,9 @@ class RealDataPipelineTests(unittest.TestCase):
         self.assertTrue(converted['deidentified'])
         self.assertEqual(converted['required_fields'], ['fixture_field'])
 
-    def test_synthetic_source_is_rejected(self):
+    def test_generated_source_is_rejected(self):
         rows = [dict(row) for row in self.rows]
-        rows[0]['source_kind'] = 'synthetic'
+        rows[0]['source_kind'] = 'generated_record'
         self._write(rows)
         with self.assertRaises(DataValidationError):
             validate_dataset(self.data, self.manifest)

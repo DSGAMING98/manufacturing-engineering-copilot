@@ -10,5 +10,5 @@
     "three or more independent split groups",
     "frozen external or prospective test set"
   ],
-  "interpretation": "The software pipeline is implemented, but no industrial records have been supplied. Current model results remain synthetic until this report is regenerated from authorized real data."
+  "interpretation": "Public observed-data benchmarks are complete, but no target-plant records have been supplied. This report therefore blocks any target-plant or industrial-validation claim."
 }

@@ -1,4 +1,0 @@
-model,correct,total,accuracy_pct,false_acceptances,false_rejections
-base,40,90,44.4444,8,11
-v1,38,90,42.2222,6,3
-v2,59,90,65.5556,1,24

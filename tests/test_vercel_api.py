@@ -25,7 +25,8 @@ class VercelApiTests(unittest.TestCase):
         with urlopen(self.url, timeout=2) as response:
             payload = json.loads(response.read())
         self.assertEqual(payload['status'], 'OK')
-        self.assertFalse(payload['model_loaded'])
+        self.assertTrue(payload['model_loaded'])
+        self.assertEqual(payload['model'], 'steel-rf-2026-11-14')
         self.assertTrue(payload['demo_documents'])
 
     def test_quality_calculation(self):

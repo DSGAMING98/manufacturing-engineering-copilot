@@ -54,7 +54,7 @@ def execute():
     blocked = run('knowledge', question='What does ISO 9001:2015 require for product release?')
     rows.append({'case':len(rows)+1, 'domain':'knowledge', 'passed':blocked['status']=='NO_VERIFIED_SOURCE',
                  'expected':'NO_VERIFIED_SOURCE', 'actual':blocked['status']})
-    return {'benchmark_kind':'synthetic_and_hand_authored_regression_only',
+    return {'benchmark_kind':'software_regression_cases_only',
             'does_not_establish':'industrial_accuracy_or_SLModel_quality',
             'total':len(rows), 'passed':sum(x['passed'] for x in rows), 'cases':rows}
 

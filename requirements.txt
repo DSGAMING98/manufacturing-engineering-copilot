@@ -1,3 +1,2 @@
-# Install GPU-compatible PyTorch first with SETUP_WINDOWS.bat.
-# Unsloth installs compatible Transformer/PEFT/TRL/accelerate dependencies.
-unsloth
+# The deployed API and exported forest use only the Python standard library.
+# Use requirements-research.txt to reproduce model training.

@@ -1,0 +1,397 @@
+{
+  "report_version": 1,
+  "trained_at": "2026-11-14",
+  "data_policy": "observed_public_records_only",
+  "sources": {
+    "steel": {
+      "url": "https://archive.ics.uci.edu/static/public/198/steel+plates+faults.zip",
+      "doi": "10.24432/C5J88N",
+      "license": "CC BY 4.0",
+      "download_sha256": "cb8eb9859198b63f053e443513036b401746fa517ef58bd17c846c6741c93919"
+    },
+    "secom": {
+      "url": "https://archive.ics.uci.edu/static/public/179/secom.zip",
+      "doi": "10.24432/C54305",
+      "license": "CC BY 4.0",
+      "download_sha256": "eea568baf3c2229096d7d294cf0b096b5502bd96d92c0b80a65b84714059be8e"
+    }
+  },
+  "models": {
+    "steel_fault_classifier": {
+      "dataset": "UCI Steel Plates Faults",
+      "observed_records": 1941,
+      "split": {
+        "method": "fixed stratified 60/20/20",
+        "seed": 42,
+        "train": 1164,
+        "validation": 388,
+        "test": 389
+      },
+      "selection": {
+        "metric": "validation macro-F1",
+        "max_depth_candidates": [
+          12,
+          18,
+          null
+        ],
+        "selected_max_depth": 12
+      },
+      "validation": {
+        "n": 388,
+        "accuracy": 0.796392,
+        "macro_f1": 0.789958,
+        "bootstrap_95_ci": {
+          "method": "1000 percentile bootstrap resamples; seed 20261114",
+          "accuracy": [
+            0.757732,
+            0.835052
+          ],
+          "macro_f1": [
+            0.733968,
+            0.838636
+          ]
+        },
+        "confusion_matrix": [
+          [
+            13,
+            4,
+            0,
+            0,
+            0,
+            5,
+            9
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0,
+            0,
+            2
+          ],
+          [
+            0,
+            0,
+            72,
+            1,
+            0,
+            1,
+            4
+          ],
+          [
+            0,
+            0,
+            0,
+            13,
+            0,
+            1,
+            1
+          ],
+          [
+            1,
+            0,
+            0,
+            0,
+            8,
+            2,
+            0
+          ],
+          [
+            3,
+            0,
+            0,
+            0,
+            0,
+            62,
+            15
+          ],
+          [
+            5,
+            3,
+            1,
+            0,
+            1,
+            20,
+            105
+          ]
+        ],
+        "per_class": {
+          "Pastry": {
+            "precision": 0.590909,
+            "recall": 0.419355,
+            "f1": 0.490566,
+            "support": 31
+          },
+          "Z_Scratch": {
+            "precision": 0.837209,
+            "recall": 0.947368,
+            "f1": 0.888889,
+            "support": 38
+          },
+          "K_Scratch": {
+            "precision": 0.986301,
+            "recall": 0.923077,
+            "f1": 0.953642,
+            "support": 78
+          },
+          "Stains": {
+            "precision": 0.928571,
+            "recall": 0.866667,
+            "f1": 0.896552,
+            "support": 15
+          },
+          "Dirtiness": {
+            "precision": 0.888889,
+            "recall": 0.727273,
+            "f1": 0.8,
+            "support": 11
+          },
+          "Bumps": {
+            "precision": 0.681319,
+            "recall": 0.775,
+            "f1": 0.725146,
+            "support": 80
+          },
+          "Other_Faults": {
+            "precision": 0.772059,
+            "recall": 0.777778,
+            "f1": 0.774908,
+            "support": 135
+          }
+        }
+      },
+      "locked_test": {
+        "n": 389,
+        "accuracy": 0.802057,
+        "macro_f1": 0.803873,
+        "bootstrap_95_ci": {
+          "method": "1000 percentile bootstrap resamples; seed 20261114",
+          "accuracy": [
+            0.758355,
+            0.840681
+          ],
+          "macro_f1": [
+            0.747228,
+            0.847829
+          ]
+        },
+        "confusion_matrix": [
+          [
+            23,
+            1,
+            0,
+            0,
+            0,
+            2,
+            6
+          ],
+          [
+            0,
+            31,
+            1,
+            0,
+            0,
+            1,
+            5
+          ],
+          [
+            0,
+            0,
+            74,
+            0,
+            0,
+            0,
+            4
+          ],
+          [
+            0,
+            0,
+            0,
+            13,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            7,
+            1,
+            3
+          ],
+          [
+            1,
+            2,
+            0,
+            0,
+            0,
+            59,
+            19
+          ],
+          [
+            8,
+            4,
+            0,
+            0,
+            3,
+            15,
+            105
+          ]
+        ],
+        "per_class": {
+          "Pastry": {
+            "precision": 0.71875,
+            "recall": 0.71875,
+            "f1": 0.71875,
+            "support": 32
+          },
+          "Z_Scratch": {
+            "precision": 0.815789,
+            "recall": 0.815789,
+            "f1": 0.815789,
+            "support": 38
+          },
+          "K_Scratch": {
+            "precision": 0.986667,
+            "recall": 0.948718,
+            "f1": 0.96732,
+            "support": 78
+          },
+          "Stains": {
+            "precision": 1.0,
+            "recall": 0.928571,
+            "f1": 0.962963,
+            "support": 14
+          },
+          "Dirtiness": {
+            "precision": 0.7,
+            "recall": 0.636364,
+            "f1": 0.666667,
+            "support": 11
+          },
+          "Bumps": {
+            "precision": 0.746835,
+            "recall": 0.728395,
+            "f1": 0.7375,
+            "support": 81
+          },
+          "Other_Faults": {
+            "precision": 0.739437,
+            "recall": 0.777778,
+            "f1": 0.758123,
+            "support": 135
+          }
+        }
+      },
+      "limitations": [
+        "Random split does not measure cross-plant transfer.",
+        "Input features are anonymized and do not cover every steel process."
+      ]
+    },
+    "secom_failure_risk": {
+      "dataset": "UCI SECOM",
+      "observed_records": 1567,
+      "failures": 104,
+      "split": {
+        "method": "fixed stratified 60/20/20",
+        "seed": 42,
+        "train": 939,
+        "validation": 314,
+        "test": 314
+      },
+      "selection": {
+        "metric": "validation ROC-AUC",
+        "max_features_candidates": [
+          "sqrt",
+          0.3,
+          0.5
+        ],
+        "selected_max_features": 0.3,
+        "decision_threshold_selected_on_validation_only": 0.075
+      },
+      "validation": {
+        "n": 314,
+        "threshold": 0.075,
+        "balanced_accuracy": 0.69844,
+        "failure_f1": 0.232558,
+        "average_precision": 0.162328,
+        "roc_auc": 0.753941,
+        "bootstrap_95_ci": {
+          "method": "1000 percentile bootstrap resamples; seed 20261114",
+          "balanced_accuracy": [
+            0.586226,
+            0.800805
+          ],
+          "failure_f1": [
+            0.137914,
+            0.33083
+          ],
+          "average_precision": [
+            0.088788,
+            0.316915
+          ],
+          "roc_auc": [
+            0.663937,
+            0.835263
+          ]
+        },
+        "confusion_matrix": [
+          [
+            200,
+            93
+          ],
+          [
+            6,
+            15
+          ]
+        ]
+      },
+      "locked_test": {
+        "n": 314,
+        "threshold": 0.075,
+        "balanced_accuracy": 0.735982,
+        "failure_f1": 0.280374,
+        "average_precision": 0.191692,
+        "roc_auc": 0.796359,
+        "bootstrap_95_ci": {
+          "method": "1000 percentile bootstrap resamples; seed 20261114",
+          "balanced_accuracy": [
+            0.630939,
+            0.83101
+          ],
+          "failure_f1": [
+            0.177758,
+            0.396552
+          ],
+          "average_precision": [
+            0.112707,
+            0.348192
+          ],
+          "roc_auc": [
+            0.70059,
+            0.87267
+          ]
+        },
+        "confusion_matrix": [
+          [
+            222,
+            71
+          ],
+          [
+            6,
+            15
+          ]
+        ]
+      },
+      "limitations": [
+        "Failure prevalence is low, so accuracy is not reported as the primary metric.",
+        "Anonymized sensor columns limit physical interpretation.",
+        "Random split does not establish future-lot or cross-fab generalization."
+      ]
+    }
+  },
+  "research_claim": "Two models trained and evaluated exclusively on observed public manufacturing records."
+}

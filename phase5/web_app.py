@@ -14,6 +14,7 @@ from urllib.parse import urlsplit
 from phase5.copilot import run
 from phase5.assistant import assist
 from phase4.retrieval import load_corpus
+from real_models.inference import predict_steel_fault
 
 WEB = Path(__file__).resolve().parent / 'web'
 ASSETS = {
@@ -35,6 +36,30 @@ def process_payload(payload: object, *, include_demo: bool = False, chunks=None)
         if set(payload) != {'prompt'}:
             return {'status': 'INSUFFICIENT_DATA', 'report': 'Assistant requests accept prompt only.', 'data': {}, 'citations': []}
         return assist(payload.get('prompt'), include_demo=include_demo, chunks=chunks)
+    if payload.get('domain') == 'real_quality':
+        fields = payload.get('fields')
+        if not isinstance(fields, dict) or set(fields) != {'measurements'}:
+            return {'status': 'INSUFFICIENT_DATA', 'report': 'Provide exactly one measurements field.', 'data': {}, 'citations': []}
+        try:
+            values = [float(value.strip()) for value in str(fields['measurements']).split(',')]
+            prediction = predict_steel_fault(values)
+        except (TypeError, ValueError) as exc:
+            return {'status': 'INSUFFICIENT_DATA', 'report': str(exc), 'data': {}, 'citations': []}
+        ranking = sorted(prediction['probabilities'].items(), key=lambda item: item[1], reverse=True)
+        lines = [
+            'OBSERVED-DATA MODEL RESULT',
+            f"Predicted surface-fault class: {prediction['classification']}",
+            f"Model vote probability: {prediction['confidence']:.1%}",
+            '', 'Class probabilities:',
+            *(f"- {label}: {probability:.1%}" for label, probability in ranking),
+            '', 'This is a benchmark prediction, not a part-release decision.',
+        ]
+        return {
+            'domain': 'real_quality', 'status': 'MODEL_RESULT', 'mode': 'observed_data_random_forest',
+            'data': prediction, 'report': '\n'.join(lines),
+            'citations': [f"UCI Steel Plates Faults, DOI {prediction['dataset_doi']}"],
+            'verified_source': True,
+        }
     return run(payload.get('domain', ''), payload.get('fields', {}),
                question=payload.get('question'), include_demo=include_demo, chunks=chunks)
 

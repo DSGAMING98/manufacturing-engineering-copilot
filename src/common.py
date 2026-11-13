@@ -12,30 +12,6 @@ def config():
     return json.loads((ROOT / 'configs' / 'train.json').read_text(encoding='utf-8'))
 
 
-def dataset_for_sft(split, tokenizer):
-    """Use explicit non-thinking Qwen3 prompts so training matches evaluation.
-
-    Prompt-completion data lets TRL mask the prompt tokens and learn only the
-    target assistant response (completion_only_loss=True).
-    """
-    from datasets import Dataset
-    from src.data_validation import load_jsonl
-    rows = load_jsonl(ROOT / 'data' / f'{split}.jsonl')
-    end = tokenizer.eos_token
-    if not end:
-        raise RuntimeError('Tokenizer has no EOS token; cannot format completions safely.')
-    examples = []
-    for row in rows:
-        messages = row['messages']
-        prompt = tokenizer.apply_chat_template(
-            messages[:-1], tokenize=False, add_generation_prompt=True,
-            enable_thinking=False,
-        )
-        completion = messages[-1]['content'] + end
-        examples.append({'prompt': prompt, 'completion': completion})
-    return Dataset.from_list(examples)
-
-
 def load_model(model_name, max_seq_length):
     from unsloth import FastLanguageModel
     return FastLanguageModel.from_pretrained(

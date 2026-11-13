@@ -1,4 +1,4 @@
-name: CPU provenance and numerical regressions
+name: Observed-data model and engineering regressions
 on:
   push:
   pull_request:
@@ -13,5 +13,6 @@ jobs:
       - name: Run CPU-only verification
         run: python -m phase6.reproduce
       - name: Compile all sources
-        run: python -m compileall -q src phase3 phase4 phase5 phase6
-# CI intentionally skips GPU training, proprietary docs, model weights and industrial validation.
+        run: python -m compileall -q src phase4 phase5 phase6 phase7 real_models
+# CI verifies the committed observed-data artifact and evidence. Re-training is a
+# separate reproducibility run because it downloads the original UCI archives.
