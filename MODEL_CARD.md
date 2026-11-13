@@ -25,6 +25,19 @@ Source: operator's shared Phase 3 console comparison, with matching dataset fing
 
 V1 Phase 1 validation on a *different* 18-example synthetic split was 16/18 after tuning vs 15/18 before tuning. V1 Phase 1 test was 22/24. These are **not comparable** with the Phase 3 values without accounting for changed datasets and templates.
 
+## Final held-out synthetic test
+
+After model selection was frozen, V2 was evaluated once on the 120-case Phase 3
+test split. It correctly classified 79/120 cases (65.83%; Wilson 95% interval
+56.97%–73.71%). Recall was 10.00% for PASS, 87.50% for FAIL and 100.00% for
+INSUFFICIENT_DATA, with 3 false acceptances and 22 false rejections. The close
+validation/test headline accuracy does not offset the severe PASS-class failure.
+See `phase6/evidence/v2_final_test.json`.
+
+Two subsequent local experiments—longer four-line report training and a
+label-only classifier objective—did not exceed V2 validation accuracy and were
+not promoted.
+
 ## Recommended inference configuration
 
 Use `phase5.web_app` for tool-first six-domain workflows. If Qwen is enabled in the Phase 4/5 CLI, it may select among retrieved document excerpts but may **not** change computed decisions or fabricate standards. Preferred verified numeric answer is from `src.tolerance_engine` and `phase5.calculators`.

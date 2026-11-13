@@ -70,3 +70,33 @@ def generate(model, tokenizer, messages, max_new_tokens=144):
     output = tokenizer.decode(tokens[0][inputs['input_ids'].shape[-1]:],
                               skip_special_tokens=True)
     return output.strip()
+
+
+def generate_batch(model, tokenizer, message_batches, max_new_tokens=144):
+    """Deterministic batched decoding for reproducible GPU evaluation.
+
+    Left padding keeps the final prompt token aligned for decoder-only models.
+    Returned strings contain only newly generated tokens, in input order.
+    """
+    import torch
+    if not message_batches:
+        return []
+    prompts = [tokenizer.apply_chat_template(
+        messages, tokenize=False, add_generation_prompt=True,
+        enable_thinking=False,
+    ) for messages in message_batches]
+    original_padding_side = tokenizer.padding_side
+    tokenizer.padding_side = 'left'
+    try:
+        encoded = tokenizer(prompts, return_tensors='pt', padding=True)
+    finally:
+        tokenizer.padding_side = original_padding_side
+    inputs = {key: value.to('cuda') for key, value in encoded.items()}
+    pad_id = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id
+    with torch.inference_mode():
+        tokens = model.generate(
+            **inputs, max_new_tokens=max_new_tokens, do_sample=False,
+            pad_token_id=pad_id, eos_token_id=tokenizer.eos_token_id,
+        )
+    prompt_width = inputs['input_ids'].shape[-1]
+    return tokenizer.batch_decode(tokens[:, prompt_width:], skip_special_tokens=True)

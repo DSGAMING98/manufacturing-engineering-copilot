@@ -11,11 +11,11 @@ import inspect
 import json
 import os
 
-from phase3.shared import DATA_DIR, ROOT, atomic_json, read_jsonl, settings
+from phase3.shared import CLASSIFIER_SYSTEM, DATA_DIR, ROOT, atomic_json, read_jsonl, settings
 from phase3.validate_data import validate
 
 
-def dataset_for_sft(split, tokenizer):
+def dataset_for_sft(split, tokenizer, *, classification_only=False):
     from datasets import Dataset
     rows = read_jsonl(DATA_DIR / f'{split}.jsonl')
     if not tokenizer.eos_token:
@@ -23,6 +23,12 @@ def dataset_for_sft(split, tokenizer):
     packed = []
     for row in rows:
         messages = row['messages']
+        if classification_only:
+            messages = [
+                {'role': 'system', 'content': CLASSIFIER_SYSTEM},
+                messages[1],
+                {'role': 'assistant', 'content': 'Decision: ' + row['gold_decision']},
+            ]
         prompt = tokenizer.apply_chat_template(messages[:-1], tokenize=False,
                                                 add_generation_prompt=True, enable_thinking=False)
         packed.append({'prompt': prompt, 'completion': messages[-1]['content'] + tokenizer.eos_token})
@@ -33,6 +39,10 @@ def main():
     p = argparse.ArgumentParser(description='Phase 3 V2 model training; writes separate adapter')
     p.add_argument('--smoke', action='store_true', help='Only two steps, separate smoke output folder')
     p.add_argument('--max-steps', type=int, default=None, help='Optional custom optimizer steps')
+    p.add_argument('--output-dir', type=str, default=None,
+                   help='Optional repository-relative output directory for a separate experiment')
+    p.add_argument('--classification-only', action='store_true',
+                   help='Train only the constrained Decision label; deterministic code renders explanations')
     args = p.parse_args()
     if args.smoke and args.max_steps is not None:
         p.error('Use either --smoke or --max-steps, not both')
@@ -51,7 +61,14 @@ def main():
     steps = 2 if args.smoke else (args.max_steps if args.max_steps is not None else int(cfg['max_steps']))
     if steps < 1:
         raise ValueError('Training steps must be positive')
-    output = ROOT / ('models/qa_qlora_v2_smoke' if args.smoke else cfg['output_dir'])
+    if args.output_dir:
+        candidate = (ROOT / args.output_dir).resolve()
+        models_root = (ROOT / 'models').resolve()
+        if not candidate.is_relative_to(models_root) or candidate == models_root:
+            p.error('--output-dir must be a child of the repository models directory')
+        output = candidate
+    else:
+        output = ROOT / ('models/qa_qlora_v2_smoke' if args.smoke else cfg['output_dir'])
     if (output / 'adapter' / 'adapter_config.json').exists():
         raise FileExistsError(f'Existing trained adapter found at {output / "adapter"}. Refusing to overwrite.')
     output.mkdir(parents=True, exist_ok=True)
@@ -89,8 +106,12 @@ def main():
     else:
         raise RuntimeError('Installed TRL lacks evaluation strategy support')
     sft = SFTConfig(**{key: value for key, value in values.items() if key in signature})
-    trainer_kwargs = dict(model=model, train_dataset=dataset_for_sft('train', tokenizer),
-                          eval_dataset=dataset_for_sft('validation', tokenizer), args=sft)
+    trainer_kwargs = dict(
+        model=model,
+        train_dataset=dataset_for_sft('train', tokenizer, classification_only=args.classification_only),
+        eval_dataset=dataset_for_sft('validation', tokenizer, classification_only=args.classification_only),
+        args=sft,
+    )
     ts = inspect.signature(SFTTrainer.__init__).parameters
     if 'processing_class' in ts:
         trainer_kwargs['processing_class'] = tokenizer
@@ -114,6 +135,7 @@ def main():
         'research_limitation': 'No independent industrial data; trained model cannot authorize product release',
         'foundation_model': cfg['model_name'], 'trained_from_base_not_v1': True,
         'optimizer_steps': steps, 'is_smoke': args.smoke,
+        'training_protocol': 'decision_label_only' if args.classification_only else 'four_line_report',
         'train_loss': train_output.training_loss, 'metrics': train_output.metrics,
         'data_sha256': {part: hashlib.sha256((DATA_DIR / f'{part}.jsonl').read_bytes()).hexdigest()
                         for part in ('train', 'validation', 'test')},

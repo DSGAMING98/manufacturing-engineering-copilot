@@ -1,4 +1,13 @@
-# Research Prototype Release 0.6.0 (2026-11-13)
+# Research Prototype Release 0.7.0 (2026-11-13)
+
+## Evaluation and hosted workbench update
+
+- Added batched deterministic GPU evaluation and explicit evaluation-protocol metadata.
+- Completed the once-only V2 Phase 3 held-out synthetic test: 79/120 (65.83%).
+- Recorded per-class recall and error modes; PASS recall remains only 10%.
+- Tested longer report training and a constrained label-only objective; neither beat V2 and neither was promoted.
+- Added a serverless CPU API and deployment configuration for the deterministic workbench.
+- Added hosted API regression tests and clearer hosted-mode safety labels.
 
 ## Completed
 

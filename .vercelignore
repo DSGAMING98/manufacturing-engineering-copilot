@@ -1,0 +1,7 @@
+# Deploy only the CPU workbench and its fictional demonstration corpus.
+/*
+!api
+!phase4
+!phase5
+!src
+!vercel.json

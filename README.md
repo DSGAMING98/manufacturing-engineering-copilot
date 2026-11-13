@@ -43,7 +43,8 @@ approved materials are not shipped.
 | Local browser and CLI | Working single-user prototype | Suitable for local demonstrations, not deployment |
 | Document retrieval | Working on the fictional test corpus | Real retrieval quality has not been measured |
 | QLoRA V1/V2 adapters | Experimental | V2 is better than the base model on one synthetic validation split, but is not reliable enough to make decisions |
-| Independent model validation | Not complete | No held-out Phase 3 test result, real plant dataset or independent engineering review yet |
+| Held-out synthetic model test | Complete for V2 | 79/120 correct, but severe PASS-class failure prevents autonomous use |
+| Independent industrial validation | Not complete | No real plant dataset or independent engineering review yet |
 | Database and audit trail | Not implemented | Inputs and generated records are not persisted by the application |
 
 `Qwen3-1.7B` is an LLM architecture, but this project calls the adapted model an
@@ -207,6 +208,19 @@ results, not industrial accuracy.* V2 improves accuracy on this sample but
 exhibits 24 false rejections. We therefore **do not** delegate numerical
 inspection decisions to the standalone SLM.
 
+Final once-only Phase 3 synthetic test result, `n = 120`:
+
+| Model | Correct | Accuracy | PASS recall | FAIL recall | Missing-data recall | False PASS | False FAIL |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| QLoRA V2 | 79/120 | **65.83%** | **10.00%** | 87.50% | 100.00% | 3 | 22 |
+
+The 95% Wilson interval for test accuracy is 56.97%–73.71%. The close match
+between validation accuracy (65.56%) and test accuracy (65.83%) shows that the
+reported synthetic result reproduces on the held-out split. It does **not** make
+the model safe: only 4 of 40 conforming test cases were classified correctly.
+The public summary is stored in `phase6/evidence/v2_final_test.json`; raw local
+responses remain gitignored.
+
 ### Validation assessment
 
 The evaluation code has several good controls: it checks dataset fingerprints,
@@ -215,11 +229,11 @@ label with the deterministic engine, uses greedy decoding, records raw
 predictions, reports per-class accuracy and error modes, and prevents accidental
 test-set evaluation without an explicit flag.
 
-That is a sound **synthetic experiment pipeline**, but it is not complete model
-validation:
+That is a sound **synthetic experiment pipeline**, but it is not industrial
+model validation:
 
-- The reported comparison is validation-only. The 120-case Phase 3 test split
-  has not been used for the final, once-only model assessment.
+- V2 has now been evaluated once on the locked 120-case Phase 3 test split.
+  This closes the internal synthetic test, not external validation.
 - All examples are generated from the same rules that later verify their labels.
   Numeric ranges and wording differ by split, but the data still has narrow,
   repeated templates and no real measurement noise or industrial context.
@@ -235,9 +249,10 @@ validation:
   should predefine the relative cost of false acceptance, false rejection and
   unjustified decisions before selecting a model.
 
-Accordingly, model validation is **not done**. The correct present architecture
-is the one already used here: deterministic tools own numerical outcomes, while
-the model remains optional and tightly constrained.
+Accordingly, synthetic V2 testing is complete, but real model validation is
+**not done**. The correct present architecture is the one already used here:
+deterministic tools own numerical outcomes, while the model remains optional
+and tightly constrained.
 
 Generated figures:
 
@@ -269,7 +284,7 @@ side-by-side chart because the data distributions differ.
 .\.venv\Scripts\python.exe -m phase6.release_checks
 ```
 
-The CPU suite includes all unit tests, Phase 3 data provenance and split hashes,
+The CPU suite includes 114 unit tests, Phase 3 data provenance and split hashes,
 Phase 4 fictional retrieval regressions, Phase 5 arithmetic checks and an
 expanded **529-case** tolerance-boundary grid. GitHub Actions runs CPU checks
 without downloading model weights or installing GPU packages. These tests
@@ -303,8 +318,8 @@ record versioning, retention rules, backup/restore and encryption policy.
 
 Priority order for the next development session:
 
-1. Freeze the present model and evaluation protocol, then run the 120-case test
-   split once. Do not tune again on that result.
+1. Keep the completed 120-case test split locked. Do not tune against its
+   result or inspect it repeatedly during model development.
 2. Build a permission-cleared, independently engineer-reviewed evaluation set
    that represents real wording, units, boundary cases, missing evidence and
    measurement uncertainty. Keep it outside training.
@@ -327,6 +342,10 @@ Priority order for the next development session:
    automated adapter/evaluation metadata capture.
 9. Only after the above, consider expanding beyond scalar dimensional QA into
    GD&T, uncertainty, calibration state or other manufacturing domains.
+
+The attempted longer V3 report training and V4 label-only training did not beat
+V2 on validation, so neither was promoted. More epochs on the same synthetic
+distribution are not considered a valid improvement.
 
 ## Project map
 

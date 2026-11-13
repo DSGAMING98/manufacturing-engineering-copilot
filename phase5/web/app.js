@@ -19,7 +19,7 @@ const specs = {
     scope:'Generates DRAFT_NOT_APPROVED records only. No automatic signature, approval or compliance claim.',
     fields:[['record_id','Record ID','IR-001'],['feature_id','Feature ID','SHAFT-1'],['drawing_id','Drawing ID','DR-001'],['revision','Drawing revision','A'],['nominal','Nominal size','20'],['measured','Measured size','20.03'],['tolerance','Symmetric tolerance (±)','0.05'],['unit','Unit','mm'],['equipment_id','Gauge/equipment ID','GAUGE-7'],['timestamp','ISO-8601 timestamp with offset','2026-11-13T09:30:00+05:30'],['operator_id','Operator ID (optional)','']]},
   knowledge: {label:'Document Evidence', subtitle:'Search locally registered procedures; only exact, line-numbered excerpts are returned.', icon:'⌕',
-    scope:'By default, fictional demo documents are EXCLUDED. Add permission-cleared, human-reviewed source files in Phase 4.',
+    scope:'The hosted demo searches FICTIONAL example documents only. Local mode can use permission-cleared, human-reviewed files.',
     fields:[['question','Ask about a registered document','What identifiers belong in an inspection record for traceability?']]}
 };
 let active = 'design';

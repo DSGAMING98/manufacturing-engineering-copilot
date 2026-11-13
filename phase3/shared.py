@@ -7,6 +7,12 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / 'phase3' / 'data'
 RESULTS_DIR = ROOT / 'results' / 'phase3'
 
+CLASSIFIER_SYSTEM = (
+    'Classify one scalar dimensional-inspection request. Use only supplied fields and inclusive bounds. '
+    'Return exactly one line: Decision: PASS, Decision: FAIL, or Decision: INSUFFICIENT_DATA. '
+    'Do not explain, invent evidence, cite standards, or authorize product release. /no_think'
+)
+
 
 def settings():
     return json.loads((ROOT / 'configs' / 'phase3_v2.json').read_text(encoding='utf-8'))

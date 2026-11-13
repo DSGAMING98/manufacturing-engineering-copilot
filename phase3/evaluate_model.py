@@ -12,7 +12,7 @@ from math import sqrt
 from pathlib import Path
 import re
 
-from phase3.shared import DATA_DIR, RESULTS_DIR, atomic_json, read_jsonl, settings, write_jsonl
+from phase3.shared import CLASSIFIER_SYSTEM, DATA_DIR, RESULTS_DIR, atomic_json, read_jsonl, settings, write_jsonl
 from phase3.validate_data import validate
 
 DECISION = re.compile(r'^\s*Decision:\s*(PASS|FAIL|INSUFFICIENT_DATA)\b', re.I | re.M)
@@ -62,6 +62,12 @@ def main():
     p.add_argument('--adapter', type=Path, help='Leave blank for base foundation model')
     p.add_argument('--tag', required=True, help='Use base, v1, v2, etc. to distinguish results')
     p.add_argument('--limit', type=int, help='Quick diagnostic subset only; not official split metric')
+    p.add_argument('--batch-size', type=int, default=4,
+                   help='GPU generation batch size (default: 4; lower if VRAM is limited)')
+    p.add_argument('--max-new-tokens', type=int, default=None,
+                   help='Override generation length for diagnostics; official reports use the configured value')
+    p.add_argument('--classification-prompt', action='store_true',
+                   help='Use the constrained one-line classifier protocol')
     p.add_argument('--confirm-final-test', action='store_true',
                    help='Confirm held-out test evaluation after choosing model using validation only')
     args = p.parse_args()
@@ -71,12 +77,17 @@ def main():
         p.error('Test is locked to discourage repeated tuning. Add --confirm-final-test once at final evaluation.')
     if args.limit is not None and args.limit < 1:
         p.error('--limit must be positive')
+    if not 1 <= args.batch_size <= 32:
+        p.error('--batch-size must be between 1 and 32')
+    if args.max_new_tokens is not None and not 4 <= args.max_new_tokens <= 512:
+        p.error('--max-new-tokens must be between 4 and 512')
     validate()
     cfg = settings()
+    generation_tokens = args.max_new_tokens or cfg['max_new_tokens']
     # Import Unsloth first for patching the user's working stack.
     from unsloth import FastLanguageModel
     import torch
-    from src.common import generate, load_model
+    from src.common import generate_batch, load_model
     if not torch.cuda.is_available():
         raise RuntimeError('CUDA unavailable')
     model, tokenizer = load_model(cfg['model_name'], cfg['max_seq_length'])
@@ -91,19 +102,34 @@ def main():
     if args.limit is not None:
         rows = rows[:args.limit]
     predicted = []
-    for idx, record in enumerate(rows, 1):
-        answer = generate(model, tokenizer, record['messages'][:-1], max_new_tokens=cfg['max_new_tokens'])
-        guess = parse_decision(answer)
-        gold = record['gold_decision']
-        predicted.append({'id': record['id'], 'gold': gold, 'prediction': guess,
-                          'correct': gold == guess, 'raw_response': answer})
-        print(f'[{idx}/{len(rows)}] {record["id"]} expected={gold} predicted={guess}')
+    for start in range(0, len(rows), args.batch_size):
+        batch = rows[start:start + args.batch_size]
+        message_batches = []
+        for record in batch:
+            messages = record['messages'][:-1]
+            if args.classification_prompt:
+                messages = [{'role': 'system', 'content': CLASSIFIER_SYSTEM}, messages[1]]
+            message_batches.append(messages)
+        answers = generate_batch(
+            model, tokenizer, message_batches,
+            max_new_tokens=generation_tokens,
+        )
+        for offset, (record, answer) in enumerate(zip(batch, answers), 1):
+            idx = start + offset
+            guess = parse_decision(answer)
+            gold = record['gold_decision']
+            predicted.append({'id': record['id'], 'gold': gold, 'prediction': guess,
+                              'correct': gold == guess, 'raw_response': answer.strip()})
+            print(f'[{idx}/{len(rows)}] {record["id"]} expected={gold} predicted={guess}', flush=True)
     metric = scores(predicted)
     report = {'system': 'standalone foundation or LoRA model, NOT hybrid calculator',
               'data': 'synthetic_rule_generated_phase3; no industrial validation',
               'data_sha256': hashlib.sha256((DATA_DIR / f'{args.split}.jsonl').read_bytes()).hexdigest(),
               'split': args.split, 'tag': args.tag, 'adapter': str(args.adapter) if args.adapter else None,
-              'subset_limit': args.limit, 'scores': metric}
+              'subset_limit': args.limit, 'generation_batch_size': args.batch_size,
+              'generation_max_new_tokens': generation_tokens,
+              'evaluation_protocol': 'decision_label_only' if args.classification_prompt else 'four_line_report',
+              'scores': metric}
     name = f'{args.tag}_{args.split}' + ('_quick' if args.limit is not None else '')
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     atomic_json(RESULTS_DIR / f'{name}.json', report)
