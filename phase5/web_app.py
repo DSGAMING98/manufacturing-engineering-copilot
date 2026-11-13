@@ -20,6 +20,7 @@ ASSETS = {
     '/': ('index.html', 'text/html; charset=utf-8'),
     '/app.js': ('app.js', 'application/javascript; charset=utf-8'),
     '/style.css': ('style.css', 'text/css; charset=utf-8'),
+    '/logo.png': ('mfg-copilot-logo.png', 'image/png'),
 }
 MAX_BODY = 8192
 
@@ -52,7 +53,7 @@ def make_handler(include_demo=False, corpus=None):
             self.send_header('Cross-Origin-Resource-Policy', 'same-origin')
             self.send_header('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
             self.send_header('Referrer-Policy', 'no-referrer')
-            self.send_header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'none'; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none'")
+            self.send_header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none'")
             self.end_headers()
 
         def _return(self, code: int, body: bytes, mime='application/json; charset=utf-8'):

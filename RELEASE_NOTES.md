@@ -2,6 +2,10 @@
 
 ## Domain-assistant and tool-routing update
 
+- Redesigned the responsive workbench around the MFG Copilot logo and blue/teal
+  identity, with clearer navigation, system status, example prompts, input
+  hierarchy, traceability output, mobile navigation, and accessible focus states.
+
 - Added a fail-closed router-data validator and removed duplicate prompts from
   the expanded dataset. All 1,484 records now pass structural/provenance checks,
   with zero normalized prompt overlap across train, validation, test, and both
@@ -48,7 +52,7 @@
 
 - Operator-reported Phase 3 same-split standalone model validation: base 40/90; V1 38/90; V2 59/90.
 - V2 false PASS: 1; false FAIL: 24. The research prototype therefore uses deterministic calculations for engineering decisions.
-- 124/124 CPU unit tests, 16/16 toy demo retrieval cases, 30/30 hand-authored six-domain cases, and 529/529 generated tolerance boundary cases passed in the packaging environment.
+- 125/125 CPU unit tests, 16/16 toy demo retrieval cases, 30/30 hand-authored six-domain cases, and 529/529 generated tolerance boundary cases passed in the packaging environment.
 - No GPU model benchmark was executed in the packaging environment. The original adapters and private generated prediction outputs remain on the user's laptop.
 
 ## Graphs

@@ -28,6 +28,17 @@ const specs = {
 let active = 'assistant';
 const $ = id => document.getElementById(id);
 const nav = $('nav'), form = $('tool-form');
+const examples = {
+  assistant: [
+    ['Quality check','Check quality: nominal=20, measured=20.03, tolerance=0.05, unit=mm'],
+    ['Calculate OEE','Calculate OEE with planned time=480, run time=420, ideal cycle=1, total parts=350, good parts=335'],
+    ['Find evidence','Find registered document evidence about inspection record traceability']
+  ],
+  knowledge: [
+    ['Traceability fields','What identifiers belong in an inspection record for traceability?'],
+    ['Missing evidence','What should happen when a required source is unavailable?']
+  ]
+};
 function node(tag, className, text) {
   const e = document.createElement(tag); if(className) e.className=className;
   if(text!==undefined) e.textContent=text; return e;
@@ -42,8 +53,8 @@ function activate(key) {
   for(const btn of nav.children) {btn.classList.toggle('selected',btn.dataset.domain===key);btn.setAttribute('aria-current',btn.dataset.domain===key?'page':'false');}
   $('crumb-domain').textContent=key.toUpperCase();$('page-title').textContent=spec.label;
   $('page-subtitle').textContent=spec.subtitle;$('scope-text').textContent=spec.scope;
-  $('form-title').textContent=key==='knowledge'?'DOCUMENT QUERY':'INPUT PARAMETERS';
-  $('field-count').textContent=String(spec.fields.length).padStart(2,'0')+' FIELDS';
+  $('form-title').textContent=key==='knowledge'?'DOCUMENT QUERY':key==='assistant'?'MANUFACTURING REQUEST':'INPUT PARAMETERS';
+  $('field-count').textContent=String(spec.fields.length).padStart(2,'0')+' '+(spec.fields.length===1?'FIELD':'FIELDS');
   $('fields').replaceChildren();
   for(const [id, label, value] of spec.fields) {
     const wrap=node('div','field'); const l=node('label','',label); l.htmlFor='field-'+id;
@@ -52,9 +63,25 @@ function activate(key) {
     if(key==='knowledge'||key==='assistant') input.rows=4; else input.type='text';
     wrap.append(l,input); $('fields').append(wrap);
   }
+  $('quick-prompts').replaceChildren();
+  for(const [label,value] of examples[key]||[]) {
+    const chip=node('button','prompt-chip',label); chip.type='button';
+    chip.addEventListener('click',()=>{$('field-'+spec.fields[0][0]).value=value;$('field-'+spec.fields[0][0]).focus();});
+    $('quick-prompts').append(chip);
+  }
   $('run').querySelector('span').textContent=key==='knowledge'?'SEARCH EVIDENCE':key==='assistant'?'ASK COPILOT':'RUN CHECK';
   $('result').hidden=true;$('empty').hidden=false;$('output-mode').textContent='AWAITING INPUT';
+  document.body.classList.remove('menu-open');$('menu-button').setAttribute('aria-expanded','false');
 }
+$('menu-button').addEventListener('click',()=>{
+  const open=document.body.classList.toggle('menu-open');
+  $('menu-button').setAttribute('aria-expanded',String(open));
+});
+document.addEventListener('click',event=>{
+  if(document.body.classList.contains('menu-open')&&!$('sidebar').contains(event.target)&&!$('menu-button').contains(event.target)) {
+    document.body.classList.remove('menu-open');$('menu-button').setAttribute('aria-expanded','false');
+  }
+});
 form.addEventListener('submit',async e=>{
   e.preventDefault(); const key=active; const spec=specs[key]; const fields={};
   for(const [id] of spec.fields) {

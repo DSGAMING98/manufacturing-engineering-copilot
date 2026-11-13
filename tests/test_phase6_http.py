@@ -49,6 +49,13 @@ class Phase6HTTPTests(unittest.TestCase):
         self.assertEqual(headers.get('X-Frame-Options'),'DENY')
         self.assertEqual(headers.get('Cross-Origin-Resource-Policy'),'same-origin')
 
+    def test_brand_logo_is_served_under_image_policy(self):
+        code,body,headers=self.request('GET','/logo.png')
+        self.assertEqual(code,200)
+        self.assertGreater(len(body),1000)
+        self.assertEqual(headers.get('Content-Type'),'image/png')
+        self.assertIn("img-src 'self'",headers.get('Content-Security-Policy',''))
+
     def test_forbidden_host_header(self):
         code,_,_=self.request('GET','/health',host='evil.example')
         self.assertEqual(code,403)

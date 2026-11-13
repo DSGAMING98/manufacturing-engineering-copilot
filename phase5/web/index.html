@@ -3,54 +3,97 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Manufacturing Engineering Copilot</title>
+<meta name="theme-color" content="#073f70">
+<meta name="description" content="A traceable manufacturing engineering copilot for design, process, production, quality, maintenance, documentation and source evidence.">
+<title>MFG Copilot · Manufacturing Engineering Assistant</title>
+<link rel="icon" type="image/png" href="/logo.png">
 <link rel="stylesheet" href="/style.css">
 <script src="/app.js" defer></script>
 </head>
 <body>
-<div class="layout">
-  <aside class="sidebar" aria-label="Domain navigation">
-    <div class="identity">
-      <div class="mark" aria-hidden="true">M<span>EC</span></div>
-      <div><div class="brand">MFG COPILOT</div><div class="subbrand">ENGINEERING ASSISTANT</div></div>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar" aria-label="Domain navigation">
+    <div class="brand-lockup">
+      <div class="brand-symbol" aria-hidden="true"><img src="/logo.png" alt=""></div>
+      <div><div class="brand-name">MFG <span>Copilot</span></div><div class="brand-kicker">ENGINEERING INTELLIGENCE</div></div>
     </div>
-    <div class="side-title">WORKSPACES</div>
+    <div class="system-card">
+      <span class="live-dot" aria-hidden="true"></span>
+      <div><strong>System ready</strong><small>Deterministic tool mode</small></div>
+      <span class="system-code">CPU</span>
+    </div>
+    <div class="side-title">ENGINEERING WORKSPACES</div>
     <nav class="nav" id="nav" aria-label="Workspaces"></nav>
-    <div class="sidebar-bottom">
-      <div class="status-dot"></div> CPU TOOL MODE<br>
-      <small>Natural-language routing with deterministic, traceable calculations.</small>
+    <div class="sidebar-note">
+      <strong>Research prototype</strong>
+      <p>Calculations are traceable. Manufacturing approval always remains human.</p>
     </div>
   </aside>
+
   <main class="main">
-    <div class="topbar">
-      <span class="crumb">MANUFACTURING INTELLIGENCE / <span id="crumb-domain">DESIGN</span></span>
-      <span class="proto">VALIDATED PROTOTYPE</span>
-    </div>
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-button" id="menu-button" type="button" aria-label="Toggle navigation" aria-controls="sidebar" aria-expanded="false">☰</button>
+        <span class="crumb">MFG COPILOT <span>/</span> <b id="crumb-domain">ASSISTANT</b></span>
+      </div>
+      <div class="topbar-actions">
+        <span class="safety-badge"><i aria-hidden="true"></i> HUMAN REVIEW REQUIRED</span>
+        <a class="github-link" href="https://github.com/DSGAMING98/manufacturing-engineering-copilot" target="_blank" rel="noreferrer">VIEW SOURCE <span aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+
     <section class="hero">
-      <div class="eyebrow">DOMAIN-SPECIFIC ASSISTANT</div>
-      <h1 id="page-title">Design Engineering</h1>
-      <p id="page-subtitle">Conservative, traceable engineering calculations with explicit limits.</p>
+      <div class="hero-copy">
+        <div class="eyebrow"><span></span> MANUFACTURING ENGINEERING COPILOT</div>
+        <h1 id="page-title">Copilot Assistant</h1>
+        <p id="page-subtitle">Describe the engineering task in plain language. The copilot routes it to a verified tool and asks for missing evidence.</p>
+      </div>
+      <div class="capability-strip" aria-label="System capabilities">
+        <div><strong>07</strong><span>WORKSPACES</span></div>
+        <div><strong>100%</strong><span>TRACEABLE MATH</span></div>
+        <div><strong>SHA-256</strong><span>SOURCE INTEGRITY</span></div>
+      </div>
     </section>
+
     <div class="workspace">
-      <section class="panel form-panel" aria-label="Inputs">
-        <div class="panel-head"><h2 id="form-title">INPUT PARAMETERS</h2><span class="count-tag" id="field-count">04 FIELDS</span></div>
-        <form id="tool-form">
-          <div class="form-grid" id="fields"></div>
-          <button class="run-btn" id="run" type="submit"><span>RUN CHECK</span><span aria-hidden="true">↗</span></button>
-        </form>
-        <div class="scope"><span class="scope-icon">ⓘ</span><span id="scope-text">This calculation is an educational check. Human engineering review remains necessary.</span></div>
+      <section class="panel input-panel" aria-label="Engineering inputs">
+        <div class="panel-head">
+          <div><span class="panel-index">01</span><h2 id="form-title">MANUFACTURING REQUEST</h2></div>
+          <span class="count-tag" id="field-count">01 FIELD</span>
+        </div>
+        <div class="panel-body">
+          <form id="tool-form">
+            <div class="form-grid" id="fields"></div>
+            <div class="quick-prompts" id="quick-prompts" aria-label="Example requests"></div>
+            <button class="run-btn" id="run" type="submit"><span>ASK COPILOT</span><span class="button-arrow" aria-hidden="true">→</span></button>
+          </form>
+          <div class="scope"><span class="scope-icon">i</span><span id="scope-text">The assistant extracts only explicitly labelled values. It never invents measurements, standards, or approval authority.</span></div>
+        </div>
       </section>
+
       <section class="panel output-panel" aria-live="polite">
-        <div class="panel-head"><h2>VERIFIED OUTPUT</h2><span class="count-tag" id="output-mode">AWAITING INPUT</span></div>
-        <div class="result-empty" id="empty"><div class="result-graphic">◎</div><div>Ready for your inputs</div><small>Run a calculation to inspect the traceable result.</small></div>
+        <div class="panel-head">
+          <div><span class="panel-index">02</span><h2>TRACEABLE OUTPUT</h2></div>
+          <span class="count-tag output-tag" id="output-mode">AWAITING INPUT</span>
+        </div>
+        <div class="result-empty" id="empty">
+          <div class="result-orbit" aria-hidden="true"><span></span><i></i></div>
+          <strong>Ready to assist</strong>
+          <p>Enter a request or choose an example. Results will appear here with calculation details and evidence.</p>
+          <div class="empty-checks"><span>✓ Deterministic calculations</span><span>✓ Explicit refusals</span><span>✓ Source citations</span></div>
+        </div>
         <div id="result" hidden>
-          <div class="result-status" id="result-status"></div>
+          <div class="result-meta"><span>RESULT STATUS</span><div class="result-status" id="result-status"></div></div>
           <pre id="result-text"></pre>
-          <div id="result-evidence"></div>
+          <div class="evidence-box"><span class="evidence-label">TRACEABILITY</span><div id="result-evidence"></div></div>
         </div>
       </section>
     </div>
-    <footer class="footer"><span>DESIGN · PROCESS · PRODUCTION · QUALITY · MAINTENANCE · DOCUMENTATION</span><span>Calculations are deterministic; final engineering approval remains human.</span></footer>
+
+    <footer class="footer">
+      <span>DESIGN · PROCESS · PRODUCTION · QUALITY · MAINTENANCE · DOCUMENTATION · EVIDENCE</span>
+      <span>Research prototype · No autonomous product release or equipment control</span>
+    </footer>
   </main>
 </div>
 </body>

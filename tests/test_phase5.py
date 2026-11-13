@@ -169,7 +169,7 @@ class SixDomainTests(unittest.TestCase):
         self.assertEqual(r['status'],'INSUFFICIENT_DATA')
 
     def test_web_files_present(self):
-        for file in ('index.html','app.js','style.css'):
+        for file in ('index.html','app.js','style.css','mfg-copilot-logo.png'):
             self.assertTrue((WEB/file).is_file())
 
     def test_regression_cases(self):

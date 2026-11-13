@@ -1,5 +1,9 @@
 # LLM-Based Manufacturing Engineering Copilot for Design, Production, Quality, and Maintenance
 
+<p align="center">
+  <img src="phase5/web/mfg-copilot-logo.png" alt="MFG Copilot — Manufacturing Engineering Copilot" width="390">
+</p>
+
 A local research prototype that combines a Qwen3-1.7B QLoRA experiment with
 deterministic engineering calculations and source-cited document retrieval.
 
@@ -8,6 +12,10 @@ deterministic engineering calculations and source-cited document retrieval.
 
 **Live research workbench:**
 [manufacturing-engineering-copilot.vercel.app](https://manufacturing-engineering-copilot.vercel.app/)
+
+The responsive workbench uses the MFG Copilot visual identity and provides one
+consistent interface for natural-language routing, engineering calculators,
+draft documentation, and source-grounded evidence search.
 
 The hosted version runs the deterministic CPU tools and searches only the
 clearly labelled fictional demonstration corpus. It does not load model weights
