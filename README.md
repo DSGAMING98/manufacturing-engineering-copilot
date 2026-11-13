@@ -134,7 +134,7 @@ python -m venv .venv
 Training writes:
 
 - `real_models/evidence/real_model_report.json` — committed metrics and provenance;
-- `real_models/artifacts/steel_fault_forest.json.gz` — deployed forest;
+- `phase5/model/steel_fault_forest.json.gz` — deployed forest;
 - `real_models/artifacts/secom_failure_model.joblib` — local-only model;
 - `data/raw/public_real/` — local-only original archives and extracted files.
 

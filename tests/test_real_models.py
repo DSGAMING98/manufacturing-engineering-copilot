@@ -3,7 +3,7 @@ from pathlib import Path
 import unittest
 
 from phase5.web_app import process_payload
-from real_models.inference import load_model, predict_steel_fault
+from phase5.real_model import load_model, predict_steel_fault
 
 
 class RealModelTests(unittest.TestCase):

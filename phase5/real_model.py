@@ -7,7 +7,7 @@ import math
 from functools import lru_cache
 from pathlib import Path
 
-ARTIFACT = Path(__file__).with_name("artifacts") / "steel_fault_forest.json.gz"
+ARTIFACT = Path(__file__).with_name("model") / "steel_fault_forest.json.gz"
 
 
 @lru_cache(maxsize=1)

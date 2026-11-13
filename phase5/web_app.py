@@ -14,7 +14,7 @@ from urllib.parse import urlsplit
 from phase5.copilot import run
 from phase5.assistant import assist
 from phase4.retrieval import load_corpus
-from real_models.inference import predict_steel_fault
+from phase5.real_model import predict_steel_fault
 
 WEB = Path(__file__).resolve().parent / 'web'
 ASSETS = {

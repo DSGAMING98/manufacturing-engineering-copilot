@@ -213,7 +213,7 @@ def main() -> None:
     steel_folder, steel_hash = fetch("steel")
     steel_report, steel_model = train_steel(steel_folder)
     secom_report, secom_model = train_secom(secom_folder)
-    export_forest(steel_model, ARTIFACTS / "steel_fault_forest.json.gz")
+    export_forest(steel_model, ROOT / "phase5" / "model" / "steel_fault_forest.json.gz")
     joblib.dump(secom_model, ARTIFACTS / "secom_failure_model.joblib")
     report = {
         "report_version": 1, "trained_at": "2026-11-14", "data_policy": "observed_public_records_only",
