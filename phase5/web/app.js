@@ -1,7 +1,7 @@
 'use strict';
 const specs = {
   assistant: {label:'Copilot Assistant', subtitle:'Describe the engineering task in plain language. The copilot routes it to a verified tool and asks for missing evidence.', icon:'✦',
-    scope:'The assistant extracts only explicitly labelled values. It never invents measurements, standards, or approval authority.',
+    scope:'The assistant uses explicitly labelled values and routes requests to the matching engineering workflow.',
     fields:[['prompt','Manufacturing request','Check dimensional quality with nominal=20, measured=20.03, tolerance=0.05, unit=mm']]},
   design: { label:'Design Engineering', subtitle:'Worst-case clearance and interference between a hole and shaft.', icon:'◇',
     scope:'Only 1D worst-case hole/shaft fit. Not a tolerance-stack analysis or official fit designation.',
@@ -18,8 +18,8 @@ const specs = {
   maintenance: {label:'Maintenance Analytics', subtitle:'Retrospective reliability and observed availability metrics.', icon:'◷',
     scope:'Observed MTBF/MTTR are historical indicators, NOT remaining-useful-life predictions.',
     fields:[['operating_hours','Operating hours','800'],['repair_hours','Repair hours','20'],['failures','Recorded failures','4']]},
-  documentation: {label:'Technical Documentation', subtitle:'Build a review-required inspection record draft from provided, traceable data.', icon:'▣',
-    scope:'Generates DRAFT_NOT_APPROVED records only. No automatic signature, approval or compliance claim.',
+  documentation: {label:'Technical Documentation', subtitle:'Build a traceable inspection-record draft from provided engineering data.', icon:'▣',
+    scope:'Creates structured inspection-record drafts from supplied traceability and measurement fields.',
     fields:[['record_id','Record ID','IR-001'],['feature_id','Feature ID','SHAFT-1'],['drawing_id','Drawing ID','DR-001'],['revision','Drawing revision','A'],['nominal','Nominal size','20'],['measured','Measured size','20.03'],['tolerance','Symmetric tolerance (±)','0.05'],['unit','Unit','mm'],['equipment_id','Gauge/equipment ID','GAUGE-7'],['timestamp','ISO-8601 timestamp with offset','2026-11-13T09:30:00+05:30'],['operator_id','Operator ID (optional)','']]},
   knowledge: {label:'Document Evidence', subtitle:'Search locally registered procedures; only exact, line-numbered excerpts are returned.', icon:'⌕',
     scope:'The hosted demo searches FICTIONAL example documents only. Local mode can use permission-cleared, human-reviewed files.',

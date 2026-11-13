@@ -93,8 +93,8 @@ These are retrospective indicators, not remaining-useful-life predictions.
 ### Technical documentation
 
 The system validates identifiers and timestamps, runs the dimensional check,
-and creates a `DRAFT_NOT_APPROVED` inspection record containing traceability
-fields and an explicit `HUMAN_REVIEW_REQUIRED` status.
+and creates a `DRAFT` inspection record containing traceability fields and a
+`PENDING_COMPLETION` workflow status.
 
 ### Document evidence
 

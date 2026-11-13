@@ -22,11 +22,10 @@ Phase 4 comprises three separate mechanisms:
 
 There is no external standards library, vector database, search API, background indexing service, or new dependency. Do not call demo excerpts “approved industrial knowledge.”
 
-## Installing into your working PyCharm folder
+## Running Phase 4
 
-Extract the ZIP contents directly inside `C:\Users\Prajwal\Desktop\python\manufacturing-copilot` (the project root shown in your log). Merge new folders but **do not remove or overwrite** `.venv/`, `models/`, `results/`, `src/`, `phase3/`, existing tests or saved adapters. Phase 4 ships new files only.
-
-Run from the PyCharm terminal:
+Run from PowerShell at the repository root. Local model checkpoints, generated
+results, and private source documents are intentionally excluded from Git.
 
 ```powershell
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v

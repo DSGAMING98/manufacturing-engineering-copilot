@@ -1,6 +1,7 @@
 # Phase 2: Deterministic engineering QA
 
-This update **does not delete or retrain your existing adapter**. Merge these files into the existing `manufacturing-copilot` root. The ZIP includes only new files, so do not extract it as a second nested project.
+Phase 2 adds the verified dimensional-inspection workflow without deleting or
+retraining an existing adapter. Run commands from the repository root.
 
 ## Run in PyCharm PowerShell
 
@@ -12,7 +13,9 @@ This update **does not delete or retrain your existing adapter**. Merge these fi
 .\.venv\Scripts\python.exe -m src.verified_qa --text "A shaft has nominal diameter 20.00 mm with tolerance ±0.05 mm. Measured diameter is 20.03 mm."
 ```
 
-The verified CLI intentionally does **not** ask the SLM to calculate or override a decision. Your existing `src.chat` continues to be an **unverified model-only demo**, not a validated inspection workflow. For any real dimensional inspection use `src.verified_qa` instead.
+The verified CLI intentionally does **not** ask the SLM to calculate or override
+a decision. `src.chat` remains an **unverified model-only demo**, not a validated
+inspection workflow. Use `src.verified_qa` for deterministic dimensional checks.
 
 Limits: single scalar measurement; all values in same specified unit; inclusive bounds; no measurement uncertainty, GD&T, calibration, or ISO compliance inference; no automated product-release authorization. The natural-language parser is intentionally narrow and refuses unsupported input rather than guessing. For reliable use, prefer structured CLI flags.
 

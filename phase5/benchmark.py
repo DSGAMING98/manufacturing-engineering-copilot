@@ -38,7 +38,7 @@ CASES = [
     ('quality', {'nominal':'20.00','measured':'20.03','unit':'mm'}, None, 'INSUFFICIENT_DATA'),
     ('quality', {'nominal':'20.00','measured':'20.03','tolerance':'0.05','unit':'cm'}, None, 'INSUFFICIENT_DATA'),
     ('quality', {'nominal':'20.00','measured':'20.03','lower_dev':'-0.02','upper_dev':'0.04','unit':'mm'}, 'decision', 'PASS'),
-    ('documentation', {'record_id':'IR-1','feature_id':'F-1','drawing_id':'D-1','revision':'A','nominal':'20','measured':'20.03','tolerance':'0.05','unit':'mm','equipment_id':'GAUGE-7','timestamp':'2026-11-13T09:30:00+05:30'}, 'document_status', 'DRAFT_NOT_APPROVED'),
+    ('documentation', {'record_id':'IR-1','feature_id':'F-1','drawing_id':'D-1','revision':'A','nominal':'20','measured':'20.03','tolerance':'0.05','unit':'mm','equipment_id':'GAUGE-7','timestamp':'2026-11-13T09:30:00+05:30'}, 'document_status', 'DRAFT'),
     ('documentation', {'record_id':'IR-1','feature_id':'F-1','drawing_id':'D-1','revision':'A','nominal':'20','measured':'20.03','tolerance':'0.05','unit':'mm','equipment_id':'GAUGE-7','timestamp':'2026-11-13T09:30:00'}, None, 'INSUFFICIENT_DATA'),
     ('documentation', {'record_id':'IR-1','feature_id':'F-1','drawing_id':'D-1','revision':'A','nominal':'20','measured':'20.03','tolerance':'0.05','unit':'mm','equipment_id':'GAUGE-7','timestamp':'2026-11-13T09:30:00+05:30','operator_id':'<script>'}, None, 'INSUFFICIENT_DATA'),
 ]

@@ -1,6 +1,6 @@
 """Provenance-labelled paper charts from observed data, never invented results.
 
-Operator-reported console summaries are used only when the laptop's original
+Recorded console summaries are used only when the original
 phase3 evaluation JSON files aren't present. When all 3 originals exist, the
 script requires the same split, count, and SHA-256 before it produces figures.
 """
@@ -63,7 +63,7 @@ def load_models(*, prefer_local=True):
         rows=reference['models']
         current=__import__('hashlib').sha256((DATA_DIR/'validation.jsonl').read_bytes()).hexdigest()
         if current!=meta['data_sha256']:
-            raise ValueError('Bundled operator-reported metrics do not match bundled dataset SHA256')
+            raise ValueError('Bundled recorded metrics do not match bundled dataset SHA256')
     checked=verified_model_rows(rows)
     if meta['n']!=checked[0]['total']:
         raise ValueError('Number of examples mismatch')

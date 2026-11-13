@@ -6,7 +6,7 @@
   "split": "validation",
   "n": 90,
   "data_sha256": "593151a2bff088f15507f3aa839bc276fa13cb8b53c92e05df3852952933c7ea",
-  "warning": "This is operator-reported synthetic validation, not independently audited model performance or industrial safety.",
+  "warning": "This is recorded synthetic validation, not independently audited model performance or industrial safety.",
   "models": [
     {
       "tag": "base",

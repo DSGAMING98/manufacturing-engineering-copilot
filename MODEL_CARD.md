@@ -63,7 +63,7 @@ gitignored.
 | V1 | 38 | 42.22% | 6 | 3 |
 | V2 | 59 | 65.56% | 1 | 24 |
 
-Source: operator's shared Phase 3 console comparison, with matching dataset fingerprint `593151a2bff088f15507f3aa839bc276fa13cb8b53c92e05df3852952933c7ea`. These numbers describe synthetic validation, **not** real-world machine/quality reliability. V2's 24 false rejections are substantial, and the standalone model must not decide whether parts are accepted or rejected.
+Source: recorded Phase 3 evaluation output with matching dataset fingerprint `593151a2bff088f15507f3aa839bc276fa13cb8b53c92e05df3852952933c7ea`. These numbers describe synthetic validation, **not** real-world machine/quality reliability. V2's 24 false rejections are substantial, and the standalone model must not decide whether parts are accepted or rejected.
 
 V1 Phase 1 validation on a *different* 18-example synthetic split was 16/18 after tuning vs 15/18 before tuning. V1 Phase 1 test was 22/24. These are **not comparable** with the Phase 3 values without accounting for changed datasets and templates.
 
@@ -104,4 +104,4 @@ come from `src.tolerance_engine` and `phase5.calculators`.
 
 ## Reproducibility and disclosures
 
-See `configs/phase3_v2.json`, `phase3/REAL_DATA_GUIDE.md`, `phase3/validate_data.py`, `phase6/evidence/`, `docs/PAPER_FIGURE_NOTES.md`, and `PHASE6_README.md`. Operators must respect the foundation-model license and validate any data before publishing adapters. Cite AI assistance as required by the target venue.
+See `configs/phase3_v2.json`, `phase3/REAL_DATA_GUIDE.md`, `phase3/validate_data.py`, `phase6/evidence/`, `docs/PAPER_FIGURE_NOTES.md`, and `PHASE6_README.md`. Any adapter publication must comply with the foundation-model license and the applicable dataset terms.

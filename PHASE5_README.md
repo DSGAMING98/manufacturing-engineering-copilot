@@ -1,6 +1,8 @@
 # Manufacturing Engineering Copilot · Phase 5: Six-domain workbench
 
-**Version:** research prototype, local-only. **Install type:** add-only ZIP overlay to the functioning Phase 1–4 PyCharm project. No pretrained model weights, `.venv`, `src`, or existing folders are overwritten. The package adds `phase5/`, a Phase 5 unit-test file, four convenience BAT scripts, and these docs. **Your V1 and V2 QLoRA adapters remain untouched.**
+**Version:** research prototype. Phase 5 adds the six-domain workbench, browser
+interface, regression suite, and deterministic engineering tools. Model weights,
+virtual environments, and generated results are not stored in Git.
 
 ## Purpose and honest scope
 
@@ -18,11 +20,9 @@ Phase 3's model-only validation on 90 synthetic examples showed base 44.44%, V1 
 
 The supplied regression examples and fictional demonstration docs are **not independent industrial validation**.
 
-## Install in PyCharm
+## Run the workbench
 
-1. Extract `Manufacturing_Copilot_Phase5_Six_Domain_Workbench.zip` so that `phase5/` is directly inside `C:\Users\Prajwal\Desktop\python\manufacturing-copilot\phase5\`. Do **not** create `manufacturing-copilot/phase5/phase5` or a second project folder.
-2. Merge the `tests/` folder. This ZIP only adds files; it does not include your `.venv`, `src`, `phase3`, `phase4`, `models` or `results` contents.
-3. In the existing PyCharm PowerShell terminal, from the project root:
+From PowerShell at the repository root:
 
 ```powershell
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
@@ -102,7 +102,8 @@ This uses the V2 LoRA solely to select a numbered excerpt already retrieved by P
 ### Documentation
 
 - `record_id`, `feature_id`, `drawing_id`, `revision`, `equipment_id`, timezone-aware ISO-8601 `timestamp`, plus nominal/measured/tolerance/unit are mandatory.
-- The output is **always marked `DRAFT_NOT_APPROVED` / `HUMAN_REVIEW_REQUIRED`**, even when the single-dimensional check PASSes.
+- The output is marked `DRAFT` with `PENDING_COMPLETION` workflow status, even
+  when the single-dimensional check passes.
 - No digital signature, immutable storage, user authentication or verified gauge calibration is implemented.
 
 ## Local UI/API security and privacy

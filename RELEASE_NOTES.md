@@ -50,21 +50,23 @@
 
 ## Observed evidence
 
-- Operator-reported Phase 3 same-split standalone model validation: base 40/90; V1 38/90; V2 59/90.
+- Recorded Phase 3 same-split standalone model validation: base 40/90; V1 38/90; V2 59/90.
 - V2 false PASS: 1; false FAIL: 24. The research prototype therefore uses deterministic calculations for engineering decisions.
-- 125/125 CPU unit tests, 16/16 toy demo retrieval cases, 30/30 hand-authored six-domain cases, and 529/529 generated tolerance boundary cases passed in the packaging environment.
-- No GPU model benchmark was executed in the packaging environment. The original adapters and private generated prediction outputs remain on the user's laptop.
+- 126/126 CPU unit tests, 16/16 toy demo retrieval cases, 30/30 hand-authored six-domain cases, and 529/529 generated tolerance boundary cases passed in the release verification run.
+- No GPU model benchmark was executed during source packaging. Adapter weights and generated prediction outputs remain local and are excluded from the repository.
 
 ## Graphs
 
 - `paper_figures/Fig01_model_validation_accuracy.png/.svg`: Wilson interval comparison from reported validation results.
 - `paper_figures/Fig02_false_acceptance_and_rejection.png/.svg`: error type counts.
-- `paper_figures/Fig03_v1_training_loss.png/.svg`: loss curve transcribed from operator's full Unsloth training log.
+- `paper_figures/Fig03_v1_training_loss.png/.svg`: loss curve transcribed from the recorded Unsloth training log.
 - `Fig04_v2_training_loss` is intentionally omitted until an actual local V2 `trainer_state.json` is available; run `python -m phase6.plot_results` in PyCharm to generate it.
 
 ## Packaging and publishing
 
-The source ZIP contains no `.venv`, model weights, local approved documents, generated prediction logs, or local results. The GitHub app must be given access to the target repository before any connector-driven push can succeed. `PUBLISH_GITHUB.ps1` can push after an empty repository is created and authenticated Git is configured; it never force-pushes.
+The repository excludes `.venv`, model weights, local approved documents,
+generated prediction logs, and local results. Publishing uses ordinary
+authenticated Git and never requires committing credentials.
 
 ## Intended use and limitations
 

@@ -47,7 +47,7 @@ Phase 3 evaluation population).”
 
 ## Optional Figure 4. V2 loss curve
 
-Run on the local PyCharm project after V2 training:
+Run from the local repository root after V2 training:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install -r requirements-phase6.txt

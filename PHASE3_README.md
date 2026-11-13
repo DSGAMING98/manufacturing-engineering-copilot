@@ -1,13 +1,8 @@
-# Manufacturing Copilot · Phase 3 (PyCharm / Windows / RTX 4060 8GB)
+# Manufacturing Copilot · Phase 3
 
-**Install this overlay into your EXISTING `manufacturing-copilot` project root.**
-This is not a standalone replacement project. Extract the ZIP so that you see
-`phase3/`, `configs/phase3_v2.json`, `tests/test_phase3.py`, and the `RUN_12_*.bat`
-files directly under the project root.
-
-**Do not remove, replace, or move** your `.venv/`, `src/`, original `data/`, `models/qa_qlora/adapter`, `configs/train.json`, or old research `results/`.
-The new model saves to `models/qa_qlora_v2/adapter` and the two-step smoke adapter
-is separate at `models/qa_qlora_v2_smoke/adapter`.
+Phase 3 contains the reproducible dataset, validation, training, and comparison
+pipeline for the QLoRA experiments. Run all commands from the repository root.
+Local environments, checkpoints, and generated results are excluded from Git.
 
 ## Exactly what Phase 3 includes
 
@@ -31,10 +26,10 @@ material, or evidence of industrial model generalization. The Phase 2 decision
 engine has not been expanded to cover GD&T, gauge uncertainty, process capability,
 calibration, sampling, or unattended QA. No autonomous product acceptance.
 
-## Run in your EXISTING PyCharm PowerShell terminal
+## Run from PowerShell
 
-Make sure you're inside `C:\Users\Prajwal\Desktop\python\manufacturing-copilot`.
-Keep using the existing `.venv` that already runs your RTX 4060.
+Activate the project virtual environment and run these commands from the
+repository root.
 
 ### 1. Offline data and integration checks
 

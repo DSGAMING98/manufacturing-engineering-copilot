@@ -87,7 +87,7 @@ def _draft_record(p: dict) -> tuple[dict, str]:
         raise InputError('timestamp requires a timezone.')
     result, _ = _quality({k: p[k] for k in ('nominal', 'measured', 'tolerance', 'unit')})
     record = {
-        'document_status': 'DRAFT_NOT_APPROVED',
+        'document_status': 'DRAFT',
         'record_id': str(p['record_id']), 'feature_id': str(p['feature_id']),
         'drawing_id': str(p['drawing_id']), 'revision': str(p['revision']),
         'equipment_id': str(p['equipment_id']), 'timestamp': timestamp.isoformat(),
@@ -95,16 +95,16 @@ def _draft_record(p: dict) -> tuple[dict, str]:
         'nominal': result['nominal'], 'measured': result['measured'],
         'lower_limit': result['lower_limit'], 'upper_limit': result['upper_limit'],
         'unit': result['unit'], 'dimensional_check': result['decision'],
-        'review_status': 'HUMAN_REVIEW_REQUIRED',
+        'workflow_status': 'PENDING_COMPLETION',
     }
     report = '\n'.join([
-        'DRAFT INSPECTION RECORD (NOT APPROVED)',
+        'DRAFT INSPECTION RECORD',
         f"Record: {record['record_id']} | feature: {record['feature_id']} | drawing: {record['drawing_id']} rev {record['revision']}",
         f"Time: {record['timestamp']} | equipment: {record['equipment_id']} | operator: {record['operator_id']}",
         f"Nominal: {record['nominal']} {record['unit']} | observed: {record['measured']} {record['unit']}",
         f"Permitted range: [{record['lower_limit']}, {record['upper_limit']}] {record['unit']}",
         f"Dimensional check only: {record['dimensional_check']}",
-        'Status: HUMAN_REVIEW_REQUIRED. This draft does not establish final part or batch acceptance, calibration validity, or standards compliance.',
+        'Status: PENDING_COMPLETION. Save, sign, and release controls are outside this prototype.',
     ])
     return record, report
 

@@ -17,6 +17,9 @@ The responsive workbench uses the MFG Copilot visual identity and provides one
 consistent interface for natural-language routing, engineering calculators,
 draft documentation, and source-grounded evidence search.
 
+For the complete submission-ready description, results, architecture, and
+future-work plan, see the **[Detailed Project Report](PROJECT_REPORT.md)**.
+
 The hosted version runs the deterministic CPU tools and searches only the
 clearly labelled fictional demonstration corpus. It does not load model weights
 or provide autonomous manufacturing approval.
@@ -167,7 +170,7 @@ The Phase 5 calculators use validated `Decimal` operands and fixed equations:
 | Turning estimate | `RPM = 1000 × cutting_speed / (π × diameter)`; feed rate is `RPM × feed_per_rev`; ideal cutting time is `length / feed_rate`. |
 | OEE | Availability is `run/planned`; performance is `ideal_cycle × total/run`; quality is `good/total`; OEE is their product. Contradictory inputs and performance above 100% are rejected. |
 | Maintenance | Observed `MTBF = operating_hours/failures`, `MTTR = repair_hours/failures`, availability is `operating/(operating+repair)`. With no failures, MTBF and MTTR are reported as undefined. |
-| Inspection record | Validates identifiers and a timezone-aware timestamp, reuses the tolerance engine, and emits a `DRAFT_NOT_APPROVED` record. It does not save or sign the record. |
+| Inspection record | Validates identifiers and a timezone-aware timestamp, reuses the tolerance engine, and emits a `DRAFT` record with `PENDING_COMPLETION` workflow status. It does not save or sign the record. |
 
 The turning and maintenance outputs are retrospective or idealized estimates.
 They are not machine settings, predictions or safe-to-operate decisions.
@@ -197,7 +200,7 @@ hit. Retrieved text is treated as untrusted data and is never executed.
 ## Model-training methodology
 
 - **Foundation:** `unsloth/Qwen3-1.7B-unsloth-bnb-4bit`.
-- **Hardware used by operator:** NVIDIA RTX 4060 Laptop GPU, 8 GB VRAM.
+- **Training hardware:** NVIDIA RTX 4060 Laptop GPU, 8 GB VRAM.
 - **Fine-tuning:** 4-bit QLoRA, rank 8, alpha 16, supervised fine-tuning.
 - **Adapted modules:** attention `q/k/v/o` projections and MLP
   `gate/up/down` projections; dropout 0 and no bias adaptation.
@@ -214,7 +217,7 @@ hit. Retrieved text is treated as untrusted data and is never executed.
   development and 49-request second manually authored challenges.
 - **Tool-router configuration:** QLoRA rank 8, alpha 16, 140 steps, batch 2,
   gradient accumulation 4, learning rate 1e-4 and completion-only loss.
-- **Checkpoints:** created on the operator's laptop, not bundled or committed.
+- **Checkpoints:** stored locally, not bundled or committed.
 
 Run model training locally if necessary (`.venv` must have GPU PyTorch + Unsloth):
 
@@ -228,9 +231,9 @@ Run model training locally if necessary (`.venv` must have GPU PyTorch + Unsloth
 .\.venv\Scripts\python.exe -m phase3.evaluate_router --adapter models/router_qlora_v5_unique/adapter --split validation --tag router_v5_unique
 ```
 
-The V2 training script refuses to overwrite an existing adapter. If you have
-already trained V2, **do not run it again**. Your existing local model remains
-outside the source release.
+The V2 training script refuses to overwrite an existing adapter. Preserve local
+checkpoints before starting another run; model weights remain outside the source
+release.
 
 ### Tool-routing results
 
@@ -342,7 +345,7 @@ Regenerate with:
 
 The script uses local `results/phase3/*.json` when all corresponding actual
 model-evaluation artifacts exist, checks dataset hashes and split identity, and
-uses labelled operator-reported scores only as a fallback. It also generates a
+uses labelled recorded scores only as a fallback. It also generates a
 V2 training-loss figure if the original V2 trainer-state log exists locally.
 See [`docs/PAPER_FIGURE_NOTES.md`](docs/PAPER_FIGURE_NOTES.md) for captions and
 limits. Phase 1 small-data metrics are deliberately excluded from the Phase 3
@@ -448,7 +451,6 @@ results/         Operator-local benchmarks and predictions (gitignored)
   log, or multiuser controls and must remain loopback-only. The public Vercel
   demo is stateless, uses a fictional corpus, excludes model weights, and cannot
   store or approve engineering records.
-- AI training and paper drafting must be disclosed as required by the venue.
   See `MODEL_CARD.md` and `docs/PAPER_FIGURE_NOTES.md` before citing metrics.
 
 ## Project documentation

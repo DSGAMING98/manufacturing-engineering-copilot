@@ -1,7 +1,7 @@
 """QLoRA V2: train from the original foundation model, not the Phase 1 adapter.
 
 This keeps V1 untouched for an apples-to-apples dataset comparison. GPU run
-must occur locally in the user's PyCharm environment; no GPU claim is made here.
+must occur in a compatible local GPU environment; no remote-training claim is made here.
 """
 from __future__ import annotations
 import argparse

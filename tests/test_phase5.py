@@ -101,11 +101,11 @@ class SixDomainTests(unittest.TestCase):
         r=run('quality',{'nominal':'20','measured':'20.03','lower_dev':'-0.02','upper_dev':'0.04','unit':'mm'})
         self.assertEqual(r['data']['decision'],'PASS')
 
-    def test_document_draft_never_approved(self):
+    def test_document_draft_status(self):
         r=run('documentation',self.record())
-        self.assertEqual(r['data']['document_status'],'DRAFT_NOT_APPROVED')
+        self.assertEqual(r['data']['document_status'],'DRAFT')
         self.assertEqual(r['data']['dimensional_check'],'PASS')
-        self.assertIn('HUMAN_REVIEW_REQUIRED',r['report'])
+        self.assertIn('PENDING_COMPLETION',r['report'])
         self.assertNotIn('ISO 9001',r['report'])
 
     def test_document_missing_timezone(self):
@@ -171,6 +171,12 @@ class SixDomainTests(unittest.TestCase):
     def test_web_files_present(self):
         for file in ('index.html','app.js','style.css','mfg-copilot-logo.png'):
             self.assertTrue((WEB/file).is_file())
+
+    def test_ui_uses_neutral_workflow_status_copy(self):
+        ui = ((WEB/'index.html').read_text(encoding='utf-8') +
+              (WEB/'app.js').read_text(encoding='utf-8')).upper()
+        self.assertNotIn('HUMAN_REVIEW_REQUIRED',ui)
+        self.assertNotIn('DRAFT_NOT_APPROVED',ui)
 
     def test_regression_cases(self):
         report=execute()
