@@ -6,6 +6,13 @@ deterministic engineering calculations and source-cited document retrieval.
 [![CPU checks](https://img.shields.io/badge/CPU%20regressions-reproducible-167D80)](#verification)
 [![Scope](https://img.shields.io/badge/status-research%20prototype-64748B)](#limitations-and-safety)
 
+**Live research workbench:**
+[manufacturing-engineering-copilot.vercel.app](https://manufacturing-engineering-copilot.vercel.app/)
+
+The hosted version runs the deterministic CPU tools and searches only the
+clearly labelled fictional demonstration corpus. It does not load model weights
+or provide autonomous manufacturing approval.
+
 The project covers six bounded manufacturing workflows. Numerical outputs come
 from deterministic Python functions, not model-generated arithmetic. Requests
 with missing inputs or unavailable documents are rejected rather than filled in
@@ -40,7 +47,7 @@ approved materials are not shipped.
 | Part | Status | Practical meaning |
 |---|---|---|
 | Deterministic calculators | Tested research prototype | Arithmetic and refusal paths pass the included regression suite |
-| Local browser and CLI | Working single-user prototype | Suitable for local demonstrations, not deployment |
+| Browser and CLI workbench | Working research prototype | Public CPU demo on Vercel; local mode remains available |
 | Document retrieval | Working on the fictional test corpus | Real retrieval quality has not been measured |
 | QLoRA V1/V2 adapters | Experimental | V2 is better than the base model on one synthetic validation split, but is not reliable enough to make decisions |
 | Held-out synthetic model test | Complete for V2 | 79/120 correct, but severe PASS-class failure prevents autonomous use |
