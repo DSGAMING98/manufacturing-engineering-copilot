@@ -20,6 +20,7 @@
   "functions": {
     "api/run.py": {
       "maxDuration": 10,
+      "includeFiles": "real_models/**",
       "excludeFiles": "{models/**,results/**,tests/**,data/**,phase3/**,paper_figures/**,docs/**}"
     }
   }
