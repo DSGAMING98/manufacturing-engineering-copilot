@@ -1,0 +1,70 @@
+{
+  "adapter": "models/router_qlora_v2/adapter (local only; weights not committed)",
+  "foundation_model": "unsloth/Qwen3-1.7B-unsloth-bnb-4bit",
+  "task": "seven_way_manufacturing_tool_routing",
+  "training": {
+    "examples": 700,
+    "optimizer_steps": 100,
+    "method": "QLoRA supervised fine-tuning",
+    "train_sha256": "6b1be340e77cd010e92a1e1290a3790a72cd4bb7a28801518e644c57676b251d"
+  },
+  "validation": {
+    "examples": 140,
+    "correct": 131,
+    "accuracy": 0.9357142857142857,
+    "wilson_95_interval": [0.882341165073077, 0.9658140278613732],
+    "format_parse_rate": 1.0,
+    "per_class_recall": {
+      "design": 0.9,
+      "process": 0.9,
+      "production": 0.95,
+      "quality": 1.0,
+      "maintenance": 0.9,
+      "documentation": 0.9,
+      "knowledge": 1.0
+    },
+    "sha256": "eba3ab8880b30dce8874d3203ac36f4fbe24337377995cedf37f9f94c034cf5a"
+  },
+  "locked_synthetic_test": {
+    "evaluated_once_after_validation_selection": true,
+    "examples": 210,
+    "correct": 210,
+    "accuracy": 1.0,
+    "wilson_95_interval": [0.9820353008956162, 1.0],
+    "format_parse_rate": 1.0,
+    "per_class_recall": {
+      "design": 1.0,
+      "process": 1.0,
+      "production": 1.0,
+      "quality": 1.0,
+      "maintenance": 1.0,
+      "documentation": 1.0,
+      "knowledge": 1.0
+    },
+    "sha256": "2954de06a9b0e5d6493b01f3bfcf8a9dd023db01121c1a5bebb68eb7bbfabdc1"
+  },
+  "manual_post_training_challenge": {
+    "examples": 35,
+    "correct": 30,
+    "accuracy": 0.8571428571428571,
+    "wilson_95_interval": [0.7062411969132573, 0.9373986119514649],
+    "format_parse_rate": 0.9714285714285714,
+    "per_class_recall": {
+      "design": 0.8,
+      "process": 1.0,
+      "production": 1.0,
+      "quality": 1.0,
+      "maintenance": 1.0,
+      "documentation": 0.8,
+      "knowledge": 0.4
+    },
+    "sha256": "622543c2c4c451f19984876726eebad308c7e4d75b4ee9d1542733e7c6171d2c"
+  },
+  "limitations": [
+    "Training, validation and locked test data are synthetic templates, not industrial requests.",
+    "The manually authored challenge is small and was not independently reviewed by engineers.",
+    "Knowledge-search routing generalized poorly on the challenge set (40% recall).",
+    "Routing accuracy does not validate downstream engineering correctness or authorize decisions.",
+    "The hosted deployment uses a conservative deterministic router and does not load model weights."
+  ]
+}

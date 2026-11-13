@@ -1,6 +1,22 @@
-# Research Prototype Release 0.7.0 (2026-11-13)
+# Research Prototype Release 0.8.0 (2026-11-13)
 
-## Evaluation and hosted workbench update
+## Domain-assistant and tool-routing update
+
+- Added a natural-language Copilot Assistant that routes requests across design,
+  process, production, quality, maintenance, documentation, and evidence search.
+- Added conservative labelled-value extraction and specific follow-up requests
+  when engineering inputs are missing; unlabelled numbers are never guessed.
+- Trained a new Qwen3-1.7B QLoRA tool-routing adapter on 700 balanced synthetic
+  examples. It reached 131/140 (93.57%) validation accuracy and 210/210 on the
+  once-only locked synthetic test.
+- Added a harder 35-request manually authored challenge. The adapter scored
+  30/35 (85.71%); knowledge-search routing recall was only 40% and remains a
+  documented limitation.
+- Added public evaluation evidence, expanded model documentation, and a detailed
+  submission/demo guide for project review.
+- Updated the hosted dashboard so Copilot Assistant is the default workspace.
+
+## Previous 0.7.0 evaluation and hosted workbench update
 
 - Added batched deterministic GPU evaluation and explicit evaluation-protocol metadata.
 - Completed the once-only V2 Phase 3 held-out synthetic test: 79/120 (65.83%).

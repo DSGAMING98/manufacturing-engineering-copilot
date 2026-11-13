@@ -1,0 +1,33 @@
+{
+  "counts": {
+    "test": {
+      "per_label": 30,
+      "total": 210
+    },
+    "train": {
+      "per_label": 100,
+      "total": 700
+    },
+    "validation": {
+      "per_label": 20,
+      "total": 140
+    }
+  },
+  "labels": [
+    "design",
+    "process",
+    "production",
+    "quality",
+    "maintenance",
+    "documentation",
+    "knowledge"
+  ],
+  "purpose": "Synthetic seven-way tool-routing research data; not industrial validation",
+  "seed": 20261113,
+  "sha256": {
+    "test": "2954de06a9b0e5d6493b01f3bfcf8a9dd023db01121c1a5bebb68eb7bbfabdc1",
+    "train": "6b1be340e77cd010e92a1e1290a3790a72cd4bb7a28801518e644c57676b251d",
+    "validation": "eba3ab8880b30dce8874d3203ac36f4fbe24337377995cedf37f9f94c034cf5a"
+  },
+  "split_policy": "Disjoint instruction templates; balanced labels; deterministic generation"
+}

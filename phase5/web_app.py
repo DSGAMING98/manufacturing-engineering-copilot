@@ -12,6 +12,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 from phase5.copilot import run
+from phase5.assistant import assist
 from phase4.retrieval import load_corpus
 
 WEB = Path(__file__).resolve().parent / 'web'
@@ -27,8 +28,12 @@ def process_payload(payload: object, *, include_demo: bool = False, chunks=None)
     """Pure request-to-result path; easy to audit and unit-test offline."""
     if not isinstance(payload, dict):
         return {'status': 'INSUFFICIENT_DATA', 'report': 'Expected JSON object.', 'data': {}, 'citations': []}
-    if set(payload) - {'domain', 'fields', 'question'}:
+    if set(payload) - {'domain', 'fields', 'question', 'prompt'}:
         return {'status': 'INSUFFICIENT_DATA', 'report': 'Unknown API fields.', 'data': {}, 'citations': []}
+    if 'prompt' in payload:
+        if set(payload) != {'prompt'}:
+            return {'status': 'INSUFFICIENT_DATA', 'report': 'Assistant requests accept prompt only.', 'data': {}, 'citations': []}
+        return assist(payload.get('prompt'), include_demo=include_demo, chunks=chunks)
     return run(payload.get('domain', ''), payload.get('fields', {}),
                question=payload.get('question'), include_demo=include_demo, chunks=chunks)
 

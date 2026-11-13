@@ -1,8 +1,11 @@
-# Model Card: Qwen3-1.7B QLoRA Manufacturing QA Research Adapters
+# Model Card: Qwen3-1.7B QLoRA Manufacturing Copilot Research Adapters
 
 ## Status
 
-Two locally trained research adapters, **V1** and **V2**, were produced by an operator using an NVIDIA RTX 4060 Laptop GPU. The source archive contains **training code**, not weights. This card documents limited, synthetic evaluation evidence and cannot substitute for model inspection, hardware audit, or industrial validation.
+Several locally trained research adapters were produced using an NVIDIA RTX
+4060 Laptop GPU. The source repository contains **training code and public metric
+summaries, not weights**. The original QA-decision adapters remain documented
+because their failure modes motivated a safer tool-routing objective.
 
 ## Foundation and adaptation
 
@@ -12,6 +15,23 @@ Two locally trained research adapters, **V1** and **V2**, were produced by an op
 - V2: independent training from the foundation on 480/90/120 synthetic train/validation/test examples, configured 120 steps.
 - Data: rule-generated single-dimensional inspection scenarios with PASS, FAIL, and INSUFFICIENT_DATA labels; not collected from an industrial plant.
 - Learning objective: structured-format reasoning/explanation for laboratory QA scenarios, **not** unrestricted engineering authorization.
+
+### Promoted routing adapter
+
+- Task: select `design`, `process`, `production`, `quality`, `maintenance`,
+  `documentation`, or `knowledge`; it does not calculate.
+- Data: 700 balanced synthetic training requests, 140 validation requests, and a
+  locked 210-request synthetic test using split-specific templates.
+- Training: QLoRA from the same Qwen3-1.7B foundation, r=8, alpha=16, 100 steps.
+- Validation: 131/140 (93.57%), with 90%–100% recall in every class.
+- Locked synthetic test: 210/210 (100%; Wilson 95% interval 98.20%–100%).
+- Post-training manual challenge: 30/35 (85.71%; Wilson 95% interval
+  70.62%–93.74%). Knowledge-search recall was only 40% on this small challenge.
+
+The perfect synthetic test indicates that the adapter learned the bounded
+templates. It is not industrial accuracy. The manual challenge is the more
+realistic warning that generalization remains incomplete. Full evidence and
+dataset fingerprints are in `phase6/evidence/router_v2_evaluation.json`.
 
 ## Observed model-only validation: Phase 3 (same 90 synthetic examples)
 
@@ -40,7 +60,11 @@ not promoted.
 
 ## Recommended inference configuration
 
-Use `phase5.web_app` for tool-first six-domain workflows. If Qwen is enabled in the Phase 4/5 CLI, it may select among retrieved document excerpts but may **not** change computed decisions or fabricate standards. Preferred verified numeric answer is from `src.tolerance_engine` and `phase5.calculators`.
+Use `phase5.web_app` for tool-first six-domain workflows. The hosted assistant
+uses a deterministic conservative router because model weights are not deployed.
+The local routing adapter may select a tool, but may **not** change computed
+decisions, manufacture input values, or fabricate standards. Numeric answers
+come from `src.tolerance_engine` and `phase5.calculators`.
 
 ## Known failure modes
 
@@ -48,6 +72,7 @@ Use `phase5.web_app` for tool-first six-domain workflows. If Qwen is enabled in 
 - Unsupported ISO standards citations can be hallucinated by standalone generation.
 - Synthetic training templates may teach brittle patterns and bias toward rejecting valid measurements.
 - No verified cross-domain engineering reasoning, procedural compliance, live MES/SCADA data, calibrated measurement devices, or operator approval.
+- Tool-routing knowledge-search recall fell to 40% on the 35-prompt manual challenge.
 
 ## Intended and prohibited use
 

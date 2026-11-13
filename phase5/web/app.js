@@ -1,5 +1,8 @@
 'use strict';
 const specs = {
+  assistant: {label:'Copilot Assistant', subtitle:'Describe the engineering task in plain language. The copilot routes it to a verified tool and asks for missing evidence.', icon:'✦',
+    scope:'The assistant extracts only explicitly labelled values. It never invents measurements, standards, or approval authority.',
+    fields:[['prompt','Manufacturing request','Check dimensional quality with nominal=20, measured=20.03, tolerance=0.05, unit=mm']]},
   design: { label:'Design Engineering', subtitle:'Worst-case clearance and interference between a hole and shaft.', icon:'◇',
     scope:'Only 1D worst-case hole/shaft fit. Not a tolerance-stack analysis or official fit designation.',
     fields:[['hole_min','Hole minimum (mm)','20.00'],['hole_max','Hole maximum (mm)','20.04'],['shaft_min','Shaft minimum (mm)','19.97'],['shaft_max','Shaft maximum (mm)','20.01'],['unit','Unit','mm']]},
@@ -22,7 +25,7 @@ const specs = {
     scope:'The hosted demo searches FICTIONAL example documents only. Local mode can use permission-cleared, human-reviewed files.',
     fields:[['question','Ask about a registered document','What identifiers belong in an inspection record for traceability?']]}
 };
-let active = 'design';
+let active = 'assistant';
 const $ = id => document.getElementById(id);
 const nav = $('nav'), form = $('tool-form');
 function node(tag, className, text) {
@@ -44,12 +47,12 @@ function activate(key) {
   $('fields').replaceChildren();
   for(const [id, label, value] of spec.fields) {
     const wrap=node('div','field'); const l=node('label','',label); l.htmlFor='field-'+id;
-    const input=node(key==='knowledge'?'textarea':'input'); input.id='field-'+id;input.name=id;
+    const input=node(key==='knowledge'||key==='assistant'?'textarea':'input'); input.id='field-'+id;input.name=id;
     input.value=value;input.placeholder=label;input.autocomplete='off';
-    if(key==='knowledge') input.rows=4; else input.type='text';
+    if(key==='knowledge'||key==='assistant') input.rows=4; else input.type='text';
     wrap.append(l,input); $('fields').append(wrap);
   }
-  $('run').querySelector('span').textContent=key==='knowledge'?'SEARCH EVIDENCE':'RUN CHECK';
+  $('run').querySelector('span').textContent=key==='knowledge'?'SEARCH EVIDENCE':key==='assistant'?'ASK COPILOT':'RUN CHECK';
   $('result').hidden=true;$('empty').hidden=false;$('output-mode').textContent='AWAITING INPUT';
 }
 form.addEventListener('submit',async e=>{
@@ -57,7 +60,7 @@ form.addEventListener('submit',async e=>{
   for(const [id] of spec.fields) {
     const value=$('field-'+id).value.trim(); if(value!=='') fields[id]=value;
   }
-  const payload=key==='knowledge'?{domain:'knowledge',question:fields.question||''}:{domain:key,fields};
+  const payload=key==='knowledge'?{domain:'knowledge',question:fields.question||''}:key==='assistant'?{prompt:fields.prompt||''}:{domain:key,fields};
   $('run').disabled=true;$('output-mode').textContent='CALCULATING';
   try {
     const res=await fetch('/api/run',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
@@ -68,11 +71,12 @@ form.addEventListener('submit',async e=>{
     $('result-status').className='result-status '+(status==='PASS'||status==='CLEARANCE'?'good':status==='FAIL'||status==='INSUFFICIENT_DATA'||status==='NO_VERIFIED_SOURCE'?'warn':'neutral');
     $('result-text').textContent=output.report||'No report returned.';
     $('output-mode').textContent=output.mode||'RESULT';
-    $('result-evidence').textContent=(output.citations&&output.citations.length)?'Citations: '+output.citations.join(', '):'Source: local calculation or refused evidence';
+    const route=output.assistant?.routed_domain?'Routed to: '+output.assistant.routed_domain+'. ':'';
+    $('result-evidence').textContent=route+((output.citations&&output.citations.length)?'Citations: '+output.citations.join(', '):'Source: deterministic tool or explicit refusal');
   } catch(err) {
     $('empty').hidden=true;$('result').hidden=false;$('result-status').textContent='ERROR';
     $('result-status').className='result-status warn';$('result-text').textContent=String(err);
     $('output-mode').textContent='NETWORK ERROR';$('result-evidence').textContent='';
   } finally { $('run').disabled=false; }
 });
-activate('design');
+activate('assistant');

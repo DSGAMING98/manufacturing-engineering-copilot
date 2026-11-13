@@ -50,6 +50,17 @@ class VercelApiTests(unittest.TestCase):
         self.assertEqual(payload['source_provenance'], 'fictional_demo')
         self.assertTrue(payload['citations'])
 
+    def test_natural_language_assistant(self):
+        body = json.dumps({
+            'prompt': 'Check quality: nominal=20 measured=20.03 tolerance=0.05 unit=mm',
+        }).encode()
+        request = Request(self.url, data=body, headers={'Content-Type': 'application/json'}, method='POST')
+        with urlopen(request, timeout=2) as response:
+            payload = json.loads(response.read())
+        self.assertEqual(payload['status'], 'CALCULATED')
+        self.assertEqual(payload['data']['decision'], 'PASS')
+        self.assertEqual(payload['assistant']['routed_domain'], 'quality')
+
 
 if __name__ == '__main__':
     unittest.main()

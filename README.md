@@ -1,4 +1,4 @@
-# Manufacturing Engineering Copilot
+# LLM-Based Manufacturing Engineering Copilot for Design, Production, Quality, and Maintenance
 
 A local research prototype that combines a Qwen3-1.7B QLoRA experiment with
 deterministic engineering calculations and source-cited document retrieval.
@@ -13,6 +13,19 @@ The hosted version runs the deterministic CPU tools and searches only the
 clearly labelled fictional demonstration corpus. It does not load model weights
 or provide autonomous manufacturing approval.
 
+## Project brief
+
+**Description:** A domain-specific LLM assistant providing intelligent support
+for engineering design, process planning, production, quality assurance,
+maintenance, and technical documentation.
+
+The implemented architecture is hybrid. A natural-language assistant selects
+one of seven bounded capabilities, extracts only explicitly supplied values,
+and asks for missing inputs. Tested Python functions perform numerical work;
+retrieval returns line-referenced excerpts; the local Qwen3-1.7B LoRA adapter
+is trained for tool routing. This division makes the prototype more reliable
+and auditable than asking a language model to perform engineering arithmetic.
+
 The project covers six bounded manufacturing workflows. Numerical outputs come
 from deterministic Python functions, not model-generated arithmetic. Requests
 with missing inputs or unavailable documents are rejected rather than filled in
@@ -25,7 +38,8 @@ inspection decisions.
 ## Architecture
 
 ```text
-Operator -> local browser or CLI
+Operator -> natural-language assistant or direct workspace
+           |-- conservative intent router (local LoRA or hosted rule router)
            |-- design fit/clearance checks (Decimal)
            |-- ideal turning process estimates
            |-- production OEE calculations
@@ -33,7 +47,7 @@ Operator -> local browser or CLI
            |-- retrospective maintenance MTBF/MTTR
            |-- DRAFT inspection record generator
            |-- extractive RAG (approved-labelled .md/.txt, SHA-256 + line refs)
-                  \-- optional Qwen3/LoRA ranking of already retrieved snippets
+                  \-- optional Qwen3/LoRA routing/ranking
                        [not permitted to alter calculations or invent standards]
 ```
 
@@ -47,6 +61,8 @@ approved materials are not shipped.
 | Part | Status | Practical meaning |
 |---|---|---|
 | Deterministic calculators | Tested research prototype | Arithmetic and refusal paths pass the included regression suite |
+| Natural-language assistant | Working hosted prototype | Routes explicit requests, extracts labelled values, and asks for missing inputs |
+| QLoRA tool router | Improved local experiment | 93.57% validation; 100% locked synthetic test; 85.71% manual challenge |
 | Browser and CLI workbench | Working research prototype | Public CPU demo on Vercel; local mode remains available |
 | Document retrieval | Working on the fictional test corpus | Real retrieval quality has not been measured |
 | QLoRA V1/V2 adapters | Experimental | V2 is better than the base model on one synthetic validation split, but is not reliable enough to make decisions |
@@ -185,6 +201,11 @@ hit. Retrieved text is treated as untrusted data and is never executed.
 - **Phase 3 V2 dataset:** 480 train / 90 validation / 120 held-out synthetic cases.
 - **Phase 3 V2 configuration:** 120 steps, batch 1, gradient accumulation 4,
   learning rate 1.2e-4. V2 trains independently from the foundation model.
+- **Tool-router dataset:** 700 train / 140 validation / 210 locked synthetic
+  test requests, balanced across seven tools, plus a 35-request manually
+  authored post-training challenge.
+- **Tool-router configuration:** QLoRA rank 8, alpha 16, 100 steps, batch 2,
+  gradient accumulation 4, learning rate 1e-4 and completion-only loss.
 - **Checkpoints:** created on the operator's laptop, not bundled or committed.
 
 Run model training locally if necessary (`.venv` must have GPU PyTorch + Unsloth):
@@ -193,11 +214,29 @@ Run model training locally if necessary (`.venv` must have GPU PyTorch + Unsloth
 .\.venv\Scripts\python.exe -m phase3.validate_data
 .\.venv\Scripts\python.exe -m phase3.train_v2 --smoke
 .\.venv\Scripts\python.exe -m phase3.train_v2
+.\.venv\Scripts\python.exe -m phase3.generate_router_data
+.\.venv\Scripts\python.exe -m phase3.train_router --max-steps 100 --output-dir models/router_qlora_v2
+.\.venv\Scripts\python.exe -m phase3.evaluate_router --adapter models/router_qlora_v2/adapter --split validation --tag router_v2
 ```
 
 The V2 training script refuses to overwrite an existing adapter. If you have
 already trained V2, **do not run it again**. Your existing local model remains
 outside the source release.
+
+### Promoted tool-routing result
+
+| Evaluation | Correct | Accuracy | Parse rate | Lowest class recall |
+|---|---:|---:|---:|---:|
+| Validation | 131/140 | **93.57%** | 100% | 90% |
+| Locked synthetic test | 210/210 | **100%** | 100% | 100% |
+| Manual post-training challenge | 30/35 | **85.71%** | 97.14% | 40% (knowledge) |
+
+The locked synthetic test was run once after selecting the adapter on
+validation. Its perfect result means the bounded synthetic intent task was
+learned; it is not industrial accuracy. The manually authored challenge is a
+more difficult warning: evidence-search routing generalized poorly. All three
+results and hashes are published in
+[`phase6/evidence/router_v2_evaluation.json`](phase6/evidence/router_v2_evaluation.json).
 
 ## Observed synthetic-validation outcomes
 
@@ -380,8 +419,10 @@ results/         Operator-local benchmarks and predictions (gitignored)
   outside scope.
 - RAG's default published documents are fictional examples. Third-party
   standards and confidential work instructions are not redistributed.
-- Local HTTP UI has no user authentication, database, tamper-proof audit log,
-  or multiuser security controls. Do not expose to the internet.
+- The local HTTP mode has no user authentication, database, tamper-proof audit
+  log, or multiuser controls and must remain loopback-only. The public Vercel
+  demo is stateless, uses a fictional corpus, excludes model weights, and cannot
+  store or approve engineering records.
 - AI training and paper drafting must be disclosed as required by the venue.
   See `MODEL_CARD.md` and `docs/PAPER_FIGURE_NOTES.md` before citing metrics.
 
@@ -392,6 +433,7 @@ results/         Operator-local benchmarks and predictions (gitignored)
 - [Phase 5: six-domain workbench](PHASE5_README.md)
 - [Phase 6: reproducibility and figures](PHASE6_README.md)
 - [Model card](MODEL_CARD.md)
+- [Submission and demonstration guide](SUBMISSION_GUIDE.md)
 - [Release notes](RELEASE_NOTES.md)
 
 ## Repository contents and reuse

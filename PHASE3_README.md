@@ -131,3 +131,25 @@ configuration may change data hashes and invalidate comparisons.
 - Extend beyond single-dimension QA only after trustworthy evaluation.
 
 For the curation process, see `phase3/REAL_DATA_GUIDE.md`.
+
+## Tool-routing adapter improvement
+
+The promoted local adapter now solves a safer and broader task: select one of
+seven bounded capabilities without performing the calculation itself. This
+aligns the model with the six-domain project statement while keeping engineering
+arithmetic in deterministic code.
+
+```powershell
+.\.venv\Scripts\python.exe -m phase3.generate_router_data
+.\.venv\Scripts\python.exe -m phase3.train_router --max-steps 100 --output-dir models/router_qlora_v2
+.\.venv\Scripts\python.exe -m phase3.evaluate_router --adapter models/router_qlora_v2/adapter --split validation --tag router_v2
+.\.venv\Scripts\python.exe -m phase3.evaluate_router --adapter models/router_qlora_v2/adapter --split test --tag router_v2_final --confirm-final-test
+.\.venv\Scripts\python.exe -m phase3.build_router_challenge
+.\.venv\Scripts\python.exe -m phase3.evaluate_router --adapter models/router_qlora_v2/adapter --split manual_challenge --tag router_v2_challenge
+```
+
+Observed results: 93.57% validation, 100% locked synthetic test, and 85.71%
+on the post-training manual challenge. The perfect template test is not an
+industrial claim; challenge knowledge-search recall was only 40%. See
+`phase6/evidence/router_v2_evaluation.json` for fingerprints and per-class
+metrics. Adapter weights remain local and gitignored.
