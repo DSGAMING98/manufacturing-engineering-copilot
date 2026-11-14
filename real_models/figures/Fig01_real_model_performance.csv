@@ -1,0 +1,5 @@
+metric,score,ci95_low,ci95_high,test_n
+Steel accuracy,0.802057,0.758355,0.840681,389
+Steel macro-F1,0.803873,0.747228,0.847829,389
+SECOM ROC-AUC,0.796359,0.70059,0.87267,314
+SECOM balanced accuracy,0.735982,0.630939,0.83101,314

@@ -43,3 +43,9 @@ not establish performance at another site. Neither evaluation is time-separated
 or plant-separated. Metrics represent one fixed split and one model-selection
 procedure. Full machine-readable evidence is in
 `real_models/evidence/real_model_report.json`.
+
+## Visual evidence
+
+Reproducible locked-test plots and their CSV source tables are available in
+[`real_models/figures`](real_models/figures/). They include confidence intervals,
+per-class metrics, both confusion matrices and the fixed dataset splits.

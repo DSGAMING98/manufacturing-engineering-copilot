@@ -4,7 +4,8 @@
     { "source": "/", "destination": "/phase5/web/index.html" },
     { "source": "/app.js", "destination": "/phase5/web/app.js" },
     { "source": "/style.css", "destination": "/phase5/web/style.css" },
-    { "source": "/logo.png", "destination": "/phase5/web/mfg-copilot-logo.png" }
+    { "source": "/logo.png", "destination": "/phase5/web/mfg-copilot-logo.png" },
+    { "source": "/results/:path*", "destination": "/real_models/figures/:path*" }
   ],
   "headers": [
     {

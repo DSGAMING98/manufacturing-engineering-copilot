@@ -37,6 +37,22 @@ from locked test partitions. The repository includes per-class results, confusio
 matrices, source hashes, licenses, fixed seeds and training code. Unit, integration,
 security and stress tests run without network access after artifacts are present.
 
+## Results and figures
+
+The headline locked-test comparison, class-level metrics, confusion matrices and
+dataset split counts are reproduced from
+[`real_models/evidence/real_model_report.json`](real_models/evidence/real_model_report.json)
+by `python -m real_models.plot_real_results`.
+
+- [Figure 1 — locked-test metrics and 95% confidence intervals](real_models/figures/Fig01_real_model_performance.png)
+- [Figure 2 — steel precision, recall and F1 by class](real_models/figures/Fig02_steel_per_class_metrics.png)
+- [Figure 3 — steel confusion matrix](real_models/figures/Fig03_steel_confusion_matrix.png)
+- [Figure 4 — SECOM confusion matrix](real_models/figures/Fig04_secom_confusion_matrix.png)
+- [Figure 5 — observed dataset partitions](real_models/figures/Fig05_dataset_splits.png)
+
+Every figure has a matching SVG and CSV export in `real_models/figures/`. This
+keeps the report graphics traceable to exact machine-readable evidence.
+
 ## Research interpretation
 
 The prototype demonstrates feasibility on public observed manufacturing data; it

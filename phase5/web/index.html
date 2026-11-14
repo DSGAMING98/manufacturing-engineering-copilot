@@ -38,6 +38,7 @@
       </div>
       <div class="topbar-actions">
         <span class="safety-badge"><i aria-hidden="true"></i> RESEARCH BUILD · ONLINE</span>
+        <a class="github-link" href="#model-results">VIEW RESULTS <span aria-hidden="true">↓</span></a>
         <a class="github-link" href="https://github.com/DSGAMING98/manufacturing-engineering-copilot" target="_blank" rel="noreferrer">VIEW SOURCE <span aria-hidden="true">↗</span></a>
       </div>
     </header>
@@ -89,6 +90,39 @@
         </div>
       </section>
     </div>
+
+    <section class="results-section" id="model-results" aria-labelledby="results-title">
+      <div class="results-heading">
+        <div>
+          <div class="eyebrow"><span></span> LOCKED-TEST EVIDENCE</div>
+          <h2 id="results-title">Observed-data model results</h2>
+          <p>Figures are generated from the committed evaluation report. Confidence intervals use 1,000 deterministic percentile-bootstrap resamples.</p>
+        </div>
+        <a class="results-source" href="https://github.com/DSGAMING98/manufacturing-engineering-copilot/tree/main/real_models/figures" target="_blank" rel="noreferrer">PNG · SVG · CSV <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="results-grid">
+        <figure class="result-figure result-figure-wide">
+          <img src="/results/Fig01_real_model_performance.png" alt="Locked-test performance for the steel and SECOM models with 95 percent confidence intervals" loading="lazy">
+          <figcaption><strong>Headline performance</strong><span>Task-appropriate locked-test metrics with uncertainty.</span></figcaption>
+        </figure>
+        <figure class="result-figure result-figure-wide">
+          <img src="/results/Fig02_steel_per_class_metrics.png" alt="Steel classifier precision recall and F1 by fault class" loading="lazy">
+          <figcaption><strong>Steel fault classes</strong><span>Precision, recall and F1 expose variation hidden by one headline score.</span></figcaption>
+        </figure>
+        <figure class="result-figure">
+          <img src="/results/Fig03_steel_confusion_matrix.png" alt="Steel fault classifier locked-test confusion matrix" loading="lazy">
+          <figcaption><strong>Steel confusion matrix</strong><span>389 records in the untouched test partition.</span></figcaption>
+        </figure>
+        <figure class="result-figure">
+          <img src="/results/Fig04_secom_confusion_matrix.png" alt="SECOM failure-risk model locked-test confusion matrix" loading="lazy">
+          <figcaption><strong>SECOM confusion matrix</strong><span>314 test records, including 21 observed failures.</span></figcaption>
+        </figure>
+        <figure class="result-figure result-figure-wide">
+          <img src="/results/Fig05_dataset_splits.png" alt="Train validation and locked-test partitions for the two observed datasets" loading="lazy">
+          <figcaption><strong>Evaluation partitions</strong><span>Fixed stratified 60/20/20 splits for 3,508 observed records.</span></figcaption>
+        </figure>
+      </div>
+    </section>
 
     <footer class="footer">
       <span>DESIGN · PROCESS · PRODUCTION · QUALITY · MAINTENANCE · DOCUMENTATION · EVIDENCE · REAL-DATA ML</span>

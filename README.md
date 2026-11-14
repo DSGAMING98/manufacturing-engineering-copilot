@@ -5,6 +5,7 @@ production metrics, quality analysis, maintenance metrics, technical records,
 document evidence, and observed-data machine learning.
 
 [Live prototype](https://manufacturing-engineering-copilot.vercel.app/) ·
+[Results dashboard](https://manufacturing-engineering-copilot.vercel.app/#model-results) ·
 [Model evidence](real_models/evidence/real_model_report.json) ·
 [Data sources](real_models/DATA_SOURCES.md) ·
 [Research readiness](IEEE_READINESS.md)
@@ -27,6 +28,26 @@ Each therefore uses task-appropriate metrics and its own locked test partition.
 
 Only the two cited observed manufacturing datasets are used by the active
 model-training pipeline and reported as research evidence.
+
+## Results figures
+
+The figures below are generated directly from the committed locked-test report.
+They are not manually entered values. Error bars in the overview are 95%
+percentile-bootstrap confidence intervals based on 1,000 deterministic
+resamples.
+
+![Locked-test performance with 95% confidence intervals](real_models/figures/Fig01_real_model_performance.png)
+
+![Steel fault precision, recall and F1 by class](real_models/figures/Fig02_steel_per_class_metrics.png)
+
+| Steel fault classifier | SECOM failure-risk model |
+|---|---|
+| ![Steel locked-test confusion matrix](real_models/figures/Fig03_steel_confusion_matrix.png) | ![SECOM locked-test confusion matrix](real_models/figures/Fig04_secom_confusion_matrix.png) |
+
+![Observed dataset train, validation and locked-test splits](real_models/figures/Fig05_dataset_splits.png)
+
+Each figure is available as PNG for reports, SVG for publication layout, and
+CSV for independent checking in [`real_models/figures`](real_models/figures/).
 
 ## What the prototype does
 
@@ -127,12 +148,14 @@ Python 3.11 or 3.12 is recommended.
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements-research.txt
 .\.venv\Scripts\python.exe -m real_models.train_real_models
+.\.venv\Scripts\python.exe -m real_models.plot_real_results
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
 Training writes:
 
 - `real_models/evidence/real_model_report.json` — committed metrics and provenance;
+- `real_models/figures/` — reproducible PNG, SVG and CSV result figures;
 - `phase5/model/steel_fault_forest.json.gz` — deployed forest;
 - `real_models/artifacts/secom_failure_model.joblib` — local-only model;
 - `data/raw/public_real/` — local-only original archives and extracted files.
