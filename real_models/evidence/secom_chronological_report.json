@@ -1,0 +1,71 @@
+{
+  "status": "MEASURED",
+  "source": "UCI SECOM, DOI 10.24432/C54305",
+  "source_archive_sha256": "eea568baf3c2229096d7d294cf0b096b5502bd96d92c0b80a65b84714059be8e",
+  "method": "retrospective timestamp-sorted contiguous 60/20/20",
+  "time_zone": "not supplied by UCI source",
+  "split_rule": "stable sort by supplied timestamp; never randomize rows",
+  "splits": {
+    "train": {
+      "count": 940,
+      "failures": 76,
+      "first_timestamp": "2008-07-19 11:55:00",
+      "last_timestamp": "2008-09-20 05:34:00"
+    },
+    "validation": {
+      "count": 313,
+      "failures": 11,
+      "first_timestamp": "2008-09-20 06:08:00",
+      "last_timestamp": "2008-10-02 19:25:00"
+    },
+    "test": {
+      "count": 314,
+      "failures": 17,
+      "first_timestamp": "2008-10-02 20:54:00",
+      "last_timestamp": "2008-10-17 06:07:00"
+    }
+  },
+  "selection": {
+    "validation_roc_auc": 0.533564,
+    "selected_max_features": 0.5,
+    "validation_selected_failure_f1_threshold": 0.07666666666666666
+  },
+  "validation": {
+    "roc_auc": 0.533564,
+    "average_precision": 0.045016,
+    "balanced_accuracy": 0.558549,
+    "failure_f1": 0.098361,
+    "confusion_matrix": [
+      [
+        255,
+        47
+      ],
+      [
+        8,
+        3
+      ]
+    ]
+  },
+  "chronological_test": {
+    "roc_auc": 0.496534,
+    "average_precision": 0.054493,
+    "balanced_accuracy": 0.458705,
+    "failure_f1": 0.033333,
+    "confusion_matrix": [
+      [
+        255,
+        42
+      ],
+      [
+        16,
+        1
+      ]
+    ]
+  },
+  "limitations": [
+    "Not a prospective or cross-plant test.",
+    "The timestamp order may correlate with shifts or equipment changes.",
+    "The released random-split model and this chronological model were trained on different partitions.",
+    "Hyperparameter and operating threshold selection uses only chronological validation records."
+  ]
+}
