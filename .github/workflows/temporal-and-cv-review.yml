@@ -1,0 +1,44 @@
+name: Temporal robustness and balanced baseline review
+on:
+  push:
+    paths:
+      - '.github/workflows/temporal-and-cv-review.yml'
+      - 'real_models/chronological_baselines.py'
+      - 'real_models/fair_cv_review.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned research dependencies
+        run: python -m pip install -r requirements-research.txt
+      - name: Chronological SECOM models with validation-only tuning
+        run: python -m real_models.chronological_baselines
+      - name: Repeated 3x2 CV for released ensembles and tuned baselines
+        run: python -m real_models.fair_cv_review --cv-folds 3 --cv-repeats 2
+      - name: Preserve machine-readable outcomes in repository
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add real_models/evidence/chrono_baseline_report.json real_models/evidence/fair_cv_review.json
+          git commit -m 'evidence: archive chronological baselines and ensemble CV' || exit 0
+          git push origin HEAD:main
+      - name: Upload audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: temporal-and-cv-research-evidence
+          path: |
+            real_models/evidence/chrono_baseline_report.json
+            real_models/evidence/fair_cv_review.json
+          retention-days: 60
+          if-no-files-found: warn
