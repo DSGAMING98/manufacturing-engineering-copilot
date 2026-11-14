@@ -77,11 +77,20 @@ def timeblock_random_split_scores(x,y,time_rank):
         all_auc=float(roc_auc_score(ytest,pred))
         early=time_rank[idxtest]<627
         late=~early
+        period_only_score=early.astype(float)
         entry={"seed":seed,"overall_auc":all_auc,
+               "timestamp_only_auc":float(roc_auc_score(ytest,period_only_score)),
                "early_n":int(early.sum()),"early_failures":int(ytest[early].sum()),
                "later_n":int(late.sum()),"later_failures":int(ytest[late].sum()),
                "early_auc":auc_or_none(ytest[early],pred[early]),
-               "later_auc":auc_or_none(ytest[late],pred[late]),"block_results":[]}
+               "later_auc":auc_or_none(ytest[late],pred[late]),
+               "early_mean_failure_score":float(pred[early].mean()),
+               "later_mean_failure_score":float(pred[late].mean()),
+               "early_positive_mean_score":float(pred[early & (ytest==1)].mean()),
+               "early_negative_mean_score":float(pred[early & (ytest==0)].mean()),
+               "later_positive_mean_score":float(pred[late & (ytest==1)].mean()),
+               "later_negative_mean_score":float(pred[late & (ytest==0)].mean()),
+               "block_results":[]}
         for i,(a,b) in enumerate(zip(BOUNDS[:-1],BOUNDS[1:]),1):
             mask=(time_rank[idxtest]>=a)&(time_rank[idxtest]<b)
             entry["block_results"].append({
@@ -104,6 +113,15 @@ def timeblock_random_split_scores(x,y,time_rank):
       "paired_seeds_with_defined_auc":len(paired),
       "early_minus_late_auc":stats([p["early_auc"]-p["later_auc"] for p in paired]),
       "early_auc_above_late_count":sum(p["early_auc"]>p["later_auc"] for p in paired),
+      "timestamp_only_early_indicator_auc":stats([p["timestamp_only_auc"] for p in all_records]),
+      "model_mean_failure_score_early":stats([p["early_mean_failure_score"] for p in all_records]),
+      "model_mean_failure_score_later":stats([p["later_mean_failure_score"] for p in all_records]),
+      "period_score_mean_delta_early_minus_later":stats([p["early_mean_failure_score"]-p["later_mean_failure_score"] for p in all_records]),
+      "period_score_by_class":{
+        "early_failure":stats([p["early_positive_mean_score"] for p in all_records]),
+        "early_pass":stats([p["early_negative_mean_score"] for p in all_records]),
+        "later_failure":stats([p["later_positive_mean_score"] for p in all_records]),
+        "later_pass":stats([p["later_negative_mean_score"] for p in all_records])},
       "per_block":means_by_block,
       "per_seed":all_records,
       "caution":"Each model sees examples from every time period in its training split. Block AUCs are based only on random-held-out test rows and are often unstable due to few failures."
