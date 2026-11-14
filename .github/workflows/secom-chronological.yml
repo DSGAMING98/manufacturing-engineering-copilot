@@ -1,0 +1,30 @@
+name: SECOM chronological sensitivity evaluation
+on:
+  push:
+    paths:
+      - '.github/workflows/secom-chronological.yml'
+      - 'real_models/evaluate_secom_chrono.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  chronological:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install research dependencies
+        run: python -m pip install -r requirements-research.txt
+      - name: Evaluate temporal split
+        run: python -m real_models.evaluate_secom_chrono
+      - name: Save original timestamp-split evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: secom-chronological-evidence
+          path: real_models/evidence/secom_chronological_report.json
+          if-no-files-found: warn
+          retention-days: 60
