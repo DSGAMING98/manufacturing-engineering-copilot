@@ -44,6 +44,80 @@
       "p97_5": 0.13584205274977681
     },
     "early_auc_above_late_count": 16,
+    "timestamp_only_early_indicator_auc": {
+      "n": 50,
+      "mean": 0.6153664878920851,
+      "sd": 0.051291495574516004,
+      "min": 0.48399154883796525,
+      "max": 0.7103039167885584,
+      "p2_5": 0.49860637087599546,
+      "p97_5": 0.6975479440923126
+    },
+    "model_mean_failure_score_early": {
+      "n": 50,
+      "mean": 0.09120733771016308,
+      "sd": 0.009492127947360271,
+      "min": 0.07577694235588972,
+      "max": 0.11657258064516128,
+      "p2_5": 0.07660791466773276,
+      "p97_5": 0.10745655876951331
+    },
+    "model_mean_failure_score_later": {
+      "n": 50,
+      "mean": 0.047578129819469676,
+      "sd": 0.004456584542955061,
+      "min": 0.03827927927927928,
+      "max": 0.05729166666666667,
+      "p2_5": 0.03870384428043061,
+      "p97_5": 0.05527471151491926
+    },
+    "period_score_mean_delta_early_minus_later": {
+      "n": 50,
+      "mean": 0.043629207890693404,
+      "sd": 0.012252332484756184,
+      "min": 0.020344161508744234,
+      "max": 0.07096731748726655,
+      "p2_5": 0.025061748326498687,
+      "p97_5": 0.06447914572395833
+    },
+    "period_score_by_class": {
+      "early_failure": {
+        "n": 50,
+        "mean": 0.11549876026751027,
+        "sd": 0.019639358798178845,
+        "min": 0.07277777777777779,
+        "max": 0.16333333333333336,
+        "p2_5": 0.08334523809523808,
+        "p97_5": 0.15733453525641025
+      },
+      "early_pass": {
+        "n": 50,
+        "mean": 0.08846832769631607,
+        "sd": 0.009190064116489675,
+        "min": 0.07353535353535352,
+        "max": 0.11295795795795793,
+        "p2_5": 0.07609478055042927,
+        "p97_5": 0.10504001007891577
+      },
+      "later_failure": {
+        "n": 50,
+        "mean": 0.07362999315499316,
+        "sd": 0.013368222606844503,
+        "min": 0.04619047619047619,
+        "max": 0.10270833333333333,
+        "p2_5": 0.05295151515151515,
+        "p97_5": 0.1002986111111111
+      },
+      "later_pass": {
+        "n": 50,
+        "mean": 0.046436845137519736,
+        "sd": 0.0044800298796639606,
+        "min": 0.0364437984496124,
+        "max": 0.05529693486590038,
+        "p2_5": 0.0377969474969475,
+        "p97_5": 0.054739843093303445
+      }
+    },
     "per_block": [
       {
         "block": 1,
@@ -120,12 +194,19 @@
       {
         "seed": 0,
         "overall_auc": 0.7093287827076223,
+        "timestamp_only_auc": 0.5741914513245571,
         "early_n": 121,
         "early_failures": 11,
         "later_n": 193,
         "later_failures": 10,
         "early_auc": 0.7421487603305785,
         "later_auc": 0.6532786885245901,
+        "early_mean_failure_score": 0.1053168044077135,
+        "later_mean_failure_score": 0.04594991364421416,
+        "early_positive_mean_score": 0.14651515151515151,
+        "early_negative_mean_score": 0.1011969696969697,
+        "later_positive_mean_score": 0.06366666666666668,
+        "later_negative_mean_score": 0.04498178506375228,
         "block_results": [
           {
             "block": 1,
@@ -162,12 +243,19 @@
       {
         "seed": 1,
         "overall_auc": 0.8008288639687957,
+        "timestamp_only_auc": 0.6354623760767105,
         "early_n": 115,
         "early_failures": 13,
         "later_n": 199,
         "later_failures": 8,
         "early_auc": 0.6783559577677225,
         "later_auc": 0.8507853403141361,
+        "early_mean_failure_score": 0.08898550724637679,
+        "later_mean_failure_score": 0.04633165829145728,
+        "early_positive_mean_score": 0.12102564102564102,
+        "early_negative_mean_score": 0.08490196078431372,
+        "later_positive_mean_score": 0.10270833333333333,
+        "later_negative_mean_score": 0.043970331588132634,
         "block_results": [
           {
             "block": 1,
@@ -204,12 +292,19 @@
       {
         "seed": 2,
         "overall_auc": 0.8081423695758168,
+        "timestamp_only_auc": 0.6558589306029579,
         "early_n": 118,
         "early_failures": 14,
         "later_n": 196,
         "later_failures": 7,
         "early_auc": 0.6888736263736264,
         "later_auc": 0.8110355253212395,
+        "early_mean_failure_score": 0.0986581920903955,
+        "later_mean_failure_score": 0.03931122448979592,
+        "early_positive_mean_score": 0.12250000000000003,
+        "early_negative_mean_score": 0.09544871794871794,
+        "later_positive_mean_score": 0.07761904761904762,
+        "later_negative_mean_score": 0.03789241622574956,
         "block_results": [
           {
             "block": 1,
@@ -246,12 +341,19 @@
       {
         "seed": 3,
         "overall_auc": 0.7250121891760116,
+        "timestamp_only_auc": 0.5894685519258898,
         "early_n": 127,
         "early_failures": 12,
         "later_n": 187,
         "later_failures": 9,
         "early_auc": 0.7170289855072465,
         "later_auc": 0.6825842696629213,
+        "early_mean_failure_score": 0.09674540682414698,
+        "later_mean_failure_score": 0.04176470588235294,
+        "early_positive_mean_score": 0.12708333333333333,
+        "early_negative_mean_score": 0.09357971014492754,
+        "later_positive_mean_score": 0.05907407407407407,
+        "later_negative_mean_score": 0.040889513108614224,
         "block_results": [
           {
             "block": 1,
@@ -288,12 +390,19 @@
       {
         "seed": 4,
         "overall_auc": 0.6601657727937591,
+        "timestamp_only_auc": 0.5606208353648627,
         "early_n": 114,
         "early_failures": 10,
         "later_n": 200,
         "later_failures": 11,
         "early_auc": 0.5322115384615385,
         "later_auc": 0.7068302068302069,
+        "early_mean_failure_score": 0.08457602339181287,
+        "later_mean_failure_score": 0.045658333333333335,
+        "early_positive_mean_score": 0.09116666666666666,
+        "early_negative_mean_score": 0.08394230769230769,
+        "later_positive_mean_score": 0.06575757575757578,
+        "later_negative_mean_score": 0.04448853615520282,
         "block_results": [
           {
             "block": 1,
@@ -330,12 +439,19 @@
       {
         "seed": 5,
         "overall_auc": 0.5514383227693808,
+        "timestamp_only_auc": 0.5792296440760605,
         "early_n": 133,
         "early_failures": 12,
         "later_n": 181,
         "later_failures": 9,
         "early_auc": 0.49380165289256195,
         "later_auc": 0.5636304909560724,
+        "early_mean_failure_score": 0.07577694235588972,
+        "later_mean_failure_score": 0.05543278084714549,
+        "early_positive_mean_score": 0.07277777777777779,
+        "early_negative_mean_score": 0.07607438016528927,
+        "later_positive_mean_score": 0.06037037037037037,
+        "later_negative_mean_score": 0.055174418604651165,
         "block_results": [
           {
             "block": 1,
@@ -372,12 +488,19 @@
       {
         "seed": 6,
         "overall_auc": 0.774662766130343,
+        "timestamp_only_auc": 0.6166910450186901,
         "early_n": 126,
         "early_failures": 13,
         "later_n": 188,
         "later_failures": 8,
         "early_auc": 0.7372362151123213,
         "later_auc": 0.74375,
+        "early_mean_failure_score": 0.09378306878306877,
+        "later_mean_failure_score": 0.04435283687943263,
+        "early_positive_mean_score": 0.12756410256410253,
+        "early_negative_mean_score": 0.08989675516224187,
+        "later_positive_mean_score": 0.07854166666666668,
+        "later_negative_mean_score": 0.04283333333333334,
         "block_results": [
           {
             "block": 1,
@@ -414,12 +537,19 @@
       {
         "seed": 7,
         "overall_auc": 0.7539411669104502,
+        "timestamp_only_auc": 0.6795871932390704,
         "early_n": 134,
         "early_failures": 16,
         "later_n": 180,
         "later_failures": 5,
         "early_auc": 0.7184851694915254,
         "later_auc": 0.6165714285714285,
+        "early_mean_failure_score": 0.08192786069651743,
+        "later_mean_failure_score": 0.05244444444444443,
+        "early_positive_mean_score": 0.103125,
+        "early_negative_mean_score": 0.07905367231638416,
+        "later_positive_mean_score": 0.05633333333333333,
+        "later_negative_mean_score": 0.05233333333333332,
         "block_results": [
           {
             "block": 1,
@@ -456,12 +586,19 @@
       {
         "seed": 8,
         "overall_auc": 0.7892085161709735,
+        "timestamp_only_auc": 0.5265724037055095,
         "early_n": 119,
         "early_failures": 9,
         "later_n": 195,
         "later_failures": 12,
         "early_auc": 0.7808080808080807,
         "later_auc": 0.8121584699453552,
+        "early_mean_failure_score": 0.10457983193277309,
+        "later_mean_failure_score": 0.05134188034188034,
+        "early_positive_mean_score": 0.16333333333333336,
+        "early_negative_mean_score": 0.09977272727272725,
+        "later_positive_mean_score": 0.09750000000000002,
+        "later_negative_mean_score": 0.0483151183970856,
         "block_results": [
           {
             "block": 1,
@@ -498,12 +635,19 @@
       {
         "seed": 9,
         "overall_auc": 0.7514220705346986,
+        "timestamp_only_auc": 0.5997074597757192,
         "early_n": 121,
         "early_failures": 12,
         "later_n": 193,
         "later_failures": 9,
         "early_auc": 0.7599388379204893,
         "later_auc": 0.6884057971014492,
+        "early_mean_failure_score": 0.08538567493112946,
+        "later_mean_failure_score": 0.05145941278065629,
+        "early_positive_mean_score": 0.11097222222222224,
+        "early_negative_mean_score": 0.08256880733944952,
+        "later_positive_mean_score": 0.06962962962962962,
+        "later_negative_mean_score": 0.050570652173913044,
         "block_results": [
           {
             "block": 1,
@@ -540,12 +684,19 @@
       {
         "seed": 10,
         "overall_auc": 0.7318381277425646,
+        "timestamp_only_auc": 0.6540711847879084,
         "early_n": 134,
         "early_failures": 15,
         "later_n": 180,
         "later_failures": 6,
         "early_auc": 0.5910364145658262,
         "later_auc": 0.7662835249042146,
+        "early_mean_failure_score": 0.07809701492537313,
+        "later_mean_failure_score": 0.04820370370370371,
+        "early_positive_mean_score": 0.08666666666666667,
+        "early_negative_mean_score": 0.07701680672268907,
+        "later_positive_mean_score": 0.07944444444444446,
+        "later_negative_mean_score": 0.047126436781609195,
         "block_results": [
           {
             "block": 1,
@@ -582,12 +733,19 @@
       {
         "seed": 11,
         "overall_auc": 0.7406143344709898,
+        "timestamp_only_auc": 0.6405005688282138,
         "early_n": 127,
         "early_failures": 14,
         "later_n": 187,
         "later_failures": 7,
         "early_auc": 0.6577117572692794,
         "later_auc": 0.709920634920635,
+        "early_mean_failure_score": 0.09583989501312336,
+        "later_mean_failure_score": 0.04475044563279857,
+        "early_positive_mean_score": 0.12773809523809523,
+        "early_negative_mean_score": 0.09188790560471977,
+        "later_positive_mean_score": 0.065,
+        "later_negative_mean_score": 0.04396296296296297,
         "block_results": [
           {
             "block": 1,
@@ -624,12 +782,19 @@
       {
         "seed": 12,
         "overall_auc": 0.7658052982285064,
+        "timestamp_only_auc": 0.6456200227531286,
         "early_n": 124,
         "early_failures": 14,
         "later_n": 190,
         "later_failures": 7,
         "early_auc": 0.7243506493506493,
         "later_auc": 0.6924277907884465,
+        "early_mean_failure_score": 0.09861559139784946,
+        "later_mean_failure_score": 0.0431140350877193,
+        "early_positive_mean_score": 0.13773809523809527,
+        "early_negative_mean_score": 0.09363636363636364,
+        "later_positive_mean_score": 0.06666666666666667,
+        "later_negative_mean_score": 0.042213114754098356,
         "block_results": [
           {
             "block": 1,
@@ -666,12 +831,19 @@
       {
         "seed": 13,
         "overall_auc": 0.7357386640663092,
+        "timestamp_only_auc": 0.5197464651389566,
         "early_n": 123,
         "early_failures": 9,
         "later_n": 191,
         "later_failures": 12,
         "early_auc": 0.611598440545809,
         "later_auc": 0.826582867783985,
+        "early_mean_failure_score": 0.08982384823848238,
+        "later_mean_failure_score": 0.044267015706806294,
+        "early_positive_mean_score": 0.09018518518518519,
+        "early_negative_mean_score": 0.08979532163742689,
+        "later_positive_mean_score": 0.06972222222222223,
+        "later_negative_mean_score": 0.04256052141527002,
         "block_results": [
           {
             "block": 1,
@@ -708,12 +880,19 @@
       {
         "seed": 14,
         "overall_auc": 0.7121729237770194,
+        "timestamp_only_auc": 0.6166097838452786,
         "early_n": 141,
         "early_failures": 14,
         "later_n": 173,
         "later_failures": 7,
         "early_auc": 0.6026434195725534,
         "later_auc": 0.754302925989673,
+        "early_mean_failure_score": 0.0794917257683215,
+        "later_mean_failure_score": 0.05473025048169557,
+        "early_positive_mean_score": 0.08916666666666666,
+        "early_negative_mean_score": 0.07842519685039369,
+        "later_positive_mean_score": 0.09,
+        "later_negative_mean_score": 0.05324297188755021,
         "block_results": [
           {
             "block": 1,
@@ -750,12 +929,19 @@
       {
         "seed": 15,
         "overall_auc": 0.7809198764830164,
+        "timestamp_only_auc": 0.6830001625223467,
         "early_n": 132,
         "early_failures": 16,
         "later_n": 182,
         "later_failures": 5,
         "early_auc": 0.7155172413793103,
         "later_auc": 0.7299435028248588,
+        "early_mean_failure_score": 0.09171717171717171,
+        "later_mean_failure_score": 0.05054945054945054,
+        "early_positive_mean_score": 0.1271875,
+        "early_negative_mean_score": 0.08682471264367815,
+        "later_positive_mean_score": 0.06766666666666667,
+        "later_negative_mean_score": 0.050065913370998125,
         "block_results": [
           {
             "block": 1,
@@ -792,12 +978,19 @@
       {
         "seed": 16,
         "overall_auc": 0.7615797172111165,
+        "timestamp_only_auc": 0.6660165772793759,
         "early_n": 127,
         "early_failures": 15,
         "later_n": 187,
         "later_failures": 6,
         "early_auc": 0.6494047619047619,
         "later_auc": 0.7509208103130754,
+        "early_mean_failure_score": 0.09154855643044617,
+        "later_mean_failure_score": 0.04716577540106952,
+        "early_positive_mean_score": 0.11322222222222221,
+        "early_negative_mean_score": 0.08864583333333333,
+        "later_positive_mean_score": 0.06277777777777778,
+        "later_negative_mean_score": 0.04664825046040515,
         "block_results": [
           {
             "block": 1,
@@ -834,12 +1027,19 @@
       {
         "seed": 17,
         "overall_auc": 0.6727612546725175,
+        "timestamp_only_auc": 0.6031204290589957,
         "early_n": 119,
         "early_failures": 12,
         "later_n": 195,
         "later_failures": 9,
         "early_auc": 0.7305295950155763,
         "later_auc": 0.501194743130227,
+        "early_mean_failure_score": 0.08102240896358542,
+        "later_mean_failure_score": 0.05094871794871794,
+        "early_positive_mean_score": 0.11319444444444443,
+        "early_negative_mean_score": 0.07741433021806854,
+        "later_positive_mean_score": 0.05777777777777778,
+        "later_negative_mean_score": 0.05061827956989247,
         "block_results": [
           {
             "block": 1,
@@ -876,12 +1076,19 @@
       {
         "seed": 18,
         "overall_auc": 0.7918088737201365,
+        "timestamp_only_auc": 0.6099463676255484,
         "early_n": 115,
         "early_failures": 12,
         "later_n": 199,
         "later_failures": 9,
         "early_auc": 0.6593851132686084,
         "later_auc": 0.9014619883040935,
+        "early_mean_failure_score": 0.08284057971014491,
+        "later_mean_failure_score": 0.05055276381909547,
+        "early_positive_mean_score": 0.10569444444444442,
+        "early_negative_mean_score": 0.08017799352750811,
+        "later_positive_mean_score": 0.0874074074074074,
+        "later_negative_mean_score": 0.04880701754385965,
         "block_results": [
           {
             "block": 1,
@@ -918,12 +1125,19 @@
       {
         "seed": 19,
         "overall_auc": 0.7780757354136193,
+        "timestamp_only_auc": 0.6422070534698521,
         "early_n": 126,
         "early_failures": 14,
         "later_n": 188,
         "later_failures": 7,
         "early_auc": 0.7200255102040817,
         "later_auc": 0.7691397000789266,
+        "early_mean_failure_score": 0.09453703703703704,
+        "later_mean_failure_score": 0.04963652482269504,
+        "early_positive_mean_score": 0.1392857142857143,
+        "early_negative_mean_score": 0.08894345238095239,
+        "later_positive_mean_score": 0.07023809523809524,
+        "later_negative_mean_score": 0.04883977900552486,
         "block_results": [
           {
             "block": 1,
@@ -960,12 +1174,19 @@
       {
         "seed": 20,
         "overall_auc": 0.7348447911587842,
+        "timestamp_only_auc": 0.6201040143019666,
         "early_n": 124,
         "early_failures": 13,
         "later_n": 190,
         "later_failures": 8,
         "early_auc": 0.638946638946639,
         "later_auc": 0.7149725274725275,
+        "early_mean_failure_score": 0.11657258064516128,
+        "later_mean_failure_score": 0.04560526315789473,
+        "early_positive_mean_score": 0.1474358974358974,
+        "early_negative_mean_score": 0.11295795795795793,
+        "later_positive_mean_score": 0.07041666666666667,
+        "later_negative_mean_score": 0.04451465201465202,
         "block_results": [
           {
             "block": 1,
@@ -1002,12 +1223,19 @@
       {
         "seed": 21,
         "overall_auc": 0.7050219405168211,
+        "timestamp_only_auc": 0.6422070534698521,
         "early_n": 126,
         "early_failures": 14,
         "later_n": 188,
         "later_failures": 7,
         "early_auc": 0.6170280612244897,
         "later_auc": 0.6215469613259669,
+        "early_mean_failure_score": 0.08604497354497355,
+        "later_mean_failure_score": 0.0513031914893617,
+        "early_positive_mean_score": 0.09666666666666666,
+        "early_negative_mean_score": 0.0847172619047619,
+        "later_positive_mean_score": 0.08071428571428571,
+        "later_negative_mean_score": 0.05016574585635359,
         "block_results": [
           {
             "block": 1,
@@ -1044,12 +1272,19 @@
       {
         "seed": 22,
         "overall_auc": 0.7494718023728263,
+        "timestamp_only_auc": 0.6252234682268814,
         "early_n": 121,
         "early_failures": 13,
         "later_n": 193,
         "later_failures": 8,
         "early_auc": 0.7211538461538463,
         "later_auc": 0.6800675675675676,
+        "early_mean_failure_score": 0.08292011019283746,
+        "later_mean_failure_score": 0.048531951640759935,
+        "early_positive_mean_score": 0.11499999999999999,
+        "early_negative_mean_score": 0.07905864197530865,
+        "later_positive_mean_score": 0.059375,
+        "later_negative_mean_score": 0.04806306306306306,
         "block_results": [
           {
             "block": 1,
@@ -1086,12 +1321,19 @@
       {
         "seed": 23,
         "overall_auc": 0.6999837477653178,
+        "timestamp_only_auc": 0.6353811149032991,
         "early_n": 130,
         "early_failures": 14,
         "later_n": 184,
         "later_failures": 7,
         "early_auc": 0.539716748768473,
         "later_auc": 0.7760290556900726,
+        "early_mean_failure_score": 0.08255128205128205,
+        "later_mean_failure_score": 0.0486322463768116,
+        "early_positive_mean_score": 0.08238095238095236,
+        "early_negative_mean_score": 0.08257183908045976,
+        "later_positive_mean_score": 0.07547619047619047,
+        "later_negative_mean_score": 0.04757062146892655,
         "block_results": [
           {
             "block": 1,
@@ -1128,12 +1370,19 @@
       {
         "seed": 24,
         "overall_auc": 0.6955143832276938,
+        "timestamp_only_auc": 0.6064521371688607,
         "early_n": 132,
         "early_failures": 13,
         "later_n": 182,
         "later_failures": 8,
         "early_auc": 0.6373626373626373,
         "later_auc": 0.6508620689655172,
+        "early_mean_failure_score": 0.08887626262626262,
+        "later_mean_failure_score": 0.045989010989010995,
+        "early_positive_mean_score": 0.10076923076923075,
+        "early_negative_mean_score": 0.08757703081232494,
+        "later_positive_mean_score": 0.058124999999999996,
+        "later_negative_mean_score": 0.04543103448275862,
         "block_results": [
           {
             "block": 1,
@@ -1170,12 +1419,19 @@
       {
         "seed": 25,
         "overall_auc": 0.808467414269462,
+        "timestamp_only_auc": 0.6234357224118315,
         "early_n": 137,
         "early_failures": 14,
         "later_n": 177,
         "later_failures": 7,
         "early_auc": 0.8124274099883856,
         "later_auc": 0.7369747899159664,
+        "early_mean_failure_score": 0.09076642335766423,
+        "later_mean_failure_score": 0.0496045197740113,
+        "early_positive_mean_score": 0.1436904761904762,
+        "early_negative_mean_score": 0.08474254742547425,
+        "later_positive_mean_score": 0.08595238095238096,
+        "later_negative_mean_score": 0.048107843137254906,
         "block_results": [
           {
             "block": 1,
@@ -1212,12 +1468,19 @@
       {
         "seed": 26,
         "overall_auc": 0.7280188525922314,
+        "timestamp_only_auc": 0.6047456525272225,
         "early_n": 133,
         "early_failures": 13,
         "later_n": 181,
         "later_failures": 8,
         "early_auc": 0.646474358974359,
         "later_auc": 0.744942196531792,
+        "early_mean_failure_score": 0.07966165413533834,
+        "later_mean_failure_score": 0.05171270718232045,
+        "early_positive_mean_score": 0.09602564102564103,
+        "early_negative_mean_score": 0.0778888888888889,
+        "later_positive_mean_score": 0.08166666666666667,
+        "later_negative_mean_score": 0.05032755298651253,
         "block_results": [
           {
             "block": 1,
@@ -1254,12 +1517,19 @@
       {
         "seed": 27,
         "overall_auc": 0.6663416219730213,
+        "timestamp_only_auc": 0.570859743214692,
         "early_n": 108,
         "early_failures": 10,
         "later_n": 206,
         "later_failures": 11,
         "early_auc": 0.6540816326530613,
         "later_auc": 0.6023310023310022,
+        "early_mean_failure_score": 0.10160493827160495,
+        "later_mean_failure_score": 0.03852750809061488,
+        "early_positive_mean_score": 0.11166666666666666,
+        "early_negative_mean_score": 0.10057823129251701,
+        "later_positive_mean_score": 0.05196969696969697,
+        "later_negative_mean_score": 0.03776923076923077,
         "block_results": [
           {
             "block": 1,
@@ -1296,12 +1566,19 @@
       {
         "seed": 28,
         "overall_auc": 0.6246546400130017,
+        "timestamp_only_auc": 0.4959369413294328,
         "early_n": 122,
         "early_failures": 8,
         "later_n": 192,
         "later_failures": 13,
         "early_auc": 0.750548245614035,
         "later_auc": 0.6048560378169316,
+        "early_mean_failure_score": 0.0978415300546448,
+        "later_mean_failure_score": 0.04126736111111111,
+        "early_positive_mean_score": 0.16020833333333334,
+        "early_negative_mean_score": 0.09346491228070175,
+        "later_positive_mean_score": 0.05756410256410257,
+        "later_negative_mean_score": 0.040083798882681564,
         "block_results": [
           {
             "block": 1,
@@ -1338,12 +1615,19 @@
       {
         "seed": 29,
         "overall_auc": 0.6587030716723549,
+        "timestamp_only_auc": 0.5078010726474891,
         "early_n": 130,
         "early_failures": 9,
         "later_n": 184,
         "later_failures": 12,
         "early_auc": 0.7323232323232323,
         "later_auc": 0.6749031007751938,
+        "early_mean_failure_score": 0.08726923076923077,
+        "later_mean_failure_score": 0.04456521739130435,
+        "early_positive_mean_score": 0.10703703703703704,
+        "early_negative_mean_score": 0.08579889807162534,
+        "later_positive_mean_score": 0.05791666666666667,
+        "later_negative_mean_score": 0.043633720930232565,
         "block_results": [
           {
             "block": 1,
@@ -1380,12 +1664,19 @@
       {
         "seed": 30,
         "overall_auc": 0.7860393304079311,
+        "timestamp_only_auc": 0.6643100926377378,
         "early_n": 128,
         "early_failures": 15,
         "later_n": 186,
         "later_failures": 6,
         "early_auc": 0.7156342182890856,
         "later_auc": 0.7444444444444445,
+        "early_mean_failure_score": 0.09423177083333334,
+        "later_mean_failure_score": 0.04588709677419355,
+        "early_positive_mean_score": 0.12699999999999997,
+        "early_negative_mean_score": 0.089882005899705,
+        "later_positive_mean_score": 0.07333333333333335,
+        "later_negative_mean_score": 0.04497222222222222,
         "block_results": [
           {
             "block": 1,
@@ -1422,12 +1713,19 @@
       {
         "seed": 31,
         "overall_auc": 0.7515845928815211,
+        "timestamp_only_auc": 0.6575654152445961,
         "early_n": 117,
         "early_failures": 14,
         "later_n": 197,
         "later_failures": 7,
         "early_auc": 0.5957004160887656,
         "later_auc": 0.8105263157894737,
+        "early_mean_failure_score": 0.1013247863247863,
+        "later_mean_failure_score": 0.04188663282571913,
+        "early_positive_mean_score": 0.11785714285714284,
+        "early_negative_mean_score": 0.0990776699029126,
+        "later_positive_mean_score": 0.0719047619047619,
+        "later_negative_mean_score": 0.04078070175438597,
         "block_results": [
           {
             "block": 1,
@@ -1464,12 +1762,19 @@
       {
         "seed": 32,
         "overall_auc": 0.7241995774418982,
+        "timestamp_only_auc": 0.558833089549813,
         "early_n": 130,
         "early_failures": 11,
         "later_n": 184,
         "later_failures": 10,
         "early_auc": 0.7566844919786097,
         "later_auc": 0.6948275862068964,
+        "early_mean_failure_score": 0.09153846153846153,
+        "later_mean_failure_score": 0.05729166666666667,
+        "early_positive_mean_score": 0.13727272727272724,
+        "early_negative_mean_score": 0.08731092436974788,
+        "later_positive_mean_score": 0.092,
+        "later_negative_mean_score": 0.05529693486590038,
         "block_results": [
           {
             "block": 1,
@@ -1506,12 +1811,19 @@
       {
         "seed": 33,
         "overall_auc": 0.7193239070372176,
+        "timestamp_only_auc": 0.6522834389728588,
         "early_n": 150,
         "early_failures": 16,
         "later_n": 164,
         "later_failures": 5,
         "early_auc": 0.585820895522388,
         "later_auc": 0.7610062893081762,
+        "early_mean_failure_score": 0.10807777777777777,
+        "later_mean_failure_score": 0.05302845528455285,
+        "early_positive_mean_score": 0.12458333333333332,
+        "early_negative_mean_score": 0.10610696517412936,
+        "later_positive_mean_score": 0.092,
+        "later_negative_mean_score": 0.05180293501048219,
         "block_results": [
           {
             "block": 1,
@@ -1548,12 +1860,19 @@
       {
         "seed": 34,
         "overall_auc": 0.7646676418007476,
+        "timestamp_only_auc": 0.669348285389241,
         "early_n": 140,
         "early_failures": 16,
         "later_n": 174,
         "later_failures": 5,
         "early_auc": 0.6612903225806451,
         "later_auc": 0.7798816568047336,
+        "early_mean_failure_score": 0.09463095238095239,
+        "later_mean_failure_score": 0.04862068965517242,
+        "early_positive_mean_score": 0.1175,
+        "early_negative_mean_score": 0.09168010752688172,
+        "later_positive_mean_score": 0.07933333333333334,
+        "later_negative_mean_score": 0.0477120315581854,
         "block_results": [
           {
             "block": 1,
@@ -1590,12 +1909,19 @@
       {
         "seed": 35,
         "overall_auc": 0.7151795871932392,
+        "timestamp_only_auc": 0.5912562977409395,
         "early_n": 111,
         "early_failures": 11,
         "later_n": 203,
         "later_failures": 10,
         "early_auc": 0.5618181818181818,
         "later_auc": 0.8069948186528497,
+        "early_mean_failure_score": 0.07890390390390388,
+        "later_mean_failure_score": 0.052807881773399026,
+        "early_positive_mean_score": 0.09878787878787879,
+        "early_negative_mean_score": 0.07671666666666664,
+        "later_positive_mean_score": 0.07416666666666667,
+        "later_negative_mean_score": 0.05170120898100173,
         "block_results": [
           {
             "block": 1,
@@ -1632,12 +1958,19 @@
       {
         "seed": 36,
         "overall_auc": 0.7243620997887209,
+        "timestamp_only_auc": 0.5724849666829189,
         "early_n": 122,
         "early_failures": 11,
         "later_n": 192,
         "later_failures": 10,
         "early_auc": 0.7264537264537264,
         "later_auc": 0.6947802197802198,
+        "early_mean_failure_score": 0.07859289617486338,
+        "later_mean_failure_score": 0.051145833333333335,
+        "early_positive_mean_score": 0.09833333333333334,
+        "early_negative_mean_score": 0.07663663663663664,
+        "later_positive_mean_score": 0.06366666666666668,
+        "later_negative_mean_score": 0.05045787545787546,
         "block_results": [
           {
             "block": 1,
@@ -1674,12 +2007,19 @@
       {
         "seed": 37,
         "overall_auc": 0.6603282951405818,
+        "timestamp_only_auc": 0.48399154883796525,
         "early_n": 129,
         "early_failures": 8,
         "later_n": 185,
         "later_failures": 13,
         "early_auc": 0.7541322314049587,
         "later_auc": 0.7030411449016101,
+        "early_mean_failure_score": 0.10316537467700258,
+        "later_mean_failure_score": 0.03827927927927928,
+        "early_positive_mean_score": 0.14125,
+        "early_negative_mean_score": 0.10064738292011019,
+        "later_positive_mean_score": 0.06256410256410257,
+        "later_negative_mean_score": 0.0364437984496124,
         "block_results": [
           {
             "block": 1,
@@ -1716,12 +2056,19 @@
       {
         "seed": 38,
         "overall_auc": 0.7283438972858768,
+        "timestamp_only_auc": 0.6115715910937753,
         "early_n": 129,
         "early_failures": 13,
         "later_n": 185,
         "later_failures": 8,
         "early_auc": 0.6946286472148542,
         "later_auc": 0.6701977401129943,
+        "early_mean_failure_score": 0.10338501291989663,
+        "later_mean_failure_score": 0.045774774774774776,
+        "early_positive_mean_score": 0.12320512820512823,
+        "early_negative_mean_score": 0.10116379310344825,
+        "later_positive_mean_score": 0.060625,
+        "later_negative_mean_score": 0.04510357815442561,
         "block_results": [
           {
             "block": 1,
@@ -1758,12 +2105,19 @@
       {
         "seed": 39,
         "overall_auc": 0.8020477815699658,
+        "timestamp_only_auc": 0.68137493905412,
         "early_n": 118,
         "early_failures": 15,
         "later_n": 196,
         "later_failures": 6,
         "early_auc": 0.66957928802589,
         "later_auc": 0.8653508771929824,
+        "early_mean_failure_score": 0.07925141242937853,
+        "later_mean_failure_score": 0.05052721088435374,
+        "early_positive_mean_score": 0.10044444444444443,
+        "early_negative_mean_score": 0.07616504854368931,
+        "later_positive_mean_score": 0.08333333333333333,
+        "later_negative_mean_score": 0.04949122807017543,
         "block_results": [
           {
             "block": 1,
@@ -1800,12 +2154,19 @@
       {
         "seed": 40,
         "overall_auc": 0.6768243133430847,
+        "timestamp_only_auc": 0.6353811149032991,
         "early_n": 130,
         "early_failures": 14,
         "later_n": 184,
         "later_failures": 7,
         "early_auc": 0.5917487684729064,
         "later_auc": 0.6388216303470541,
+        "early_mean_failure_score": 0.10291025641025642,
+        "later_mean_failure_score": 0.04041666666666666,
+        "early_positive_mean_score": 0.1157142857142857,
+        "early_negative_mean_score": 0.10136494252873564,
+        "later_positive_mean_score": 0.04619047619047619,
+        "later_negative_mean_score": 0.040188323917137475,
         "block_results": [
           {
             "block": 1,
@@ -1842,12 +2203,19 @@
       {
         "seed": 41,
         "overall_auc": 0.7410206403380464,
+        "timestamp_only_auc": 0.6251422070534698,
         "early_n": 136,
         "early_failures": 14,
         "later_n": 178,
         "later_failures": 7,
         "early_auc": 0.6282201405152226,
         "later_auc": 0.7652464494569757,
+        "early_mean_failure_score": 0.10240196078431373,
+        "later_mean_failure_score": 0.05288389513108613,
+        "early_positive_mean_score": 0.11845238095238095,
+        "early_negative_mean_score": 0.10056010928961749,
+        "later_positive_mean_score": 0.09261904761904761,
+        "later_negative_mean_score": 0.05125730994152046,
         "block_results": [
           {
             "block": 1,
@@ -1884,12 +2252,19 @@
       {
         "seed": 42,
         "overall_auc": 0.7963594994311718,
+        "timestamp_only_auc": 0.7103039167885584,
         "early_n": 116,
         "early_failures": 16,
         "later_n": 198,
         "later_failures": 5,
         "early_auc": 0.636875,
         "later_auc": 0.7694300518134715,
+        "early_mean_failure_score": 0.09313218390804595,
+        "later_mean_failure_score": 0.046792929292929296,
+        "early_positive_mean_score": 0.11031250000000001,
+        "early_negative_mean_score": 0.09038333333333332,
+        "later_positive_mean_score": 0.083,
+        "later_negative_mean_score": 0.045854922279792744,
         "block_results": [
           {
             "block": 1,
@@ -1926,12 +2301,19 @@
       {
         "seed": 43,
         "overall_auc": 0.7510970258410531,
+        "timestamp_only_auc": 0.5962944904924427,
         "early_n": 123,
         "early_failures": 12,
         "later_n": 191,
         "later_failures": 9,
         "early_auc": 0.7195945945945945,
         "later_auc": 0.7255799755799757,
+        "early_mean_failure_score": 0.08284552845528455,
+        "later_mean_failure_score": 0.049310645724258285,
+        "early_positive_mean_score": 0.10166666666666668,
+        "early_negative_mean_score": 0.0808108108108108,
+        "later_positive_mean_score": 0.07055555555555555,
+        "later_negative_mean_score": 0.04826007326007327,
         "block_results": [
           {
             "block": 1,
@@ -1968,12 +2350,19 @@
       {
         "seed": 44,
         "overall_auc": 0.7490654965057696,
+        "timestamp_only_auc": 0.5826426133593369,
         "early_n": 131,
         "early_failures": 12,
         "later_n": 183,
         "later_failures": 9,
         "early_auc": 0.6162464985994398,
         "later_auc": 0.8825031928480205,
+        "early_mean_failure_score": 0.08568702290076334,
+        "later_mean_failure_score": 0.04119307832422587,
+        "early_positive_mean_score": 0.10986111111111112,
+        "early_negative_mean_score": 0.08324929971988795,
+        "later_positive_mean_score": 0.08,
+        "later_negative_mean_score": 0.039185823754789274,
         "block_results": [
           {
             "block": 1,
@@ -2010,12 +2399,19 @@
       {
         "seed": 45,
         "overall_auc": 0.7614171948642938,
+        "timestamp_only_auc": 0.6405818300016253,
         "early_n": 112,
         "early_failures": 13,
         "later_n": 202,
         "later_failures": 8,
         "early_auc": 0.6903651903651904,
         "later_auc": 0.7783505154639174,
+        "early_mean_failure_score": 0.07617559523809524,
+        "later_mean_failure_score": 0.04835808580858086,
+        "early_positive_mean_score": 0.09628205128205128,
+        "early_negative_mean_score": 0.07353535353535352,
+        "later_positive_mean_score": 0.07270833333333335,
+        "later_negative_mean_score": 0.04735395189003437,
         "block_results": [
           {
             "block": 1,
@@ -2052,12 +2448,19 @@
       {
         "seed": 46,
         "overall_auc": 0.7679180887372012,
+        "timestamp_only_auc": 0.6524459613196814,
         "early_n": 120,
         "early_failures": 14,
         "later_n": 194,
         "later_failures": 7,
         "early_auc": 0.7486522911051213,
         "later_auc": 0.6611917494270435,
+        "early_mean_failure_score": 0.08754166666666666,
+        "later_mean_failure_score": 0.04970790378006872,
+        "early_positive_mean_score": 0.12369047619047616,
+        "early_negative_mean_score": 0.08276729559748428,
+        "later_positive_mean_score": 0.07714285714285715,
+        "later_negative_mean_score": 0.04868092691622102,
         "block_results": [
           {
             "block": 1,
@@ -2094,12 +2497,19 @@
       {
         "seed": 47,
         "overall_auc": 0.7364700146270112,
+        "timestamp_only_auc": 0.7017714935803673,
         "early_n": 121,
         "early_failures": 16,
         "later_n": 193,
         "later_failures": 5,
         "early_auc": 0.5202380952380953,
         "later_auc": 0.8441489361702128,
+        "early_mean_failure_score": 0.09972451790633609,
+        "later_mean_failure_score": 0.044948186528497414,
+        "early_positive_mean_score": 0.10406249999999999,
+        "early_negative_mean_score": 0.09906349206349208,
+        "later_positive_mean_score": 0.089,
+        "later_negative_mean_score": 0.04377659574468085,
         "block_results": [
           {
             "block": 1,
@@ -2136,12 +2546,19 @@
       {
         "seed": 48,
         "overall_auc": 0.7607671054770031,
+        "timestamp_only_auc": 0.5928815212091663,
         "early_n": 125,
         "early_failures": 12,
         "later_n": 189,
         "later_failures": 9,
         "early_auc": 0.6662979351032449,
         "later_auc": 0.7672839506172839,
+        "early_mean_failure_score": 0.08920000000000003,
+        "later_mean_failure_score": 0.04966490299823633,
+        "early_positive_mean_score": 0.10930555555555554,
+        "early_negative_mean_score": 0.08706489675516224,
+        "later_positive_mean_score": 0.10111111111111111,
+        "later_negative_mean_score": 0.04709259259259259,
         "block_results": [
           {
             "block": 1,
@@ -2178,12 +2595,19 @@
       {
         "seed": 49,
         "overall_auc": 0.8138306517146108,
+        "timestamp_only_auc": 0.6574841540711849,
         "early_n": 132,
         "early_failures": 15,
         "later_n": 182,
         "later_failures": 6,
         "early_auc": 0.7492877492877493,
         "later_auc": 0.7552083333333334,
+        "early_mean_failure_score": 0.09426767676767678,
+        "later_mean_failure_score": 0.04667582417582416,
+        "early_positive_mean_score": 0.12233333333333332,
+        "early_negative_mean_score": 0.09066951566951566,
+        "later_positive_mean_score": 0.08916666666666666,
+        "later_negative_mean_score": 0.045227272727272734,
         "block_results": [
           {
             "block": 1,
