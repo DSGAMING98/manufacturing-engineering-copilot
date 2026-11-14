@@ -101,15 +101,16 @@ def classification_metrics(y_true, y_pred, *, labels) -> dict:
 
 
 def export_forest(model: RandomForestClassifier, path: Path) -> None:
+    # Retain full binary64 precision: rounding split thresholds can change tree paths.
     trees = []
     for estimator in model.estimators_:
         tree = estimator.tree_
         trees.append({
             "f": tree.feature.astype(int).tolist(),
-            "t": [round(float(value), 9) for value in tree.threshold],
+            "t": [float(value) for value in tree.threshold],
             "l": tree.children_left.astype(int).tolist(),
             "r": tree.children_right.astype(int).tolist(),
-            "v": [[round(float(v), 9) for v in row[0]] for row in tree.value],
+            "v": [[float(v) for v in row[0]] for row in tree.value],
         })
     payload = {
         "model_version": "steel-rf-2026-11-14",
