@@ -4,6 +4,7 @@ from __future__ import annotations
 import gzip
 import json
 import math
+import struct
 from functools import lru_cache
 from pathlib import Path
 
@@ -32,9 +33,17 @@ def predict_steel_fault(values: list[float]) -> dict:
         raise ValueError(f"Expected {len(model['features'])} measurements; received {len(values)}")
     if not all(math.isfinite(value) for value in values):
         raise ValueError("Measurements must all be finite numbers")
+    # scikit-learn decision trees cast inference features to float32.
+    # Match that exact boundary in this lightweight standard-library runtime.
+    try:
+        tree_input = [struct.unpack("!f", struct.pack("!f", float(v)))[0] for v in values]
+    except (OverflowError, ValueError, TypeError, struct.error) as exc:
+        raise ValueError("Measurements must fit the model float32 input schema") from exc
+    if not all(math.isfinite(v) for v in tree_input):
+        raise ValueError("Measurements must remain finite as float32")
     probabilities = [0.0] * len(model["classes"])
     for tree in model["trees"]:
-        for index, probability in enumerate(_tree_probabilities(tree, values)):
+        for index, probability in enumerate(_tree_probabilities(tree, tree_input)):
             probabilities[index] += probability
     probabilities = [value / len(model["trees"]) for value in probabilities]
     winner = max(range(len(probabilities)), key=probabilities.__getitem__)
