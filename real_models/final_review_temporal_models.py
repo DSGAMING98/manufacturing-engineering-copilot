@@ -81,6 +81,7 @@ def main():
         for f in ("sqrt",.3,.5)]
     model,setting,va,th=choose(y[a:b],baseoptions,x[:a],y[:a],x[a:b])
     prob=model.predict_proba(x[b:])[:,1]
+    original_setting,original_validation_auc=setting,va
     intervals={}
     for block in (8,16,32):
         intervals[str(block)]=moving_block_interval(y[b:],prob,block=block,n_boot=1200,seed=20261114)
@@ -125,7 +126,7 @@ def main():
         "source_sha256":sha,"retrospective_post_hoc":True,
         "chronological_model_seed_repeats":repeated,
         "original_seed42_chronological":{"metrics":binary_metrics(y[b:],prob),
-                                        "selected":setting,"validation_auc":va,
+                                        "selected":original_setting,"validation_auc":original_validation_auc,
                                         "block_bootstrap_by_size":intervals},
         "expanding_origin":{"folds":windows,"summary":aggregate},
         "limitations":[
