@@ -1,0 +1,246 @@
+{
+  "context": "retrospective post-hoc analysis; previously inspected timestamp-sorted holdout",
+  "source_sha256": "eea568baf3c2229096d7d294cf0b096b5502bd96d92c0b80a65b84714059be8e",
+  "chronological_split": {
+    "train": 940,
+    "validation": 313,
+    "test": 314,
+    "failures": {
+      "train": 76,
+      "validation": 11,
+      "test": 17
+    }
+  },
+  "methods": {
+    "always_pass": {
+      "chosen_hyperparameters": "no training; fixed constant decision",
+      "threshold": "all-pass",
+      "test": {
+        "roc_auc": 0.5,
+        "average_precision": 0.054140127388535034,
+        "balanced_accuracy": 0.5,
+        "failure_f1": 0.0,
+        "failure_recall": 0.0,
+        "confusion_matrix": [
+          [
+            297,
+            0
+          ],
+          [
+            17,
+            0
+          ]
+        ],
+        "predicted_failures": 0,
+        "bootstrap_95_ci": {
+          "roc_auc": [
+            0.5,
+            0.5
+          ],
+          "average_precision": [
+            0.028662420382165606,
+            0.07643312101910828
+          ]
+        }
+      }
+    },
+    "always_failure": {
+      "chosen_hyperparameters": "no training; fixed constant decision",
+      "threshold": "all-failure",
+      "test": {
+        "roc_auc": 0.5,
+        "average_precision": 0.054140127388535034,
+        "balanced_accuracy": 0.5,
+        "failure_f1": 0.1027190332326284,
+        "failure_recall": 1.0,
+        "confusion_matrix": [
+          [
+            0,
+            297
+          ],
+          [
+            0,
+            17
+          ]
+        ],
+        "predicted_failures": 314,
+        "bootstrap_95_ci": {
+          "roc_auc": [
+            0.5,
+            0.5
+          ],
+          "average_precision": [
+            0.028662420382165606,
+            0.07643312101910828
+          ]
+        }
+      }
+    },
+    "logistic_regression": {
+      "validation_auc": 0.368151715833835,
+      "selected_hyperparameter": "C=0.1",
+      "validation_selected_failure_f1_threshold": 5.183596482325206e-06,
+      "test": {
+        "roc_auc": 0.6680530798177857,
+        "average_precision": 0.0946473286803746,
+        "balanced_accuracy": 0.5876411170528817,
+        "failure_f1": 0.12396694214876033,
+        "failure_recall": 0.8823529411764706,
+        "confusion_matrix": [
+          [
+            87,
+            210
+          ],
+          [
+            2,
+            15
+          ]
+        ],
+        "predicted_failures": 225,
+        "bootstrap_95_ci": {
+          "roc_auc": [
+            0.5345257063828175,
+            0.7932471008028547
+          ],
+          "average_precision": [
+            0.05173877683450808,
+            0.17862911212608645
+          ]
+        }
+      }
+    },
+    "rbf_svm": {
+      "validation_auc": 0.5608067429259482,
+      "selected_hyperparameter": "C=0.1",
+      "validation_selected_failure_f1_threshold": 0.08996674872571842,
+      "test": {
+        "roc_auc": 0.3422459893048128,
+        "average_precision": 0.042418200837327794,
+        "balanced_accuracy": 0.376114081996435,
+        "failure_f1": 0.0410958904109589,
+        "failure_recall": 0.17647058823529413,
+        "confusion_matrix": [
+          [
+            171,
+            126
+          ],
+          [
+            14,
+            3
+          ]
+        ],
+        "predicted_failures": 129,
+        "bootstrap_95_ci": {
+          "roc_auc": [
+            0.22043928405733404,
+            0.49457401732023865
+          ],
+          "average_precision": [
+            0.023664668807404695,
+            0.08224158322661239
+          ]
+        }
+      }
+    },
+    "knn": {
+      "validation_auc": 0.4214328717639976,
+      "selected_hyperparameter": "n_neighbors=5",
+      "validation_selected_failure_f1_threshold": 0.0,
+      "test": {
+        "roc_auc": 0.4571202218261042,
+        "average_precision": 0.05111645731037973,
+        "balanced_accuracy": 0.5,
+        "failure_f1": 0.1027190332326284,
+        "failure_recall": 1.0,
+        "confusion_matrix": [
+          [
+            0,
+            297
+          ],
+          [
+            0,
+            17
+          ]
+        ],
+        "predicted_failures": 314,
+        "bootstrap_95_ci": {
+          "roc_auc": [
+            0.34754447641450514,
+            0.5675587544065805
+          ],
+          "average_precision": [
+            0.02866216762713578,
+            0.07719652220956398
+          ]
+        }
+      }
+    },
+    "gradient_boosting": {
+      "validation_auc": 0.6098735701384708,
+      "selected_hyperparameter": "n_estimators=60",
+      "validation_selected_failure_f1_threshold": 0.13575774223286396,
+      "test": {
+        "roc_auc": 0.43810655575361457,
+        "average_precision": 0.04957673111668674,
+        "balanced_accuracy": 0.47464844523668054,
+        "failure_f1": 0.057971014492753624,
+        "failure_recall": 0.11764705882352941,
+        "confusion_matrix": [
+          [
+            247,
+            50
+          ],
+          [
+            15,
+            2
+          ]
+        ],
+        "predicted_failures": 52,
+        "bootstrap_95_ci": {
+          "roc_auc": [
+            0.29940947492450876,
+            0.593870353700796
+          ],
+          "average_precision": [
+            0.029273003009365275,
+            0.08630082381486073
+          ]
+        }
+      }
+    },
+    "extra_trees_released_family": {
+      "validation_auc": 0.5335641180012041,
+      "selected_hyperparameter": "max_features=0.5",
+      "validation_selected_failure_f1_threshold": 0.07666666666666666,
+      "test": {
+        "roc_auc": 0.49653396712220244,
+        "average_precision": 0.0544930893128458,
+        "balanced_accuracy": 0.45870469399881164,
+        "failure_f1": 0.03333333333333333,
+        "failure_recall": 0.058823529411764705,
+        "confusion_matrix": [
+          [
+            255,
+            42
+          ],
+          [
+            16,
+            1
+          ]
+        ],
+        "predicted_failures": 43,
+        "bootstrap_95_ci": {
+          "roc_auc": [
+            0.3559117503656753,
+            0.6398152767878356
+          ],
+          "average_precision": [
+            0.03154377467757543,
+            0.095982337652558
+          ]
+        }
+      }
+    }
+  },
+  "bootstrap_method": "1000 row-resampled percentile intervals; ignores temporal correlation"
+}

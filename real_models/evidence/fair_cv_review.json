@@ -1,0 +1,164 @@
+{
+  "purpose": "post-hoc fairer configurations and released-estimator CV",
+  "data_sha256": {
+    "steel": "cb8eb9859198b63f053e443513036b401746fa517ef58bd17c846c6741c93919",
+    "secom": "eea568baf3c2229096d7d294cf0b096b5502bd96d92c0b80a65b84714059be8e"
+  },
+  "steel": {
+    "metric": "f1_macro",
+    "development_n": 1552,
+    "holdout_n": 389,
+    "results": {
+      "logistic_regression": {
+        "candidate_count": 3,
+        "selected": "C=1.0",
+        "validation_selection_score": 0.6808427753199588,
+        "cv_mean": 0.6673146730207864,
+        "cv_sd": 0.006774199817368268,
+        "existing_holdout": {
+          "accuracy": 0.6580976863753213,
+          "macro_f1": 0.6466800124765243
+        }
+      },
+      "rbf_svm": {
+        "candidate_count": 3,
+        "selected": "C=10.0",
+        "validation_selection_score": 0.7678521881352836,
+        "cv_mean": 0.7590487124955128,
+        "cv_sd": 0.009764117911875654,
+        "existing_holdout": {
+          "accuracy": 0.7300771208226221,
+          "macro_f1": 0.7445164523489646
+        }
+      },
+      "knn": {
+        "candidate_count": 3,
+        "selected": "k=5",
+        "validation_selection_score": 0.71929588052262,
+        "cv_mean": 0.7321591756173841,
+        "cv_sd": 0.011705877964296474,
+        "existing_holdout": {
+          "accuracy": 0.7069408740359897,
+          "macro_f1": 0.7163787037191414
+        }
+      },
+      "gradient_boosting": {
+        "candidate_count": 3,
+        "selected": "n_estimators=60",
+        "validation_selection_score": 0.7842545233581648,
+        "cv_mean": 0.7781653807955794,
+        "cv_sd": 0.009454927272029543,
+        "existing_holdout": {
+          "accuracy": 0.7712082262210797,
+          "macro_f1": 0.7724751939704928
+        }
+      },
+      "released_random_forest": {
+        "candidate_count": 1,
+        "selected": "max_depth=12",
+        "validation_selection_score": 0.7899575689680756,
+        "cv_mean": 0.7875066493162636,
+        "cv_sd": 0.017383972842207496,
+        "existing_holdout": {
+          "accuracy": 0.8020565552699229,
+          "macro_f1": 0.8038731583477228
+        }
+      }
+    },
+    "protocol": {
+      "cv_folds": 3,
+      "cv_repeats": 2,
+      "selection": "original train/validation only; no test-set tuning",
+      "cv_limitation": "CV scores are not fully nested: selected settings saw original validation subset inside development pool",
+      "holdout_limitation": "original test partition already reported in earlier release; comparisons are post-hoc",
+      "baseline_grids": "C (.1,1,10); neighbors (5,11,21); boosting trees (60,100,150)",
+      "released_model_cv": "fixed originally released setting evaluated across repeated development CV folds"
+    }
+  },
+  "secom": {
+    "metric": "roc_auc",
+    "development_n": 1253,
+    "holdout_n": 314,
+    "results": {
+      "logistic_regression": {
+        "candidate_count": 3,
+        "selected": "C=0.1",
+        "validation_selection_score": 0.6234357224118316,
+        "cv_mean": 0.6407446976891421,
+        "cv_sd": 0.025125383963251792,
+        "existing_holdout": {
+          "roc_auc": 0.5730537948967982,
+          "average_precision": 0.12273761992214251,
+          "balanced_accuracy": 0.5509507557289127,
+          "failure_f1": 0.16666666666666666,
+          "threshold": 0.881322137020879
+        }
+      },
+      "rbf_svm": {
+        "candidate_count": 3,
+        "selected": "C=10.0",
+        "validation_selection_score": 0.6713798147245247,
+        "cv_mean": 0.6705444761000315,
+        "cv_sd": 0.03506562610986526,
+        "existing_holdout": {
+          "roc_auc": 0.6413131805623273,
+          "average_precision": 0.12069689176383401,
+          "balanced_accuracy": 0.5487567040468064,
+          "failure_f1": 0.14173228346456693,
+          "threshold": 0.07168915545182382
+        }
+      },
+      "knn": {
+        "candidate_count": 3,
+        "selected": "k=21",
+        "validation_selection_score": 0.6812124167072973,
+        "cv_mean": 0.6171626984126983,
+        "cv_sd": 0.03786793825202776,
+        "existing_holdout": {
+          "roc_auc": 0.7231431821875509,
+          "average_precision": 0.12018948079418403,
+          "balanced_accuracy": 0.5254347472777507,
+          "failure_f1": 0.1111111111111111,
+          "threshold": 0.19047619047619047
+        }
+      },
+      "gradient_boosting": {
+        "candidate_count": 3,
+        "selected": "n_estimators=60",
+        "validation_selection_score": 0.6505769543312205,
+        "cv_mean": 0.6851922511644734,
+        "cv_sd": 0.035052761035978576,
+        "existing_holdout": {
+          "roc_auc": 0.737851454575004,
+          "average_precision": 0.16188812254726298,
+          "balanced_accuracy": 0.5067446773931416,
+          "failure_f1": 0.0625,
+          "threshold": 0.22977117620125884
+        }
+      },
+      "released_extra_trees": {
+        "candidate_count": 1,
+        "selected": "max_features=0.3",
+        "validation_selection_score": 0.7539411669104501,
+        "cv_mean": 0.7248815741871297,
+        "cv_sd": 0.02969279924253377,
+        "existing_holdout": {
+          "roc_auc": 0.7963594994311718,
+          "average_precision": 0.19169190336398612,
+          "balanced_accuracy": 0.7359824475865431,
+          "failure_f1": 0.2803738317757009,
+          "threshold": 0.075
+        }
+      }
+    },
+    "protocol": {
+      "cv_folds": 3,
+      "cv_repeats": 2,
+      "selection": "original train/validation only; no test-set tuning",
+      "cv_limitation": "CV scores are not fully nested: selected settings saw original validation subset inside development pool",
+      "holdout_limitation": "original test partition already reported in earlier release; comparisons are post-hoc",
+      "baseline_grids": "C (.1,1,10); neighbors (5,11,21); boosting trees (60,100,150)",
+      "released_model_cv": "fixed originally released setting evaluated across repeated development CV folds"
+    }
+  }
+}
