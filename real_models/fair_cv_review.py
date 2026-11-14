@@ -12,6 +12,7 @@ import argparse
 import json
 from pathlib import Path
 import numpy as np
+from scipy.stats import binomtest
 from sklearn.dummy import DummyClassifier
 from sklearn.ensemble import ExtraTreesClassifier, GradientBoostingClassifier, RandomForestClassifier
 from sklearn.impute import SimpleImputer
@@ -51,6 +52,7 @@ def analyze(task,x,y,folds,repeats):
     metric="f1_macro" if task=="steel" else "roc_auc"
     cv=RepeatedStratifiedKFold(n_splits=folds,n_repeats=repeats,random_state=42)
     findings={}
+    predicted_test_labels={}
     for name,options in candidates(task).items():
         scored=[]
         for setting,model in options:
@@ -78,6 +80,7 @@ def analyze(task,x,y,folds,repeats):
                      "balanced_accuracy":float(balanced_accuracy_score(yt,pred)),
                      "failure_f1":float(f1_score(yt,pred,zero_division=0)),
                      "threshold":cutoff}
+        predicted_test_labels[name]=np.asarray(pred,dtype=int)
         findings[name]={"candidate_count":len(options),"selected":choice,
               "validation_selection_score":valid_score,
               "cv_mean":float(np.mean(scores)),
@@ -85,6 +88,23 @@ def analyze(task,x,y,folds,repeats):
               "existing_holdout":outcome}
         print(task,name,choice,"cv",round(float(np.mean(scores)),4),
               "holdout",json.dumps(outcome),flush=True)
+    reference_name="released_random_forest" if task=="steel" else "released_extra_trees"
+    reference=predicted_test_labels[reference_name]
+    for method,prediction in predicted_test_labels.items():
+        if method==reference_name:
+            continue
+        ref_correct=(reference==yt)
+        other_correct=(prediction==yt)
+        n_ref_only=int((ref_correct & ~other_correct).sum())
+        n_other_only=int((other_correct & ~ref_correct).sum())
+        n_discordant=n_ref_only+n_other_only
+        pval=float(binomtest(min(n_ref_only,n_other_only),n_discordant,0.5).pvalue) if n_discordant else 1.0
+        findings[method]["paired_mcnemar"]={
+            "incumbent_only_correct":n_ref_only,
+            "baseline_only_correct":n_other_only,
+            "discordant":n_discordant,
+            "exact_two_sided_p":pval,
+            "interpretation":"unadjusted paired classification correctness; not a test of F1 or ROC-AUC"}
     return {"metric":metric,"development_n":len(xd),"holdout_n":len(yt),
             "results":findings,"protocol":{
                 "cv_folds":folds,"cv_repeats":repeats,
