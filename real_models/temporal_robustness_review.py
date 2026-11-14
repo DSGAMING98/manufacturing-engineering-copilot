@@ -66,7 +66,7 @@ def moving_block_interval(y,prob,block=16,n_boot=1200,seed=20261114):
         auroc.append(float(roc_auc_score(y[positions],prob[positions])))
         ap.append(float(average_precision_score(y[positions],prob[positions])))
     return {
-       "method":"circular moving block bootstrap; 16-record blocks; 1200 replicates",
+       "method":f"circular moving block bootstrap; {block}-record blocks; {n_boot} replicates",
        "valid_resamples":len(auroc),
        "roc_auc_95_ci":[float(z) for z in np.quantile(auroc,[.025,.975])],
        "average_precision_95_ci":[float(z) for z in np.quantile(ap,[.025,.975])],
