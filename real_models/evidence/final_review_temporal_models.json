@@ -170,7 +170,7 @@
         "setting": "max_features=0.5",
         "validation_auc": 0.5529801324503312,
         "threshold": 0.12166666666666667,
-        "failure_f1": 0.0,
+        "failure_f1": 0,
         "alerts": 3,
         "caught": 0
       },
@@ -244,7 +244,7 @@
     "validation_auc": 0.5335641180012041,
     "block_bootstrap_by_size": {
       "8": {
-        "method": "circular moving block bootstrap; 16-record blocks; 1200 replicates",
+        "method": "circular moving block bootstrap; 8-record blocks; 1200 replicates",
         "valid_resamples": 1200,
         "roc_auc_95_ci": [
           0.289033408230842,
@@ -268,7 +268,7 @@
         ]
       },
       "32": {
-        "method": "circular moving block bootstrap; 16-record blocks; 1200 replicates",
+        "method": "circular moving block bootstrap; 32-record blocks; 1200 replicates",
         "valid_resamples": 1200,
         "roc_auc_95_ci": [
           0.3200726729839108,
@@ -315,7 +315,7 @@
             "validation_auc": 0.6695778748180494,
             "threshold": 0.11684004112431737,
             "alerts": 29,
-            "failure_f1": 0.0
+            "failure_f1": 0
           },
           "knn": {
             "n": 235,
@@ -373,7 +373,7 @@
             "average_precision": 0.06032164315766883,
             "selected": "C=10.0",
             "validation_auc": 0.6672932330827067,
-            "threshold": 2.764774793299174e-06,
+            "threshold": 0.000002764774793299174,
             "alerts": 71,
             "failure_f1": 0.06818181818181818
           },
@@ -445,7 +445,7 @@
             "average_precision": 0.1130532204824303,
             "selected": "C=0.1",
             "validation_auc": 0.48596869940636805,
-            "threshold": 7.846445525909981e-05,
+            "threshold": 0.00007846445525909981,
             "alerts": 116,
             "failure_f1": 0.112
           },
@@ -469,7 +469,7 @@
             "average_precision": 0.05313723210479401,
             "selected": "n_neighbors=11",
             "validation_auc": 0.4950080949811117,
-            "threshold": 0.0,
+            "threshold": 0,
             "alerts": 235,
             "failure_f1": 0.07377049180327869
           },
@@ -483,7 +483,7 @@
             "validation_auc": 0.5206422018348623,
             "threshold": 0.07423868667007902,
             "alerts": 38,
-            "failure_f1": 0.0
+            "failure_f1": 0
           },
           "extra_trees_released_family": {
             "n": 235,
