@@ -34,7 +34,7 @@ def read_labels_and_timestamps(path):
         if len(pieces) != 2:
             raise ValueError(f"SECOM labels line {line_no} missing timestamp")
         labels.append(1 if int(pieces[0]) == 1 else 0)
-        timestamp = pieces[1].strip()
+        timestamp = pieces[1].strip().strip('"').strip("'")
         parsed = None
         for fmt in ("%d/%m/%Y %H:%M:%S", "%m/%d/%Y %H:%M:%S",
                     "%Y-%m-%d %H:%M:%S"):
