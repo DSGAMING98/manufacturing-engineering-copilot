@@ -4,6 +4,7 @@ on:
     paths:
       - '.github/workflows/reviewer-experiments.yml'
       - 'real_models/train_real_models.py'
+      - 'phase5/real_model.py'
   workflow_dispatch:
 
 permissions:
