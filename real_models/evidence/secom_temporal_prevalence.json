@@ -1,0 +1,87 @@
+{
+  "status": "VERIFIED_FROM_RAW_UCI_LABELS",
+  "dataset": "UCI SECOM",
+  "dataset_doi": "10.24432/C54305",
+  "archive_sha256": "eea568baf3c2229096d7d294cf0b096b5502bd96d92c0b80a65b84714059be8e",
+  "source_file": "secom_labels.data",
+  "ordering": "stable ascending sort by parsed timestamp",
+  "records": 1567,
+  "total_failures": 104,
+  "global_prevalence": 0.06636885768985322,
+  "five_consecutive_blocks": [
+    {
+      "block": 1,
+      "start_row_inclusive": 1,
+      "end_row_inclusive": 627,
+      "samples": 627,
+      "failures": 65,
+      "pass": 562,
+      "failure_prevalence": 0.10366826156299841,
+      "earliest_timestamp": "2008-07-19 11:55:00",
+      "latest_timestamp": "2008-09-01 06:52:00"
+    },
+    {
+      "block": 2,
+      "start_row_inclusive": 628,
+      "end_row_inclusive": 862,
+      "samples": 235,
+      "failures": 6,
+      "pass": 229,
+      "failure_prevalence": 0.02553191489361702,
+      "earliest_timestamp": "2008-09-01 08:18:00",
+      "latest_timestamp": "2008-09-16 08:52:00"
+    },
+    {
+      "block": 3,
+      "start_row_inclusive": 863,
+      "end_row_inclusive": 1097,
+      "samples": 235,
+      "failures": 7,
+      "pass": 228,
+      "failure_prevalence": 0.029787234042553193,
+      "earliest_timestamp": "2008-09-16 09:37:00",
+      "latest_timestamp": "2008-09-26 03:12:00"
+    },
+    {
+      "block": 4,
+      "start_row_inclusive": 1098,
+      "end_row_inclusive": 1332,
+      "samples": 235,
+      "failures": 17,
+      "pass": 218,
+      "failure_prevalence": 0.07234042553191489,
+      "earliest_timestamp": "2008-09-26 03:29:00",
+      "latest_timestamp": "2008-10-05 19:45:00"
+    },
+    {
+      "block": 5,
+      "start_row_inclusive": 1333,
+      "end_row_inclusive": 1567,
+      "samples": 235,
+      "failures": 9,
+      "pass": 226,
+      "failure_prevalence": 0.03829787234042553,
+      "earliest_timestamp": "2008-10-05 20:12:00",
+      "latest_timestamp": "2008-10-17 06:07:00"
+    }
+  ],
+  "first_627_records_failure_share": 0.625,
+  "chronological_60_20_20": [
+    {
+      "partition": "train",
+      "rows": 940,
+      "failures": 76
+    },
+    {
+      "partition": "validation",
+      "rows": 313,
+      "failures": 11
+    },
+    {
+      "partition": "test",
+      "rows": 314,
+      "failures": 17
+    }
+  ],
+  "interpretation_limit": "Describes time-varying outcome prevalence, not proven concept drift, leakage mechanism, or causal explanation."
+}
