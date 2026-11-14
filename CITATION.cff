@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use MFG Workbench in research, please cite this repository and the original UCI datasets."
+type: software
+title: "MFG Workbench: Traceable Manufacturing Decision Support and Temporal Evaluation"
+abstract: "An open research workbench combining deterministic manufacturing calculations, source-linked evidence retrieval, and reproducible classification experiments on UCI Steel Plates Faults and SECOM data."
+authors:
+  - family-names: Pradhan
+    given-names: Prajwal C.
+repository-code: "https://github.com/DSGAMING98/manufacturing-engineering-copilot"
+url: "https://manufacturing-engineering-copilot.vercel.app/"
+license: MIT
+version: "0.9"
+date-released: 2026-11-14
+keywords:
+  - manufacturing
+  - machine learning
+  - temporal evaluation
+  - engineering decision support
