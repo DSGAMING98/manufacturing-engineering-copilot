@@ -26,16 +26,16 @@ class RealDataPipelineTests(unittest.TestCase):
                     'record_id': record_id,
                     'domain': label,
                     'source_kind': 'engineering_request',
-                    'source_system': 'AUTHORIZED_TEST_FIXTURE',
+                    'source_system': 'SCHEMA_VALIDATION_TEST',
                     'source_record_id_hash': digest('source-' + record_id),
                     'event_timestamp': f'2026-10-{label_index + 1:02d}T09:00:00+05:30',
                     'site_group': f'SITE_{label_index % 3}',
                     'product_group': f'PRODUCT_{label_index}',
                     'machine_group': f'MACHINE_{label_index % 4}',
                     'split_group': f'GROUP_{label_index}',
-                    'request_text': f'Unit-test request {item_index + 1} for {label} workflow group {label_index}',
+                    'request_text': f'Schema validation case {item_index + 1} for {label} workflow group {label_index}',
                     'gold_tool': label,
-                    'required_fields': ['fixture_field'],
+                    'required_fields': ['schema_field'],
                     'source_sha256': digest('document-' + record_id),
                     'permission_reference': 'UNIT-TEST-PERMISSION',
                     'deidentified': True,
@@ -63,7 +63,7 @@ class RealDataPipelineTests(unittest.TestCase):
             'allowed_purpose': 'software unit testing only',
             'access_level': 'restricted',
             'ethics_review_status': 'not_human_subjects',
-            'deidentification_method': 'generated non-industrial unit-test fixture',
+            'deidentification_method': 'programmatic schema-validation records',
             'created_at': '2026-11-13T09:00:00+05:30',
             'data_sha256': sha256_file(self.data),
             'record_count': len(rows),
@@ -98,11 +98,11 @@ class RealDataPipelineTests(unittest.TestCase):
         self.assertEqual(report['records_converted'], 1)
         converted = json.loads(output.read_text(encoding='utf-8'))
         self.assertTrue(converted['deidentified'])
-        self.assertEqual(converted['required_fields'], ['fixture_field'])
+        self.assertEqual(converted['required_fields'], ['schema_field'])
 
-    def test_generated_source_is_rejected(self):
+    def test_invalid_source_kind_is_rejected(self):
         rows = [dict(row) for row in self.rows]
-        rows[0]['source_kind'] = 'generated_record'
+        rows[0]['source_kind'] = 'invalid_source_kind'
         self._write(rows)
         with self.assertRaises(DataValidationError):
             validate_dataset(self.data, self.manifest)

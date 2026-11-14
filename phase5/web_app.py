@@ -26,7 +26,7 @@ ASSETS = {
 MAX_BODY = 8192
 
 
-def process_payload(payload: object, *, include_demo: bool = False, chunks=None) -> dict:
+def process_payload(payload: object, *, chunks=None) -> dict:
     """Pure request-to-result path; easy to audit and unit-test offline."""
     if not isinstance(payload, dict):
         return {'status': 'INSUFFICIENT_DATA', 'report': 'Expected JSON object.', 'data': {}, 'citations': []}
@@ -35,7 +35,7 @@ def process_payload(payload: object, *, include_demo: bool = False, chunks=None)
     if 'prompt' in payload:
         if set(payload) != {'prompt'}:
             return {'status': 'INSUFFICIENT_DATA', 'report': 'Assistant requests accept prompt only.', 'data': {}, 'citations': []}
-        return assist(payload.get('prompt'), include_demo=include_demo, chunks=chunks)
+        return assist(payload.get('prompt'), chunks=chunks)
     if payload.get('domain') == 'real_quality':
         fields = payload.get('fields')
         if not isinstance(fields, dict) or set(fields) != {'measurements'}:
@@ -61,10 +61,10 @@ def process_payload(payload: object, *, include_demo: bool = False, chunks=None)
             'verified_source': True,
         }
     return run(payload.get('domain', ''), payload.get('fields', {}),
-               question=payload.get('question'), include_demo=include_demo, chunks=chunks)
+               question=payload.get('question'), chunks=chunks)
 
 
-def make_handler(include_demo=False, corpus=None):
+def make_handler(corpus=None):
     class Handler(BaseHTTPRequestHandler):
         server_version = 'MfgCopilotLocal/0.1'
 
@@ -101,7 +101,7 @@ def make_handler(include_demo=False, corpus=None):
             path = urlsplit(self.path).path
             if path == '/health':
                 self._json(200, {'status': 'OK', 'local_only': True, 'model_autonomy': False,
-                                 'demo_enabled': include_demo})
+                                 'public_sources': True})
                 return
             if path not in ASSETS:
                 self._json(404, {'error': 'Not found'})
@@ -138,7 +138,7 @@ def make_handler(include_demo=False, corpus=None):
             except (ValueError, UnicodeDecodeError):
                 self._json(400, {'error': 'Invalid JSON'})
                 return
-            result = process_payload(payload, include_demo=include_demo, chunks=corpus)
+            result = process_payload(payload, chunks=corpus)
             self._json(200, result)
 
     return Handler
@@ -147,14 +147,13 @@ def make_handler(include_demo=False, corpus=None):
 def main():
     p = argparse.ArgumentParser(description='Local browser interface; binds only to 127.0.0.1.')
     p.add_argument('--port', type=int, default=8765)
-    p.add_argument('--include-demo', action='store_true', help='Enable fictional demo document snippets')
     args = p.parse_args()
     if not 1024 <= args.port <= 65535:
         p.error('Port must be 1024..65535')
-    corpus = load_corpus(include_demo=args.include_demo)
-    server = HTTPServer(('127.0.0.1', args.port), make_handler(include_demo=args.include_demo, corpus=corpus))
+    corpus = load_corpus()
+    server = HTTPServer(('127.0.0.1', args.port), make_handler(corpus=corpus))
     print(f'Open http://127.0.0.1:{args.port}/ in your browser. Ctrl+C to stop.')
-    print(f'Document snippets loaded: {len(corpus)}. Demo sources: {args.include_demo}.')
+    print(f'Public document snippets loaded: {len(corpus)}.')
     print('Local research prototype. No manufacturing action or release authorization.')
     try:
         server.serve_forever()

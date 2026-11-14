@@ -75,8 +75,7 @@ def _document_answer(question: str, chunks: list[Chunk], selector: Optional[Call
         return Answer(
             text=('NO VERIFIED DOCUMENT ANSWER. No relevant registered source passed the lexical and '
                   'provenance checks. Add permission-cleared, human-reviewed documents; '
-                  'do not invent standards, citations, or release decisions. '
-                  'Try --include-demo only to inspect the fictional example corpus.'),
+                  'do not invent standards, citations, or release decisions.'),
             decision=None, citations=(), abstained=True, mode='document_refusal',
         )
     if selector and len(hits) > 1:
@@ -87,8 +86,8 @@ def _document_answer(question: str, chunks: list[Chunk], selector: Optional[Call
             pass
     hits = hits[:max_evidence]
     parts = ['Retrieved DOCUMENT EXCERPT(S), not an autonomous engineering conclusion:']
-    if any(h.chunk.status == 'demo' for h in hits):
-        parts.append('WARNING: at least one source is FICTIONAL DEMO MATERIAL, not a real approved procedure.')
+    if any(h.chunk.status == 'public' for h in hits):
+        parts.append('Sources are public dataset metadata; they are not operating procedures or standards.')
     else:
         parts.append('Sources are labelled approved in the local manifest; human approval was NOT independently verified by this software.')
     for hit in hits:
@@ -101,7 +100,7 @@ def _document_answer(question: str, chunks: list[Chunk], selector: Optional[Call
                   citations=tuple(h.chunk.citation for h in hits), abstained=False, mode='document_excerpt')
 
 
-def answer(question: str, include_demo: bool = False, selector: Optional[Callable[[str, list[Hit]], str]] = None,
+def answer(question: str, selector: Optional[Callable[[str, list[Hit]], str]] = None,
            max_evidence: int = 2, chunks: list[Chunk] | None = None) -> Answer:
     if not isinstance(question, str) or not question.strip():
         return Answer('Please enter an inspection scenario or a document question.', None, (), True, 'input_refusal')
@@ -113,5 +112,5 @@ def answer(question: str, include_demo: bool = False, selector: Optional[Callabl
                       'This is not a standards compliance or product release decision.',
                       result['decision'], (), result['decision'] == 'INSUFFICIENT_DATA', 'verified_decimal')
     if chunks is None:
-        chunks = load_corpus(include_demo=include_demo)
+        chunks = load_corpus()
     return _document_answer(question, chunks, selector, max_evidence)

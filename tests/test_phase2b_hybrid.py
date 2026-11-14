@@ -96,7 +96,7 @@ class HybridTest(unittest.TestCase):
             self.assertEqual(r['decision'], expected)
             self.assertTrue(report.startswith(f'Decision: {expected}\n'))
 
-    def test_101_generated_boundary_cases(self):
+    def test_101_boundary_regression_cases(self):
         from decimal import Decimal
         for i in range(-50, 51):
             measurement = Decimal('20') + Decimal(i) / Decimal('1000')

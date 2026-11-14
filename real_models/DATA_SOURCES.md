@@ -1,6 +1,6 @@
 # Observed manufacturing data sources
 
-The active research models use public measurements, not generated operating records.
+The active research models use observed public manufacturing measurements.
 
 | Source | What was observed | Records | License | Citation |
 |---|---|---:|---|---|

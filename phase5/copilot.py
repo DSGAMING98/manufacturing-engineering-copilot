@@ -120,7 +120,7 @@ def _render_generic(title: str, data: dict) -> str:
 
 
 def run(domain: str, fields: dict | None = None, *, question: str | None = None,
-        include_demo: bool = False, chunks: list[Chunk] | None = None, selector=None) -> dict:
+        chunks: list[Chunk] | None = None, selector=None) -> dict:
     """Return a JSON-serializable report. Bad input fails closed, never guesses.
 
     `knowledge` is a cross-domain retrieval service, not a seventh engineered tool.
@@ -135,7 +135,7 @@ def run(domain: str, fields: dict | None = None, *, question: str | None = None,
             return _refusal('knowledge', 'Provide a document question of at most 1,500 characters.')
         try:
             evidence = document_answer(
-                question, chunks=chunks if chunks is not None else load_corpus(include_demo=include_demo),
+                question, chunks=chunks if chunks is not None else load_corpus(),
                 selector=selector,
             )
         except Exception as exc:
@@ -144,10 +144,10 @@ def run(domain: str, fields: dict | None = None, *, question: str | None = None,
         cited = set(evidence.citations)
         source_index = chunks if chunks is not None else None
         if source_index is None:
-            source_index = load_corpus(include_demo=include_demo)
+            source_index = load_corpus()
         statuses = {c.status for c in source_index if c.citation in cited}
         provenance = ('none' if not cited else
-                      'fictional_demo' if 'demo' in statuses else
+                      'public_source_metadata' if 'public' in statuses else
                       'operator_labelled_approved_not_independently_verified')
         return {
             'domain': 'knowledge', 'status': 'NO_VERIFIED_SOURCE' if evidence.abstained else 'EXCERPTS_ONLY',

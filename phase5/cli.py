@@ -2,7 +2,7 @@
 
 Examples:
   python -m phase5.cli --once 'quality nominal=20.00 measured=20.03 tolerance=0.05 unit=mm'
-  python -m phase5.cli --once 'knowledge What belongs in an inspection record?' --include-demo
+  python -m phase5.cli --once 'knowledge How many records are in SECOM?'
 """
 from __future__ import annotations
 
@@ -53,7 +53,6 @@ def parse_command(command: str) -> tuple[str, dict, str | None]:
 def main():
     parser = argparse.ArgumentParser(description='Six-domain manufacturing research copilot (deterministic tools + Phase 4 document citations)')
     parser.add_argument('--once', help='Run exactly one domain command then exit.')
-    parser.add_argument('--include-demo', action='store_true', help='Include FICTIONAL demo evidence (off by default).')
     parser.add_argument('--adapter', type=Path, help='Optional trained LoRA used ONLY to rank source excerpts for document search, GPU required.')
     args = parser.parse_args()
     selector = None
@@ -70,7 +69,7 @@ def main():
             return
         try:
             domain, fields, question = parse_command(line)
-            response = run(domain, fields, question=question, include_demo=args.include_demo, selector=selector)
+            response = run(domain, fields, question=question, selector=selector)
             print('\n' + response['report'] + '\n')
         except ValueError as exc:
             print('INSUFFICIENT_DATA: ' + str(exc) + '\nType examples for supported inputs.\n')

@@ -11,8 +11,8 @@ class Phase6Tests(unittest.TestCase):
             self.assertIsNotNone(is_disallowed(Path(path)),path)
 
     def test_open_source_paths_allowed(self):
-        for path in ('src/train.py','real_models/evidence/real_model_report.json',
-                     'phase4/docs/demo_traceability.md','README.md'):
+        for path in ('real_models/train_real_models.py','real_models/evidence/real_model_report.json',
+                     'phase4/docs/public_dataset_sources.md','README.md'):
             self.assertIsNone(is_disallowed(Path(path)))
 
     def test_stress_grid(self):

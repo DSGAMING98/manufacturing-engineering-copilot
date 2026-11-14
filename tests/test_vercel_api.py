@@ -27,7 +27,7 @@ class VercelApiTests(unittest.TestCase):
         self.assertEqual(payload['status'], 'OK')
         self.assertTrue(payload['model_loaded'])
         self.assertEqual(payload['model'], 'steel-rf-2026-11-14')
-        self.assertTrue(payload['demo_documents'])
+        self.assertTrue(payload['public_sources'])
 
     def test_quality_calculation(self):
         body = json.dumps({
@@ -40,15 +40,15 @@ class VercelApiTests(unittest.TestCase):
         self.assertEqual(payload['status'], 'CALCULATED')
         self.assertEqual(payload['data']['decision'], 'PASS')
 
-    def test_fictional_document_retrieval_is_explicit(self):
+    def test_public_dataset_source_retrieval_is_explicit(self):
         body = json.dumps({
             'domain': 'knowledge',
-            'question': 'What identifiers belong in an inspection record for traceability?',
+            'question': 'What measurements and fault classes are in Steel Plates Faults?',
         }).encode()
         request = Request(self.url, data=body, headers={'Content-Type': 'application/json'}, method='POST')
         with urlopen(request, timeout=2) as response:
             payload = json.loads(response.read())
-        self.assertEqual(payload['source_provenance'], 'fictional_demo')
+        self.assertEqual(payload['source_provenance'], 'public_source_metadata')
         self.assertTrue(payload['citations'])
 
     def test_natural_language_assistant(self):

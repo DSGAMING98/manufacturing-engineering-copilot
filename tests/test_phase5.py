@@ -134,19 +134,19 @@ class SixDomainTests(unittest.TestCase):
         self.assertEqual(run('defense',{})['status'],'INSUFFICIENT_DATA')
 
     def test_doc_search_no_standards_claim(self):
-        r=run('knowledge',question='What does ISO 9001:2015 require for product release?',chunks=load_corpus(include_demo=True))
+        r=run('knowledge',question='What does ISO 9001:2015 require for product release?',chunks=load_corpus())
         self.assertEqual(r['status'],'NO_VERIFIED_SOURCE')
         self.assertFalse(r['citations'])
 
-    def test_demo_doc_retrieval_traceable(self):
-        r=run('knowledge',question='What identifiers belong in an inspection record for traceability?',chunks=load_corpus(include_demo=True))
+    def test_public_source_retrieval_traceable(self):
+        r=run('knowledge',question='What measurements and fault classes are in Steel Plates Faults?',chunks=load_corpus())
         self.assertEqual(r['status'],'EXCERPTS_ONLY')
         self.assertTrue(r['citations'])
-        self.assertIn('FICTIONAL DEMO MATERIAL',r['report'])
+        self.assertEqual(r['source_provenance'],'public_source_metadata')
 
-    def test_doc_retrieval_off_by_default(self):
-        r=run('knowledge',question='What identifiers belong in an inspection record for traceability?')
-        self.assertEqual(r['status'],'NO_VERIFIED_SOURCE')
+    def test_public_source_retrieval_on_by_default(self):
+        r=run('knowledge',question='How many records and sensor columns are in SECOM?')
+        self.assertEqual(r['status'],'EXCERPTS_ONLY')
 
     def test_cli_parse(self):
         d,p,q=parse_command('quality nominal=20 measured=20.03 tolerance=0.05 unit=mm')

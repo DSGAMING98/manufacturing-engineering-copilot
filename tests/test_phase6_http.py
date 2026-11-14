@@ -10,7 +10,7 @@ from phase5.web_app import make_handler
 class Phase6HTTPTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.server = HTTPServer(('127.0.0.1', 0), make_handler(include_demo=False, corpus=[]))
+        cls.server = HTTPServer(('127.0.0.1', 0), make_handler(corpus=[]))
         cls.port=cls.server.server_port
         cls.thread=threading.Thread(target=cls.server.serve_forever,daemon=True)
         cls.thread.start()

@@ -5,4 +5,4 @@ Active training data are downloaded from their original public repositories into
 DOIs, licenses and archive SHA-256 hashes are recorded in
 `real_models/evidence/real_model_report.json`.
 
-No generated operating-record corpus is stored in this directory.
+Only source-downloaded observed manufacturing records are used for training.

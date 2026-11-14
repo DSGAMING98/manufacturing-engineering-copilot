@@ -125,7 +125,7 @@ def extract_fields(domain: str, prompt: str) -> dict[str, str]:
     return fields
 
 
-def assist(prompt: object, *, include_demo: bool = False, chunks=None) -> dict:
+def assist(prompt: object, *, chunks=None) -> dict:
     if not isinstance(prompt, str) or not prompt.strip() or len(prompt) > 2000:
         return _clarify('Provide one manufacturing request of at most 2,000 characters.')
     prompt = prompt.strip()
@@ -137,7 +137,7 @@ def assist(prompt: object, *, include_demo: bool = False, chunks=None) -> dict:
             scores=scores,
         )
     if domain == 'knowledge':
-        result = run('knowledge', {}, question=prompt, include_demo=include_demo, chunks=chunks)
+        result = run('knowledge', {}, question=prompt, chunks=chunks)
     else:
         fields = extract_fields(domain, prompt)
         missing = sorted(key for key in REQUIRED[domain] if not fields.get(key))

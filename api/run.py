@@ -9,7 +9,7 @@ from phase4.retrieval import load_corpus
 from phase5.web_app import process_payload
 
 MAX_BODY = 8192
-CORPUS = load_corpus(include_demo=True)
+CORPUS = load_corpus()
 
 
 class handler(BaseHTTPRequestHandler):
@@ -37,7 +37,7 @@ class handler(BaseHTTPRequestHandler):
             'model_loaded': True,
             'model': 'steel-rf-2026-11-14',
             'training_data': 'observed_public_manufacturing_records',
-            'demo_documents': True,
+            'public_sources': True,
         })
 
     def do_POST(self) -> None:
@@ -59,5 +59,5 @@ class handler(BaseHTTPRequestHandler):
         except (ValueError, UnicodeDecodeError):
             self._json(400, {'error': 'Invalid JSON'})
             return
-        result = process_payload(payload, include_demo=True, chunks=CORPUS)
+        result = process_payload(payload, chunks=CORPUS)
         self._json(200, result)

@@ -1,9 +1,7 @@
-"""Interactive Phase 4 retrieval + verified QA; optional GPU citation selector.
+"""Interactive public-source retrieval plus verified dimensional QA.
 
-CPU demo: python -m phase4.rag_chat --include-demo
-With the trained V2 model: python -m phase4.rag_chat --include-demo --adapter models/qa_qlora_v2/adapter
-Single question: python -m phase4.rag_chat --include-demo --once "How do I handle a dimensional discrepancy?"
-No registered approved docs => document questions appropriately abstain unless --include-demo.
+CPU: python -m phase4.rag_chat
+Single question: python -m phase4.rag_chat --once "How many records are in SECOM?"
 """
 from __future__ import annotations
 
@@ -43,13 +41,12 @@ class EvidenceSelector:
 
 def main():
     p = argparse.ArgumentParser(description='Local document retrieval with exact citations + verified QA calculations')
-    p.add_argument('--include-demo', action='store_true', help='Include fictional example sources for testing only')
     p.add_argument('--adapter', type=Path, help='Optional LoRA adapter for restricted evidence selection (GPU)')
     p.add_argument('--once', help='Ask once and exit')
     p.add_argument('--max-evidence', type=int, default=2, choices=(1, 2, 3, 4))
     args = p.parse_args()
-    corpus = load_corpus(include_demo=args.include_demo)
-    print(f'Loaded {len(corpus)} searchable document excerpts. Demo examples: {"included" if args.include_demo else "excluded"}.')
+    corpus = load_corpus()
+    print(f'Loaded {len(corpus)} searchable public-source excerpts.')
     selector = EvidenceSelector(args.adapter) if args.adapter else None
     if selector:
         print('Qwen loaded to select an evidence EXCERPT only; answers and decisions remain controlled.')

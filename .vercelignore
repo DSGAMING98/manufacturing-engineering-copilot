@@ -1,4 +1,4 @@
-# Deploy only the CPU workbench and its fictional demonstration corpus.
+# Deploy only the CPU workbench and public-source evidence corpus.
 /*
 !api
 !phase4

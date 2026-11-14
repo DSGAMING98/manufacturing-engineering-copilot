@@ -91,8 +91,8 @@ def _resolve_source(item: dict, root: Path) -> Path:
 
 def _validate_approval(item: dict):
     status = item.get('status')
-    if status not in ('demo', 'draft', 'approved'):
-        raise SourceError('Document status must be demo, draft, or approved.')
+    if status not in ('public', 'draft', 'approved'):
+        raise SourceError('Document status must be public, draft, or approved.')
     if status == 'approved':
         reviewer = item.get('reviewer')
         approval_date = item.get('approved_date')
@@ -140,8 +140,8 @@ def _paragraph_chunks(lines: list[str], meta: dict) -> list[Chunk]:
     return result
 
 
-def load_corpus(include_demo: bool = False, root: Path = ROOT, strict: bool = True) -> list[Chunk]:
-    """Validate ALL declared documents including skipped/demo documents.
+def load_corpus(root: Path = ROOT, strict: bool = True) -> list[Chunk]:
+    """Validate every declared public or approved document.
 
     This ensures a changed checksum is never silently accepted. Default only
     includes sources operator-labelled approved; software cannot verify reviewer.
@@ -182,7 +182,7 @@ def load_corpus(include_demo: bool = False, root: Path = ROOT, strict: bool = Tr
             body = content.decode('utf-8')
         except UnicodeDecodeError as exc:
             raise SourceError(f'{sid} is not UTF-8.') from exc
-        if item['status'] == 'approved' or (include_demo and item['status'] == 'demo'):
+        if item['status'] in ('public', 'approved'):
             chunks.extend(_paragraph_chunks(body.splitlines(), item))
             if len(chunks) > MAX_CHUNKS:
                 raise SourceError('Index exceeded 10,000 chunks.')

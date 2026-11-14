@@ -24,9 +24,9 @@ const specs = {
   documentation: {label:'Technical Documentation', subtitle:'Build a traceable inspection-record draft from provided engineering data.', icon:'▣',
     scope:'Creates structured inspection-record drafts from supplied traceability and measurement fields.',
     fields:[['record_id','Record ID','IR-001'],['feature_id','Feature ID','SHAFT-1'],['drawing_id','Drawing ID','DR-001'],['revision','Drawing revision','A'],['nominal','Nominal size','20'],['measured','Measured size','20.03'],['tolerance','Symmetric tolerance (±)','0.05'],['unit','Unit','mm'],['equipment_id','Gauge/equipment ID','GAUGE-7'],['timestamp','ISO-8601 timestamp with offset','2026-11-13T09:30:00+05:30'],['operator_id','Operator ID (optional)','']]},
-  knowledge: {label:'Document Evidence', subtitle:'Search locally registered procedures; only exact, line-numbered excerpts are returned.', icon:'⌕',
-    scope:'The hosted demo searches FICTIONAL example documents only. Local mode can use permission-cleared, human-reviewed files.',
-    fields:[['question','Ask about a registered document','What identifiers belong in an inspection record for traceability?']]}
+  knowledge: {label:'Document Evidence', subtitle:'Search registered public sources; only exact, line-numbered excerpts are returned.', icon:'⌕',
+    scope:'The hosted index contains public UCI dataset source metadata with DOI, license and scope limitations.',
+    fields:[['question','Ask about a registered source','What measurements and fault classes are in the Steel Plates Faults dataset?']]}
 };
 let active = 'assistant';
 const $ = id => document.getElementById(id);
@@ -35,11 +35,11 @@ const examples = {
   assistant: [
     ['Quality check','Check quality: nominal=20, measured=20.03, tolerance=0.05, unit=mm'],
     ['Calculate OEE','Calculate OEE with planned time=480, run time=420, ideal cycle=1, total parts=350, good parts=335'],
-    ['Find evidence','Find registered document evidence about inspection record traceability']
+    ['Find evidence','Find registered source evidence about the Steel Plates Faults dataset']
   ],
   knowledge: [
-    ['Traceability fields','What identifiers belong in an inspection record for traceability?'],
-    ['Missing evidence','What should happen when a required source is unavailable?']
+    ['Steel dataset','What measurements and fault classes are in the Steel Plates Faults dataset?'],
+    ['SECOM dataset','How many manufacturing records and sensor columns are in SECOM?']
   ]
 };
 function node(tag, className, text) {

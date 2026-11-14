@@ -25,9 +25,8 @@ The scores are not combined into one misleading percentage. The steel task is
 seven-class classification; SECOM is a strongly imbalanced binary risk task.
 Each therefore uses task-appropriate metrics and its own locked test partition.
 
-No generated operating records are used by the active model-training pipeline.
-Small invented examples may appear in software tests and UI demonstrations; they
-are not counted as research data or model evidence.
+Only the two cited observed manufacturing datasets are used by the active
+model-training pipeline and reported as research evidence.
 
 ## What the prototype does
 
@@ -141,7 +140,7 @@ Training writes:
 ## Run the prototype
 
 ```powershell
-.\.venv\Scripts\python.exe -m phase5.web_app --include-demo
+.\.venv\Scripts\python.exe -m phase5.web_app
 ```
 
 Open `http://127.0.0.1:8765`. The public deployment runs the same dependency-free
