@@ -1,0 +1,69 @@
+name: Supervisor-review reproducibility experiments
+on:
+  push:
+    paths:
+      - '.github/workflows/reviewer-experiments.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  research:
+    name: Export parity, baselines, CV and router diagnostics
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - name: Checkout current source
+        uses: actions/checkout@v4
+      - name: Configure Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install reproducibility dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-research.txt
+      - name: Compare entire locked steel test with JSON deployment
+        run: python -m real_models.verify_export
+      - name: Run post-hoc baselines, repeated CV, and paired correctness tests
+        run: python -m real_models.benchmark_baselines --cv-folds 3 --cv-repeats 2
+      - name: Run developer-authored router and refusal diagnostic
+        run: python -m real_models.review_diagnostics
+      - name: Print reproducibility report summaries
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          p=pathlib.Path('real_models/evidence')
+          for name in ('export_parity_report.json','reviewer_baselines.json','review_diagnostics.json'):
+              file=p/name
+              print(f'=== {name} ===')
+              if file.exists():
+                  obj=json.loads(file.read_text())
+                  if name=='reviewer_baselines.json':
+                      for task in ('steel','secom'):
+                          print('TASK',task)
+                          for baseline, metrics in obj[task]['baselines'].items():
+                              print(baseline, 'CV', metrics['cv_mean'], metrics['cv_std'],
+                                    'HOLDOUT',json.dumps(metrics['existing_holdout_metrics']),
+                                    'PAIR',json.dumps(metrics['paired_correctness_vs_incumbent']))
+                  elif name=='review_diagnostics.json':
+                      print(json.dumps(obj['routing'],indent=2))
+                  else:
+                      print(json.dumps(obj,indent=2))
+              else: print('NOT GENERATED')
+          PY
+      - name: Attach machine-readable reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: supervisor-review-experiment-reports
+          path: |
+            real_models/evidence/export_parity_report.json
+            real_models/evidence/reviewer_baselines.json
+            real_models/evidence/review_diagnostics.json
+          if-no-files-found: warn
+          retention-days: 30
