@@ -1,4 +1,4 @@
-name: SECOM robustness: 50 seeds and rolling origin
+name: "SECOM robustness - 50 seeds and rolling origin"
 on:
   push:
     paths:
